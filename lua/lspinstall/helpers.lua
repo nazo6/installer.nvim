@@ -1,4 +1,4 @@
-local util = require ("lspinstall/util")
+local util = require "lspinstall/util"
 local M = {}
 M.npm = {
   --- Install or update npm package
@@ -12,14 +12,10 @@ M.npm = {
         [[npm update ]] .. package_name,
       }
     else
-      return [[
-      if \[\[ -f package.json \]\]; then
-        npm init -y --scope=lspinstall
-        npm install ]] .. package_name .. [[
-      else
-        npm update ]] .. package_name .. [[
-      fi
-    ]]
+      return util.concat {
+        [[npm init -y --scope=lspinstall]],
+        ";npm install " .. package_name .. "@latest",
+      }
     end
   end,
   --- Add ".cmd" on windows
