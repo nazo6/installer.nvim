@@ -43,53 +43,55 @@ end
 
 ## Bundled Installers
 
-npm based Language Servers is marked as supported, but they are not tested.
+:ballot_box_with_check: : There is an LS installation script, but I have not verified that it installs and works.
+:white_check_mark: : I have confirmed that the installation and operation are successful.
+:checkered_flag: : Installation was successful but there was a problem with the operation
 
-| Language    | Language Server                                                             | Win                |
-| ----------- | --------------------------------------------------------------------------- | ------------------ |
-| angular     | Angular Language Service                                                    | :heavy_check_mark: |
-| bash        | bash-language-server                                                        | :heavy_check_mark: |
-| clojure     | clojure-lsp                                                                 |                    |
-| cmake       | cmake-language-server                                                       |                    |
-| cpp         | clangd                                                                      |                    |
-| csharp      | OmniSharp                                                                   |                    |
-| css         | vscode-langservers-extracted                                                | :heavy_check_mark: |
-| dockerfile  | docker-langserver                                                           |                    |
-| elixir      | Elixir Language Server (elixir-ls)                                          |                    |
-| elm         | Elm Language Server (elm-ls)                                                | :heavy_check_mark: |
-| ember       | Ember Language Server                                                       |                    |
-| fortran     | Fortran Language Server (fortls)                                            |                    |
-| go          | gopls                                                                       |                    |
-| graphql     | GraphQL language service                                                    | :heavy_check_mark: |
-| haskell     | haskell-language-server                                                     |                    |
-| html        | vscode-langservers-extracted                                                | :heavy_check_mark: |
-| java        | Eclipse JDTLS with Lombok                                                   |                    |
-| json        | vscode-langservers-extracted                                                | :heavy_check_mark: |
-| kotlin      | kotlin-language-server                                                      |                    |
-| latex       | texlab                                                                      |                    |
-| lua         | (sumneko) lua-language-server                                               | :heavy_check_mark: |
-| ocaml       | ocaml-language-server                                                       | :heavy_check_mark: |
-| php         | intelephense                                                                | :heavy_check_mark: |
-| prisma      | prisma-language-server                                                      | :heavy_check_mark: |
-| purescript  | purescript-language-server                                                  | :heavy_check_mark: |
-| python      | pyright-langserver                                                          | :heavy_check_mark: |
-| ruby        | solargraph                                                                  |                    |
-| rust        | rust-analyzer                                                               | :heavy_check_mark: |
-| svelte      | svelte-language-server                                                      | :heavy_check_mark: |
-| sql         | sql-language-server                                                         | :heavy_check_mark: |
-| tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) | :heavy_check_mark: |
-| terraform   | Terraform Language Server (terraform-ls)                                    |                    |
-| typescript  | typescript-language-server                                                  | :heavy_check_mark: |
-| vim         | vim-language-server                                                         | :heavy_check_mark: |
-| vue         | vls (vetur)                                                                 | :heavy_check_mark: |
-| yaml        | yaml-language-server                                                        | :heavy_check_mark: |
+| Language    | Language Server                                                             | Win                     |
+| ----------- | --------------------------------------------------------------------------- | ----------------------- |
+| angular     | Angular Language Service                                                    | :ballot_box_with_check: |
+| bash        | bash-language-server                                                        | :white_check_mark:      |
+| clojure     | clojure-lsp                                                                 |                         |
+| cmake       | cmake-language-server                                                       |                         |
+| cpp         | clangd                                                                      | :white_check_mark:      |
+| csharp      | OmniSharp                                                                   |                         |
+| css         | vscode-langservers-extracted                                                | :white_check_mark:      |
+| dockerfile  | docker-langserver                                                           |                         |
+| elixir      | Elixir Language Server (elixir-ls)                                          |                         |
+| elm         | Elm Language Server (elm-ls)                                                | :ballot_box_with_check: |
+| ember       | Ember Language Server                                                       | :ballot_box_with_check: |
+| fortran     | Fortran Language Server (fortls)                                            |                         |
+| go          | gopls                                                                       | :ballot_box_with_check: |
+| graphql     | GraphQL language service                                                    | :ballot_box_with_check: |
+| haskell     | haskell-language-server                                                     |                         |
+| html        | vscode-langservers-extracted                                                | :white_check_mark:      |
+| java        | Eclipse JDTLS with Lombok                                                   |                         |
+| json        | vscode-langservers-extracted                                                | :white_check_mark:      |
+| kotlin      | kotlin-language-server                                                      |                         |
+| latex       | texlab                                                                      |                         |
+| lua         | (sumneko) lua-language-server                                               | :white_check_mark:      |
+| ocaml       | ocaml-language-server                                                       | :ballot_box_with_check: |
+| php         | intelephense                                                                | :ballot_box_with_check: |
+| prisma      | prisma-language-server                                                      | :ballot_box_with_check: |
+| purescript  | purescript-language-server                                                  | :ballot_box_with_check: |
+| python      | pyright-langserver                                                          | :ballot_box_with_check: |
+| ruby        | solargraph                                                                  |                         |
+| rust        | rust-analyzer                                                               | :white_check_mark:      |
+| svelte      | svelte-language-server                                                      | :ballot_box_with_check: |
+| sql         | sql-language-server                                                         | :ballot_box_with_check: |
+| tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) | :white_check_mark:      |
+| terraform   | Terraform Language Server (terraform-ls)                                    |                         |
+| typescript  | typescript-language-server                                                  | :white_check_mark:      |
+| vim         | vim-language-server                                                         | :ballot_box_with_check: |
+| vue         | vls (vetur)                                                                 | :ballot_box_with_check: |
+| yaml        | yaml-language-server                                                        | :white_check_mark:      |
 
-| Name         | Description                                         | Win                |
-| ------------ | --------------------------------------------------- | ------------------ |
-| deno         | https://deno.land/                                  |                    |
-| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :heavy_check_mark: |
-| efm          | https://github.com/mattn/efm-langserver             |                    |
-| rome         | https://rome.tools/                                 | :heavy_check_mark: |
+| Name         | Description                                         | Win                     |
+| ------------ | --------------------------------------------------- | ----------------------- |
+| deno         | https://deno.land/                                  |                         |
+| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :checkered_flag:        |
+| efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: |
+| rome         | https://rome.tools/                                 | :ballot_box_with_check: |
 
 ## Custom Installer
 
