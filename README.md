@@ -52,7 +52,7 @@ npm based Language Servers is marked as supported, but they are not tested.
 | cmake       | cmake-language-server                                                       |                    |
 | cpp         | clangd                                                                      |                    |
 | csharp      | OmniSharp                                                                   |                    |
-| css         | vscode-langservers-extracted                                                |                    |
+| css         | vscode-langservers-extracted                                                | :heavy_check_mark: |
 | dockerfile  | docker-langserver                                                           |                    |
 | elixir      | Elixir Language Server (elixir-ls)                                          |                    |
 | elm         | Elm Language Server (elm-ls)                                                | :heavy_check_mark: |
@@ -61,9 +61,9 @@ npm based Language Servers is marked as supported, but they are not tested.
 | go          | gopls                                                                       |                    |
 | graphql     | GraphQL language service                                                    | :heavy_check_mark: |
 | haskell     | haskell-language-server                                                     |                    |
-| html        | vscode-langservers-extracted                                                |                    |
+| html        | vscode-langservers-extracted                                                | :heavy_check_mark: |
 | java        | Eclipse JDTLS with Lombok                                                   |                    |
-| json        | vscode-langservers-extracted                                                |                    |
+| json        | vscode-langservers-extracted                                                | :heavy_check_mark: |
 | kotlin      | kotlin-language-server                                                      |                    |
 | latex       | texlab                                                                      |                    |
 | lua         | (sumneko) lua-language-server                                               | :heavy_check_mark: |
@@ -73,7 +73,7 @@ npm based Language Servers is marked as supported, but they are not tested.
 | purescript  | purescript-language-server                                                  | :heavy_check_mark: |
 | python      | pyright-langserver                                                          | :heavy_check_mark: |
 | ruby        | solargraph                                                                  |                    |
-| rust        | rust-analyzer                                                               |                    |
+| rust        | rust-analyzer                                                               | :heavy_check_mark: |
 | svelte      | svelte-language-server                                                      | :heavy_check_mark: |
 | sql         | sql-language-server                                                         | :heavy_check_mark: |
 | tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) | :heavy_check_mark: |

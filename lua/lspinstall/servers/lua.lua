@@ -5,16 +5,16 @@ local script_to_use = nil
 
 if lsp_util.is_windows() then
   config.default_config.cmd = { './sumneko-lua-language-server.cmd' }
-  script_to_use = lsp_util.concat{
-    [[(for /f "tokens=1,* delims=:" %a in ('curl -s https://api.github.com/repos/sumneko/vscode-lua/releases/latest ^| findstr "browser_" ') do curl -L -o sumneko-lua.vsix %b)]],
-    '&& ECHO cleaning ',
-    '&& del /F /Q sumneko-lua ',
-    '& mkdir sumneko-lua ',
-    '& tar -xf sumneko-lua.vsix - -C sumneko-lua ',
-    '&& del /F /Q sumneko-lua.vsix ',
-    '&& echo sumneko-lua\\extension\\server\\bin\\Windows\\lua-language-server'
-      .. ' -E -e LANG=en sumneko-lua\\extension\\server\\main.lua >> sumneko-lua-language-server.cmd',
-  }
+  script_to_use = [[
+    $json = Invoke-WebRequest https://api.github.com/repos/sumneko/vscode-lua/releases/latest
+    $object = ConvertFrom-JSON $json
+    $url = $object.assets[0].browser_download_url
+    Invoke-WebRequest $url -OutFile "sumneko-lua.zip"
+    Expand-Archive .\sumneko-lua.zip -DestinationPath sumneko-lua
+    rm sumneko-lua.zip
+    Write-Output "sumneko-lua\extension\server\bin\Windows\lua-language-server -E -e LANG=en sumneko-lua\extension\server\main.lua" |
+    Out-File -Encoding "UTF8" "sumneko-lua-language-server.cmd"
+  ]]
 else
   config.default_config.cmd = { './sumneko-lua-language-server' }
   script_to_use = [[

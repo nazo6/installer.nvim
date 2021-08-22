@@ -4,13 +4,12 @@ M.npm = {
   --- Install or update npm package
   install_script = function(package_name)
     if util.is_windows() then
-      return util.concat {
-        [[if not exist package.json]],
-        [[npm init -y --scope=lspinstall]],
-        [[&& npm install ]] .. package_name,
-        [[else]],
-        [[npm update ]] .. package_name,
-      }
+      return [[
+        if (-not (Test-Path package.json)) {
+          npm init -y --scope=lspinstall
+        }
+        npm install ]] .. package_name .. [[@latest
+      ]]
     else
       return util.concat {
         [[npm init -y --scope=lspinstall]],

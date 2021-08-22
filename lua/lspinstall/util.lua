@@ -29,7 +29,7 @@ end
 --- Gets lsp server install directory
 --@returns string
 function M.install_path(lang)
-  return vim.fn.stdpath "data" .. "/lspinstall/" .. lang
+  return vim.fn.stdpath "data" .. "/lsp/" .. lang
 end
 
 --- Check if on Windows or not
@@ -43,8 +43,16 @@ end
 
 --- Combine commands to single string
 --@return string
-function M.concat(t)
-  return table.concat(t, " ")
+function M.concat(t, autoseparate)
+  local separator = " "
+  if autoseparate == true then
+    if M.is_windows() then
+      separator = " &"
+    else
+      separator = "; "
+    end
+  end
+  return table.concat(t, separator)
 end
 
 --- Sets the shell to be used as bash, if not on windows
@@ -55,10 +63,11 @@ function M.do_term_open(terminal_task, term_options)
   if M.is_windows() == false then
     vim.o.shell = "/bin/bash"
   else
-    vim.o.shell = "cmd.exe"
+    vim.o.shell = "powershell.exe"
   end
   if M.is_windows() == true then
-    vim.fn.termopen("cmd.exe /C " .. terminal_task, term_options)
+    vim.fn.termopen([[$ErrorActionPreference = "Stop"
+      ]] .. terminal_task, term_options)
   else
     vim.fn.termopen("set -e\n" .. terminal_task, term_options)
   end
