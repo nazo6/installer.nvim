@@ -1,13 +1,7 @@
+local config = require("lspinstall/util").extract_config "cssls"
 local npm = require("lspinstall/helpers").npm
 
-return {
+config.default_config.cmd[1] = npm.bin_path(config.default_config.cmd[1])
+return vim.tbl_extend("error", config, {
   install_script = npm.install_script "vscode-langservers-extracted",
-  default_config = {
-    cmd = { "node", npm.bin_path "vscode-css-language-server", "--stdio" },
-    filetypes = { "css", "less", "scss" },
-    root_dir = require("lspconfig").util.root_pattern(".git", vim.fn.getcwd()),
-    init_options = {
-      provideFormatter = true,
-    },
-  },
-}
+})

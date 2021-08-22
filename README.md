@@ -42,7 +42,7 @@ end
 
 ## Bundled Installers
 
-npm based Language Servers is marked as supported, but it is not tested.
+npm based Language Servers is marked as supported, but they are not tested.
 
 | Language    | Language Server                                                             | Win                |
 | ----------- | --------------------------------------------------------------------------- | ------------------ |
@@ -67,12 +67,15 @@ npm based Language Servers is marked as supported, but it is not tested.
 | kotlin      | kotlin-language-server                                                      |                    |
 | latex       | texlab                                                                      |                    |
 | lua         | (sumneko) lua-language-server                                               | :heavy_check_mark: |
+| ocaml       | ocaml-language-server                                                       | :heavy_check_mark: |
 | php         | intelephense                                                                | :heavy_check_mark: |
+| prisma      | prisma-language-server                                                      | :heavy_check_mark: |
 | purescript  | purescript-language-server                                                  | :heavy_check_mark: |
 | python      | pyright-langserver                                                          | :heavy_check_mark: |
 | ruby        | solargraph                                                                  |                    |
 | rust        | rust-analyzer                                                               |                    |
 | svelte      | svelte-language-server                                                      | :heavy_check_mark: |
+| sql         | sql-language-server                                                         | :heavy_check_mark: |
 | tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) | :heavy_check_mark: |
 | terraform   | Terraform Language Server (terraform-ls)                                    |                    |
 | typescript  | typescript-language-server                                                  | :heavy_check_mark: |
