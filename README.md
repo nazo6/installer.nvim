@@ -47,51 +47,51 @@ end
 - :white_check_mark: : I have confirmed that the installation and operation are successful.
 - :checkered_flag: : Installation was successful but there was a problem with the operation
 
-| Language    | Language Server                          | Win                     |
-| ----------- | ---------------------------------------- | ----------------------- |
-| angular     | Angular Language Service                 | :ballot_box_with_check: |
-| bash        | bash-language-server                     | :white_check_mark:      |
-| clojure     | clojure-lsp                              |                         |
-| cmake       | cmake-language-server                    |                         |
-| cpp         | clangd                                   | :white_check_mark:      |
-| csharp      | OmniSharp                                |                         |
-| css         | vscode-langservers-extracted             | :white_check_mark:      |
-| dockerfile  | docker-langserver                        |                         |
-| elixir      | Elixir Language Server (elixir-ls)       |                         |
-| elm         | Elm Language Server (elm-ls)             | :ballot_box_with_check: |
-| ember       | Ember Language Server                    | :ballot_box_with_check: |
-| fortran     | Fortran Language Server (fortls)         |                         |
-| go          | gopls                                    | :ballot_box_with_check: |
-| graphql     | GraphQL language service                 | :ballot_box_with_check: |
-| haskell     | haskell-language-server                  |                         |
-| html        | vscode-langservers-extracted             | :white_check_mark:      |
-| java        | Eclipse JDTLS with Lombok                |                         |
-| json        | vscode-langservers-extracted             | :white_check_mark:      |
-| kotlin      | kotlin-language-server                   |                         |
-| latex       | texlab                                   |                         |
-| lua         | (sumneko) lua-language-server            | :white_check_mark:      |
-| ocaml       | ocaml-language-server                    | :ballot_box_with_check: |
-| php         | intelephense                             | :ballot_box_with_check: |
-| prisma      | prisma-language-server                   | :ballot_box_with_check: |
-| purescript  | purescript-language-server               | :ballot_box_with_check: |
-| python      | pyright-langserver                       | :ballot_box_with_check: |
-| ruby        | solargraph                               |                         |
-| rust        | rust-analyzer                            | :white_check_mark:      |
-| svelte      | svelte-language-server                   | :ballot_box_with_check: |
-| sql         | sql-language-server                      | :ballot_box_with_check: |
-| tailwindcss | tailwindcss-intellisense                 | :white_check_mark:      |
-| terraform   | Terraform Language Server (terraform-ls) |                         |
-| typescript  | typescript-language-server               | :white_check_mark:      |
-| vim         | vim-language-server                      | :ballot_box_with_check: |
-| vue         | vls (vetur)                              | :ballot_box_with_check: |
-| yaml        | yaml-language-server                     | :white_check_mark:      |
+| Language    | Language Server                          | Win                     | Linux                   |
+| ----------- | ---------------------------------------- | ----------------------- | ----------------------- |
+| angular     | Angular Language Service                 | :ballot_box_with_check: | :ballot_box_with_check: |
+| bash        | bash-language-server                     | :white_check_mark:      | :ballot_box_with_check: |
+| clojure     | clojure-lsp                              |                         | :ballot_box_with_check: |
+| cmake       | cmake-language-server                    |                         | :ballot_box_with_check: |
+| cpp         | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| csharp      | OmniSharp                                |                         | :ballot_box_with_check: |
+| css         | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
+| dockerfile  | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
+| elixir      | Elixir Language Server (elixir-ls)       |                         | :ballot_box_with_check: |
+| elm         | Elm Language Server (elm-ls)             | :ballot_box_with_check: | :ballot_box_with_check: |
+| ember       | Ember Language Server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| fortran     | Fortran Language Server (fortls)         |                         | :ballot_box_with_check: |
+| go          | gopls                                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| graphql     | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
+| haskell     | haskell-language-server                  |                         | :ballot_box_with_check: |
+| html        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
+| java        | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
+| json        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
+| kotlin      | kotlin-language-server                   |                         | :ballot_box_with_check: |
+| latex       | texlab                                   |                         | :ballot_box_with_check: |
+| lua         | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
+| ocaml       | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| php         | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
+| prisma      | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| purescript  | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
+| python      | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
+| ruby        | solargraph                               |                         | :ballot_box_with_check: |
+| rust        | rust-analyzer                            | :white_check_mark:      | :ballot_box_with_check: |
+| svelte      | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| sql         | sql-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
+| tailwindcss | tailwindcss-intellisense                 | :white_check_mark:      | :ballot_box_with_check: |
+| terraform   | Terraform Language Server (terraform-ls) |                         | :ballot_box_with_check: |
+| typescript  | typescript-language-server               | :white_check_mark:      | :white_check_mark:      |
+| vim         | vim-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
+| vue         | vls (vetur)                              | :ballot_box_with_check: | :ballot_box_with_check: |
+| yaml        | yaml-language-server                     | :white_check_mark:      | :white_check_mark:      |
 
-| Name         | Description                                         | Win                     |
-| ------------ | --------------------------------------------------- | ----------------------- |
-| deno         | https://deno.land/                                  |                         |
-| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :checkered_flag:        |
-| efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: |
-| rome         | https://rome.tools/                                 | :ballot_box_with_check: |
+| Name         | Description                                         | Win                     | Linux                   |
+| ------------ | --------------------------------------------------- | ----------------------- | ----------------------- |
+| deno         | https://deno.land/                                  |                         | :ballot_box_with_check: |
+| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :checkered_flag:        | :ballot_box_with_check: |
+| efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: | :ballot_box_with_check: |
+| rome         | https://rome.tools/                                 | :ballot_box_with_check: | :ballot_box_with_check: |
 
 ## Custom Installer
 
