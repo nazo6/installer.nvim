@@ -13,6 +13,17 @@ function M.install_server(lang)
   end
 
   local path = install_path(lang)
+  if vim.fn.isdirectory(path) ~= 0 then
+    local choice = vim.fn.confirm(
+      "[nvim-lspinstall] It seems like specified LS already exists. Do you reinstall server? ",
+      "Yes\nNo"
+    )
+    if choice ~= 0 then
+      M.reinstall_server(lang)
+    else
+      return
+    end
+  end
   vim.fn.mkdir(path, "p") -- fail: throws
 
   local function onExit(_, code)
@@ -40,6 +51,14 @@ function M.install_server(lang)
     install_script = install_script()
   end
   lsp_util.do_term_open(install_script, { ["cwd"] = path, ["on_exit"] = onExit })
+end
+
+function M.reinstall_server(lang)
+  local path = install_path(lang)
+  if vim.fn.delete(path, "rf") ~= 0 then
+    error("[nvim-lspinstall] Couldn't delete directory. Please delete it manually. Path is: " .. path)
+  end
+  M.install_server(lang)
 end
 
 -- UNINSTALL

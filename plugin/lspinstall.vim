@@ -8,6 +8,10 @@ function! lspinstall#uninstall_server(lang)
   call v:lua.require("lspinstall").uninstall_server(a:lang)
 endfunction
 
+function! lspinstall#reinstall_server(lang)
+  call v:lua.require("lspinstall").reinstall_server(a:lang)
+endfunction
+
 function! lspinstall#available_servers() abort
   return luaeval('require("lspinstall").available_servers()')
 endfunction
@@ -24,6 +28,7 @@ endfunction
 
 command! -nargs=1 -complete=custom,s:complete_install LspInstall :call lspinstall#install_server('<args>')
 command! -nargs=1 -complete=custom,s:complete_uninstall LspUninstall :call lspinstall#uninstall_server('<args>')
+command! -nargs=1 -complete=custom,s:complete_uninstall LspReinstall :call lspinstall#reinstall_server('<args>')
 
 function! s:complete_install(arg, line, pos) abort
   return join(lspinstall#available_servers(), "\n")

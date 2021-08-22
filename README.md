@@ -37,6 +37,7 @@ end
 ## Usage
 
 - `:LspInstall <language>` to install/update the language server for `<language>` (e.g. `:LspInstall python`).
+- `:LspReinstall <language>` to re-install the language server for `<language>`.
 - `:LspUninstall <language>` to uninstall the language server for `<language>`.
 - `require'lspinstall'.setup()` to make configs of installed servers available for `require'lspconfig'.<server>.setup{}`.
 
@@ -126,6 +127,7 @@ Note: **don't** replace the `/` with a `.` in the `require` calls above ([see he
 
 - `require'lspinstall'.install_server(<lang>)`
 - `require'lspinstall'.post_install_hook`
+- `require'lspinstall'.reinstall_server(<lang>)`
 
 - `require'lspinstall'.uninstall_server(<lang>)`
 - `require'lspinstall'.post_uninstall_hook`
