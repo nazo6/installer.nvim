@@ -1,7 +1,8 @@
 ## About
 
-This is fork version of [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
+This is fork version of [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 Mainly windows support is added.
+Some code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)
 
 ## Setup
 `packer.nvim`
@@ -48,7 +49,7 @@ A configuration like this automatically reloads the installed servers after inst
 | cmake       | cmake-language-server                                                       |        |
 | cpp         | clangd                                                                      |        |
 | csharp      | OmniSharp                                                                   |        |
-| css         | css-language-features (pulled directly from the latest VSCode release)      |        |
+| css         | vscode-langservers-extracted                                                |        |
 | dockerfile  | docker-langserver                                                           |        |
 | elixir      | Elixir Language Server (elixir-ls)                                          |        |
 | elm         | Elm Language Server (elm-ls)                                                |        |
@@ -57,9 +58,9 @@ A configuration like this automatically reloads the installed servers after inst
 | go          | gopls                                                                       |        |
 | graphql     | GraphQL language service                                                    |        |
 | haskell     | haskell-language-server                                                     |        |
-| html        | html-language-features (pulled directly from the latest VSCode release)     |        |
+| html        | vscode-langservers-extracted                                                |        |
 | java        | Eclipse JDTLS with Lombok                                                   |        |
-| json        | json-language-features (pulled directly from the latest VSCode release)     |        |
+| json        | vscode-langservers-extracted                                                |        |
 | kotlin      | kotlin-language-server                                                      |        |
 | latex       | texlab                                                                      |        |
 | lua         | (sumneko) lua-language-server                                               |        |
@@ -82,9 +83,6 @@ A configuration like this automatically reloads the installed servers after inst
 | diagnosticls| https://github.com/iamcco/diagnostic-languageserver                         |Warn: It has bug.|
 | efm         | https://github.com/mattn/efm-langserver                                     |        |
 | rome        | https://rome.tools/                                                         |        |
-
-Note: css, json and html language servers are pulled directly from the latest VSCode release, instead of using the outdated versions provided by e.g. `npm install vscode-html-languageserver-bin`.
-
 
 ## Custom Installer
 
