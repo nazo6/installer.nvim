@@ -20,11 +20,17 @@ M.npm = {
   end,
   --- Add ".cmd" on windows
   bin_path = function(bin_name)
+    local path = nil
     if util.is_windows() then
-      return "./node_modules/.bin/" .. bin_name .. ".cmd"
+      if string.sub(bin_name, -4) == ".cmd" then
+        path = "./node_modules/.bin/" .. bin_name
+      else
+        path = "./node_modules/.bin/" .. bin_name .. ".cmd"
+      end
     else
-      return "./node_modules/.bin/" .. bin_name
+      path = "./node_modules/.bin/" .. bin_name
     end
+    return path
   end,
 }
 

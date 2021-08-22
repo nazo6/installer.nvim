@@ -2,13 +2,19 @@
 
 This is fork version of [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
 Mainly windows support is added.
-Some code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)
+Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)
 
 ## Setup
-`packer.nvim`
+
+### Install
+
+With `packer.nvim`
+
 ```lua
 use "nazo6/lspinstall"
 ```
+
+### Settings
 
 ```lua
 local function setup_servers()
@@ -29,60 +35,57 @@ end
 ```
 
 ## Usage
-* `:LspInstall <language>` to install/update the language server for `<language>` (e.g. `:LspInstall python`).
-* `:LspUninstall <language>` to uninstall the language server for `<language>`.
-* `require'lspinstall'.setup()` to make configs of installed servers available for `require'lspconfig'.<server>.setup{}`.
 
-
-## Advanced Configuration (recommended)
-
-A configuration like this automatically reloads the installed servers after installing a language server via `:LspInstall` such that we don't have to restart neovim.
-
+- `:LspInstall <language>` to install/update the language server for `<language>` (e.g. `:LspInstall python`).
+- `:LspUninstall <language>` to uninstall the language server for `<language>`.
+- `require'lspinstall'.setup()` to make configs of installed servers available for `require'lspconfig'.<server>.setup{}`.
 
 ## Bundled Installers
 
-| Language    | Language Server                                                             | Tested |
-|-------------|-----------------------------------------------------------------------------|--------|
-| angular     | Angular Language Service                                                    |        |
-| bash        | bash-language-server                                                        |        |
-| clojure     | clojure-lsp                                                                 |        |
-| cmake       | cmake-language-server                                                       |        |
-| cpp         | clangd                                                                      |        |
-| csharp      | OmniSharp                                                                   |        |
-| css         | vscode-langservers-extracted                                                |        |
-| dockerfile  | docker-langserver                                                           |        |
-| elixir      | Elixir Language Server (elixir-ls)                                          |        |
-| elm         | Elm Language Server (elm-ls)                                                |        |
-| ember       | Ember Language Server                                                       |        |
-| fortran     | Fortran Language Server (fortls)                                            |        |
-| go          | gopls                                                                       |        |
-| graphql     | GraphQL language service                                                    |        |
-| haskell     | haskell-language-server                                                     |        |
-| html        | vscode-langservers-extracted                                                |        |
-| java        | Eclipse JDTLS with Lombok                                                   |        |
-| json        | vscode-langservers-extracted                                                |        |
-| kotlin      | kotlin-language-server                                                      |        |
-| latex       | texlab                                                                      |        |
-| lua         | (sumneko) lua-language-server                                               |        |
-| php         | intelephense                                                                |        |
-| purescript  | purescript-language-server                                                  |        |
-| python      | pyright-langserver                                                          |        |
-| ruby        | solargraph                                                                  |        |
-| rust        | rust-analyzer                                                               |        |
-| svelte      | svelte-language-server                                                      |        |
-| tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) |        |
-| terraform   | Terraform Language Server (terraform-ls)                                    |        |
-| typescript  | typescript-language-server                                                  |        |
-| vim         | vim-language-server                                                         |        |
-| vue         | vls (vetur)                                                                 |        |
-| yaml        | yaml-language-server                                                        |        |
+npm based Language Servers is marked as supported, but it is not tested.
 
-| Name        | Description                                                                 | Tested |
-|-------------|-----------------------------------------------------------------------------|--------|
-| deno        | https://deno.land/                                                          |        |
-| diagnosticls| https://github.com/iamcco/diagnostic-languageserver                         |Warn: It has bug.|
-| efm         | https://github.com/mattn/efm-langserver                                     |        |
-| rome        | https://rome.tools/                                                         |        |
+| Language    | Language Server                                                             | Win                |
+| ----------- | --------------------------------------------------------------------------- | ------------------ |
+| angular     | Angular Language Service                                                    | :heavy_check_mark: |
+| bash        | bash-language-server                                                        | :heavy_check_mark: |
+| clojure     | clojure-lsp                                                                 |                    |
+| cmake       | cmake-language-server                                                       |                    |
+| cpp         | clangd                                                                      |                    |
+| csharp      | OmniSharp                                                                   |                    |
+| css         | vscode-langservers-extracted                                                |                    |
+| dockerfile  | docker-langserver                                                           |                    |
+| elixir      | Elixir Language Server (elixir-ls)                                          |                    |
+| elm         | Elm Language Server (elm-ls)                                                | :heavy_check_mark: |
+| ember       | Ember Language Server                                                       |                    |
+| fortran     | Fortran Language Server (fortls)                                            |                    |
+| go          | gopls                                                                       |                    |
+| graphql     | GraphQL language service                                                    | :heavy_check_mark: |
+| haskell     | haskell-language-server                                                     |                    |
+| html        | vscode-langservers-extracted                                                |                    |
+| java        | Eclipse JDTLS with Lombok                                                   |                    |
+| json        | vscode-langservers-extracted                                                |                    |
+| kotlin      | kotlin-language-server                                                      |                    |
+| latex       | texlab                                                                      |                    |
+| lua         | (sumneko) lua-language-server                                               | :heavy_check_mark: |
+| php         | intelephense                                                                | :heavy_check_mark: |
+| purescript  | purescript-language-server                                                  | :heavy_check_mark: |
+| python      | pyright-langserver                                                          | :heavy_check_mark: |
+| ruby        | solargraph                                                                  |                    |
+| rust        | rust-analyzer                                                               |                    |
+| svelte      | svelte-language-server                                                      | :heavy_check_mark: |
+| tailwindcss | tailwindcss-intellisense (pulled directly from the latest VSCode extension) | :heavy_check_mark: |
+| terraform   | Terraform Language Server (terraform-ls)                                    |                    |
+| typescript  | typescript-language-server                                                  | :heavy_check_mark: |
+| vim         | vim-language-server                                                         | :heavy_check_mark: |
+| vue         | vls (vetur)                                                                 | :heavy_check_mark: |
+| yaml        | yaml-language-server                                                        | :heavy_check_mark: |
+
+| Name         | Description                                         | Win                |
+| ------------ | --------------------------------------------------- | ------------------ |
+| deno         | https://deno.land/                                  |                    |
+| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :heavy_check_mark: |
+| efm          | https://github.com/mattn/efm-langserver             |                    |
+| rome         | https://rome.tools/                                 | :heavy_check_mark: |
 
 ## Custom Installer
 
@@ -90,6 +93,7 @@ Use `require'lspinstall/servers'.<lang> = config` to register a config with an i
 Here `config` is a LSP config for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), the only difference is that there are two additional keys `install_script` and `uninstall_script` which contain shell scripts to install/uninstall the language server.
 
 The following example provides an installer for `bash-language-server`.
+
 ```lua
 -- 1. get the default config from nvim-lspconfig
 local config = require"lspinstall/util".extract_config("bashls")
@@ -111,19 +115,18 @@ Make sure to do this before you call `require'lspinstall'.setup()`.
 
 Note: **don't** replace the `/` with a `.` in the `require` calls above ([see here if you're interested why](https://github.com/kabouzeid/nvim-lspinstall/issues/14)).
 
-
 ## Lua API
 
-* `require'lspinstall'.setup()`
+- `require'lspinstall'.setup()`
 
-* `require'lspinstall'.installed_servers()`
+- `require'lspinstall'.installed_servers()`
 
-* `require'lspinstall'.install_server(<lang>)`
-* `require'lspinstall'.post_install_hook`
+- `require'lspinstall'.install_server(<lang>)`
+- `require'lspinstall'.post_install_hook`
 
-* `require'lspinstall'.uninstall_server(<lang>)`
-* `require'lspinstall'.post_uninstall_hook`
+- `require'lspinstall'.uninstall_server(<lang>)`
+- `require'lspinstall'.post_uninstall_hook`
 
-* `require'lspinstall/servers'`
+- `require'lspinstall/servers'`
 
-* `require'lspinstall/util'.extract_config(<lspconfig-name>)`
+- `require'lspinstall/util'.extract_config(<lspconfig-name>)`
