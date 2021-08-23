@@ -60,10 +60,17 @@ end
 function M.do_term_open(terminal_task, term_options)
   vim.cmd "new"
   local shell = vim.o.shell
+  local shellcmdflag = vim.o.shellcmdflag
+  local shellquote = vim.o.shellquote
+  local shellxquote = vim.o.shellxquote
+
   if M.is_windows() == false then
     vim.o.shell = "/bin/bash"
   else
     vim.o.shell = "powershell.exe"
+    vim.o.shellcmdflag = "-NoProfile -c"
+    vim.o.shellquote = '\\"'
+    vim.o.shellxquote = ""
   end
   if M.is_windows() == true then
     vim.fn.termopen([[$ErrorActionPreference = "Stop"
@@ -72,6 +79,10 @@ function M.do_term_open(terminal_task, term_options)
     vim.fn.termopen("set -e\n" .. terminal_task, term_options)
   end
   vim.o.shell = shell
+  vim.o.shellcmdflag = shellcmdflag
+  vim.o.shellquote = shellquote
+  vim.o.shellxquote = shellxquote
+
   vim.cmd "startinsert"
 end
 
