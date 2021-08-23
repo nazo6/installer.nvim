@@ -41,54 +41,54 @@ end
 - `:LspUninstall <language>` to uninstall the language server for `<language>`.
 - `require'lspinstall'.setup()` to make configs of installed servers available for `require'lspconfig'.<server>.setup{}`.
 
-## Bundled Installers
+## Installers
 
 - :ballot_box_with_check: : There is an LS installation script, but I have not verified that it installs and works.
 - :white_check_mark: : I have confirmed that the installation and operation are successful.
 - :checkered_flag: : Installation was successful but there was a problem with the operation
 
-| Language    | Language Server                          | Win                     | Linux                   |
-| ----------- | ---------------------------------------- | ----------------------- | ----------------------- |
-| angular     | Angular Language Service                 | :ballot_box_with_check: | :ballot_box_with_check: |
-| bash        | bash-language-server                     | :ballot_box_with_check: | :ballot_box_with_check: |
-| clojure     | clojure-lsp                              | :ballot_box_with_check: | :ballot_box_with_check: |
-| cmake       | cmake-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| cpp         | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
-| csharp      | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
-| css         | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
-| dockerfile  | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
-| elixir      | Elixir Language Server (elixir-ls)       | :ballot_box_with_check: | :ballot_box_with_check: |
-| elm         | Elm Language Server (elm-ls)             | :ballot_box_with_check: | :ballot_box_with_check: |
-| ember       | Ember Language Server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| fortran     | Fortran Language Server (fortls)         | :ballot_box_with_check: | :ballot_box_with_check: |
-| go          | gopls                                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| graphql     | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
-| haskell     | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
-| html        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
-| java        | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
-| json        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
-| kotlin      | kotlin-language-server                   |                         | :ballot_box_with_check: |
-| latex       | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
-| lua         | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
-| ocaml       | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| php         | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
-| prisma      | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
-| purescript  | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
-| python      | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
-| ruby        | solargraph                               | :ballot_box_with_check: | :ballot_box_with_check: |
-| rust        | rust-analyzer                            | :white_check_mark:      | :ballot_box_with_check: |
-| svelte      | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
-| sql         | sql-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
-| tailwindcss | tailwindcss-intellisense                 | :white_check_mark:      | :ballot_box_with_check: |
-| terraform   | Terraform Language Server (terraform-ls) |                         | :ballot_box_with_check: |
-| typescript  | typescript-language-server               | :white_check_mark:      | :white_check_mark:      |
-| vim         | vim-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
-| vue         | vls (vetur)                              | :ballot_box_with_check: | :ballot_box_with_check: |
-| yaml        | yaml-language-server                     | :white_check_mark:      | :white_check_mark:      |
+| Name                   | Language Server                          | Win                     | Linux                   |
+| ---------------------- | ---------------------------------------- | ----------------------- | ----------------------- |
+| angularls              | Angular Language Service                 | :ballot_box_with_check: | :ballot_box_with_check: |
+| bashls                 | bash-language-server                     | :ballot_box_with_check: | :ballot_box_with_check: |
+| clojure_lsp            | clojure-lsp                              | :ballot_box_with_check: | :ballot_box_with_check: |
+| cmake                  | cmake-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| cpp                    | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| csharp                 | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
+| cssls                  | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
+| dockerls               | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
+| elixirls               | Elixir Language Server (elixir-ls)       | :ballot_box_with_check: | :ballot_box_with_check: |
+| elmls                  | Elm Language Server (elm-ls)             | :ballot_box_with_check: | :ballot_box_with_check: |
+| ember                  | Ember Language Server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| fortran                | Fortran Language Server (fortls)         | :ballot_box_with_check: | :ballot_box_with_check: |
+| gopls                  | gopls                                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| graphql                | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
+| haskell                | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
+| html                   | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
+| jdtls                  | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
+| jsonls                 | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
+| kotlin_language_server | kotlin-language-server                   |                         | :ballot_box_with_check: |
+| latex                  | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
+| sumneko_lua            | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
+| ocamlls                | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| intelephense           | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
+| prismals               | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| purescriptls           | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
+| pyright                | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
+| solargraph             | solargraph                               | :ballot_box_with_check: | :ballot_box_with_check: |
+| rust_analyzer          | rust-analyzer                            | :white_check_mark:      | :ballot_box_with_check: |
+| svelte                 | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| sqlls                  | sql-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
+| tailwindcss            | tailwindcss-intellisense                 | :white_check_mark:      | :ballot_box_with_check: |
+| terraform              | Terraform Language Server (terraform-ls) |                         | :ballot_box_with_check: |
+| tsserver               | typescript-language-server               | :white_check_mark:      | :white_check_mark:      |
+| vimls                  | vim-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
+| vls                    | Vue vls (vetur)                          | :ballot_box_with_check: | :ballot_box_with_check: |
+| yamlls                 | yaml-language-server                     | :white_check_mark:      | :white_check_mark:      |
 
 | Name         | Description                                         | Win                     | Linux                   |
 | ------------ | --------------------------------------------------- | ----------------------- | ----------------------- |
-| deno         | https://deno.land/                                  |                         | :ballot_box_with_check: |
+| denols       | https://deno.land/                                  |                         | :ballot_box_with_check: |
 | diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :checkered_flag:        | :ballot_box_with_check: |
 | efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: | :ballot_box_with_check: |
 | rome         | https://rome.tools/                                 | :ballot_box_with_check: | :ballot_box_with_check: |
@@ -137,3 +137,4 @@ Note: **don't** replace the `/` with a `.` in the `require` calls above ([see he
 - `require'lspinstall/servers'`
 
 - `require'lspinstall/util'.extract_config(<lspconfig-name>)`
+
