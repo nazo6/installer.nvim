@@ -11,7 +11,7 @@ Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96
 With `packer.nvim`
 
 ```lua
-use "nazo6/lspinstall"
+use "nazo6/lspinstall.nvim"
 ```
 
 ### Settings
