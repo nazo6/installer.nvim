@@ -54,7 +54,6 @@ end
 | clojure_lsp            | clojure-lsp                              | :ballot_box_with_check: | :ballot_box_with_check: |
 | cmake                  | cmake-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | cpp                    | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
-| csharp                 | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
 | cssls                  | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
 | dockerls               | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
 | elixirls               | Elixir Language Server (elixir-ls)       | :ballot_box_with_check: | :ballot_box_with_check: |
@@ -65,20 +64,21 @@ end
 | graphql                | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
 | haskell                | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
 | html                   | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
+| intelephense           | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
 | jdtls                  | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
 | jsonls                 | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
 | kotlin_language_server | kotlin-language-server                   |                         | :ballot_box_with_check: |
 | latex                  | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
-| sumneko_lua            | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
 | ocamlls                | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| intelephense           | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
+| omnisharp              | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
 | prismals               | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | purescriptls           | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
 | pyright                | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
-| solargraph             | solargraph                               | :ballot_box_with_check: | :ballot_box_with_check: |
 | rust_analyzer          | rust-analyzer                            | :white_check_mark:      | :ballot_box_with_check: |
-| svelte                 | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
+| solargraph             | solargraph                               | :ballot_box_with_check: | :ballot_box_with_check: |
 | sqlls                  | sql-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
+| sumneko_lua            | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
+| svelte                 | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | tailwindcss            | tailwindcss-intellisense                 | :white_check_mark:      | :ballot_box_with_check: |
 | terraform              | Terraform Language Server (terraform-ls) |                         | :ballot_box_with_check: |
 | tsserver               | typescript-language-server               | :white_check_mark:      | :white_check_mark:      |
