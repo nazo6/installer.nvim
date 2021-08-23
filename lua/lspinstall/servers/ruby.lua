@@ -17,7 +17,7 @@ if lsp_util.is_windows() then
     bundle install --without development --path vendor/bundle
 
     Write-Output "bundle exec solargprah" |
-    Out-File -Encoding "UTF8" "solargraph.cmd"
+    Out-File -Encoding "Ascii" "solargraph.cmd"
   ]]
 else
   config.default_config.cmd[1] = "./solargraph/solargraph"

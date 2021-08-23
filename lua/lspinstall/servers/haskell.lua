@@ -17,7 +17,7 @@ if lsp_util.is_windows() then
     Expand-Archive .\hls.zip -DestinationPath .\
     Remove-Item hls.zip
     Write-Output "set PATH=%PATH%;$Pwd & $Pwd/haskell-language-server-wrapper --lsp" |
-    Out-File -Encoding "UTF8" "hls.cmd"
+    Out-File -Encoding "Ascii" "hls.cmd"
   ]]
 else
   install_script = [[
