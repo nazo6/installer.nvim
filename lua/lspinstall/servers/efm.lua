@@ -16,8 +16,8 @@ if lsp_util.is_windows() then
     Invoke-WebRequest $url -OutFile "efm.zip"
     Expand-Archive .\efm.zip -DestinationPath efm
     Get-ChildItem -R -Path .\efm -Include *.exe | Move-Item -Destination .\
-    rm efm.zip
-    rm -r -Force .\efm
+    Remove-Item efm.zip
+    Remove-Item -r -Force .\efm
   ]]
 else
   config.default_config.cmd[1] = "./efm-langserver"

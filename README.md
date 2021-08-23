@@ -50,32 +50,32 @@ end
 | Language    | Language Server                          | Win                     | Linux                   |
 | ----------- | ---------------------------------------- | ----------------------- | ----------------------- |
 | angular     | Angular Language Service                 | :ballot_box_with_check: | :ballot_box_with_check: |
-| bash        | bash-language-server                     | :white_check_mark:      | :ballot_box_with_check: |
-| clojure     | clojure-lsp                              |                         | :ballot_box_with_check: |
-| cmake       | cmake-language-server                    |                         | :ballot_box_with_check: |
+| bash        | bash-language-server                     | :ballot_box_with_check: | :ballot_box_with_check: |
+| clojure     | clojure-lsp                              | :ballot_box_with_check: | :ballot_box_with_check: |
+| cmake       | cmake-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | cpp         | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
-| csharp      | OmniSharp                                |                         | :ballot_box_with_check: |
+| csharp      | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
 | css         | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
 | dockerfile  | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
-| elixir      | Elixir Language Server (elixir-ls)       |                         | :ballot_box_with_check: |
+| elixir      | Elixir Language Server (elixir-ls)       | :ballot_box_with_check: | :ballot_box_with_check: |
 | elm         | Elm Language Server (elm-ls)             | :ballot_box_with_check: | :ballot_box_with_check: |
 | ember       | Ember Language Server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| fortran     | Fortran Language Server (fortls)         |                         | :ballot_box_with_check: |
+| fortran     | Fortran Language Server (fortls)         | :ballot_box_with_check: | :ballot_box_with_check: |
 | go          | gopls                                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | graphql     | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
-| haskell     | haskell-language-server                  |                         | :ballot_box_with_check: |
+| haskell     | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
 | html        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
 | java        | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
 | json        | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
 | kotlin      | kotlin-language-server                   |                         | :ballot_box_with_check: |
-| latex       | texlab                                   |                         | :ballot_box_with_check: |
+| latex       | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
 | lua         | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
 | ocaml       | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | php         | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
 | prisma      | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | purescript  | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
 | python      | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
-| ruby        | solargraph                               |                         | :ballot_box_with_check: |
+| ruby        | solargraph                               | :ballot_box_with_check: | :ballot_box_with_check: |
 | rust        | rust-analyzer                            | :white_check_mark:      | :ballot_box_with_check: |
 | svelte      | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | sql         | sql-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |

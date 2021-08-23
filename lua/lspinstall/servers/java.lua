@@ -2,7 +2,7 @@
 
 local util = require "lspconfig/util"
 local path = util.path
-local lsp_util = require"lspinstall/util"
+local lsp_util = require "lspinstall/util"
 
 local script_to_use = nil
 
@@ -25,9 +25,9 @@ local root_files = {
 -- starting up.
 local function on_language_status(_, _, result)
   local command = vim.api.nvim_command
-  command("echohl ModeMsg")
-  command(string.format("echo \"%s\"", result.message))
-  command("echohl None")
+  command "echohl ModeMsg"
+  command(string.format('echo "%s"', result.message))
+  command "echohl None"
 end
 
 --- The default config to be used
@@ -35,9 +35,11 @@ local default_config = {
   root_dir = function(...)
     for _, patterns in ipairs(root_files) do
       local root = util.root_pattern(unpack(patterns))(...)
-      if root then return root end
+      if root then
+        return root
+      end
     end
-    return util.root_pattern(".git")(...)
+    return util.root_pattern ".git"(...)
   end,
   filetypes = { "java" },
   init_options = {
@@ -62,13 +64,12 @@ local default_config = {
           action.edit = action.edit or action.arguments[1]
           -- if command is table, then 'action' is CodeAction in java format
           -- then we add 'edit' property to change to CodeAction in LSP and 'edit' will be executed first
-        elseif type(action.command) == "table" and action.command.command ==
-          "java.apply.workspaceEdit" then
+        elseif type(action.command) == "table" and action.command.command == "java.apply.workspaceEdit" then
           action.edit = action.edit or action.command.arguments[1]
         end
       end
 
-      require"vim.lsp.handlers"["textDocument/codeAction"](a, b, actions)
+      require("vim.lsp.handlers")["textDocument/codeAction"](a, b, actions)
     end,
     ["language/status"] = vim.schedule_wrap(on_language_status),
   },
@@ -77,55 +78,55 @@ local default_config = {
 if lsp_util.is_windows() then
   default_config.on_new_config = function(new_config, new_root_dir)
     -- we're making an exception for this config by allowing to use `install_path("java")`
-    local install_path = require"lspinstall/util".install_path("java"):gsub("/","\\")
+    local install_path = require("lspinstall/util").install_path("java"):gsub("/", "\\")
     local workspace_name = "work" -- default workspace directory
-    if new_root_dir ~=nil then
+    if new_root_dir ~= nil then
       local workspace_name, _ = string.gsub(vim.fn.fnamemodify(new_root_dir, ":p"), "/", "-")
     end
-    local get_launcher = function (plugins_dir)
-      for item in io.popen("dir "..plugins_dir.." /b"):lines() do
-        if string.match(item,"org.eclipse.equinox.launcher_") then
-          return plugins_dir..item
+    local get_launcher = function(plugins_dir)
+      for item in io.popen("dir " .. plugins_dir .. " /b"):lines() do
+        if string.match(item, "org.eclipse.equinox.launcher_") then
+          return plugins_dir .. item
         end
       end
       return plugins_dir
     end
-    new_config.cmd = { "java",
-        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-        "-Dosgi.bundles.defaultStartLevel=4",
-        "-Declipse.product=org.eclipse.jdt.ls.core.product",
-        "-Dlog.protocol=true",
-        "-Dlog.level=ALL",
-        "-Xmx2G",
-        "-javaagent:"..install_path.."/lombok.jar",
-        "-jar",
-        get_launcher(install_path.."\\plugins\\"),
-        "-configuration",
-        install_path.."/config_win",
-        "-data",
-        path.join{ install_path, "workspace",workspace_name},
-        "--add-modules=ALL-SYSTEM",
-        "--add-opens java.base/java.util=ALL-UNNAMED",
-        "--add-opens java.base/java.lang=ALL-UNNAMED"
+    new_config.cmd = lsp_util.concat {
+      "java",
+      "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+      "-Dosgi.bundles.defaultStartLevel=4",
+      "-Declipse.product=org.eclipse.jdt.ls.core.product",
+      "-Dlog.protocol=true",
+      "-Dlog.level=ALL",
+      "-Xmx2G",
+      "-javaagent:" .. install_path .. "/lombok.jar",
+      "-jar",
+      get_launcher(install_path .. "\\plugins\\"),
+      "-configuration",
+      install_path .. "/config_win",
+      "-data",
+      path.join { install_path, "workspace", workspace_name },
+      "--add-modules=ALL-SYSTEM",
+      "--add-opens java.base/java.util=ALL-UNNAMED",
+      "--add-opens java.base/java.lang=ALL-UNNAMED",
     }
   end
-  script_to_use={
-    "cmd.exe","/c",
-    "curl -L -o jdt-language-server-latest.tar.gz http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz",
-    "&& tar -xf jdt-language-server-latest.tar.gz",
-    "&& curl -L -o lombok.jar https://projectlombok.org/downloads/lombok.jar",
-  }
+  script_to_use = [[
+    curl.exe -L -o jdt-language-server-latest.tar.gz http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
+    tar.exe -xf jdt-language-server-latest.tar.gz
+    curl.exe -L -o lombok.jar https://projectlombok.org/downloads/lombok.jar
+  ]]
 else
   default_config.on_new_config = function(new_config, new_root_dir)
     -- we're making an exception for this config by allowing to use `install_path("java")`
-    local install_path = require"lspinstall/util".install_path("java")
+    local install_path = require("lspinstall/util").install_path "java"
     local workspace_name, _ = string.gsub(vim.fn.fnamemodify(new_root_dir, ":p"), "/", "-")
     new_config.cmd = {
       path.join { install_path, "jdtls.sh" },
       path.join { install_path, "workspace", workspace_name },
     }
   end
-  script_to_use  = [[
+  script_to_use = [[
     curl -L -o - http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz | tar xvz
     curl -L -o lombok.jar https://projectlombok.org/downloads/lombok.jar
 
@@ -194,7 +195,6 @@ EOF
     chmod +x jdtls.sh
   ]]
 end
-
 
 return {
   default_config = default_config,

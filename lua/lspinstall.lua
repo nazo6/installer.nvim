@@ -20,6 +20,7 @@ function M.install_server(lang)
     )
     if choice ~= 0 then
       M.reinstall_server(lang)
+      return
     else
       return
     end
