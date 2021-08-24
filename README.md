@@ -6,6 +6,10 @@ Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96
 
 ## Setup
 
+
+## Notice
+- Some install scripts may not work with Powershell 7. In the case, please try running them in Powershell 5.
+
 ### Install
 
 With `packer.nvim`
