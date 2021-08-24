@@ -16,7 +16,7 @@ if lsp_util.is_windows() then
   end
 
   script_to_use = [[
-    Invoke-WebRequest ]] .. url .. [[ -OutFile "rust-analyzer.gz"
+    Invoke-WebRequest -UseBasicParsing ]] .. url .. [[ -OutFile "rust-analyzer.gz"
     Function DeGZip-File{
         Param(
             $infile,

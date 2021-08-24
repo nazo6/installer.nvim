@@ -6,14 +6,14 @@ local install_script = nil
 
 if lsp_util.is_windows() then
   install_script = [[
-    $json = Invoke-WebRequest https://api.github.com/repos/haskell/haskell-language-server/releases/latest
+    $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/haskell/haskell-language-server/releases/latest
     $object = ConvertFrom-JSON $json
     $object.assets | ForEach-Object {
       if ($_.browser_download_url.Contains("wrapper-Windows")) {
         $url = $_.browser_download_url
       }
     }
-    Invoke-WebRequest $url -OutFile "hls.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "hls.zip"
     Expand-Archive .\hls.zip -DestinationPath .\
     Remove-Item hls.zip
     Write-Output "set PATH=%PATH%;$Pwd & $Pwd/haskell-language-server-wrapper --lsp" |

@@ -6,10 +6,10 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd = { "./sumneko-lua-language-server.cmd" }
   script_to_use = [[
-    $json = Invoke-WebRequest https://api.github.com/repos/sumneko/vscode-lua/releases/latest
+    $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/sumneko/vscode-lua/releases/latest
     $object = ConvertFrom-JSON $json
     $url = $object.assets[0].browser_download_url
-    Invoke-WebRequest $url -OutFile "sumneko-lua.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "sumneko-lua.zip"
     Expand-Archive .\sumneko-lua.zip -DestinationPath sumneko-lua
     rm sumneko-lua.zip
     Write-Output "sumneko-lua\extension\server\bin\Windows\lua-language-server -E -e LANG=en sumneko-lua\extension\server\main.lua" |

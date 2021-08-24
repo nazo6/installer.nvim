@@ -6,13 +6,13 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd[1] = "./clojure-lsp"
   script_to_use = [[
-    $object = Invoke-WebRequest https://api.github.com/repos/clojure-lsp/clojure-lsp/releases/latest | ConvertFrom-JSON 
+    $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/clojure-lsp/clojure-lsp/releases/latest | ConvertFrom-JSON 
     $object.assets | ForEach-Object {
       if ($_.browser_download_url.Contains("windows")) {
         $url = $_.browser_download_url
       }
     }
-    Invoke-WebRequest $url -OutFile "clojure.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "clojure.zip"
     Expand-Archive .\clojure.zip -DestinationPath .\
     Remove-Item clojure.zip
     ]]

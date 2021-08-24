@@ -6,13 +6,13 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd = { "./omnisharp/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
   script_to_use = [[
-  $object = Invoke-WebRequest https://api.github.com/repos/OmniSharp/omnisharp-roslyn/releases/latest | ConvertFrom-JSON 
+  $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/OmniSharp/omnisharp-roslyn/releases/latest | ConvertFrom-JSON 
   $object.assets | ForEach-Object {
     if ($_.browser_download_url.Contains("win-x64")) {
       $url = $_.browser_download_url
     }
   }
-  Invoke-WebRequest $url -OutFile "omnisharp.zip"
+  Invoke-WebRequest -UseBasicParsing $url -OutFile "omnisharp.zip"
   Expand-Archive .\omnisharp.zip -DestinationPath .\omnisharp
   Remove-Item omnisharp.zip
   ]]

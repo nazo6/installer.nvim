@@ -6,14 +6,14 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd[1] = "./efm-langserver.exe"
   script_to_use = [[
-    $json = Invoke-WebRequest https://api.github.com/repos/mattn/efm-langserver/releases/latest
+    $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/mattn/efm-langserver/releases/latest
     $object = ConvertFrom-JSON $json
     $object.assets | ForEach-Object {
       if ($_.browser_download_url.Contains("windows")) {
         $url = $_.browser_download_url
       }
     }
-    Invoke-WebRequest $url -OutFile "efm.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "efm.zip"
     Expand-Archive .\efm.zip -DestinationPath efm
     Get-ChildItem -R -Path .\efm -Include *.exe | Move-Item -Destination .\
     Remove-Item efm.zip

@@ -6,10 +6,10 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd[1] = "./solargraph/solargraph"
   script_to_use = [[
-    $json = Invoke-WebRequest https://api.github.com/repos/castwide/solargraph/tags
+    $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/castwide/solargraph/tags
     $object = ConvertFrom-JSON $json
     $url = $object[1].zipball_url
-    Invoke-WebRequest $url -OutFile "solargraph.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "solargraph.zip"
     Expand-Archive .\solargraph.zip -DestinationPath .\solargraph
     Remove-Item solargraph.zip
     

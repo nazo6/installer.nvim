@@ -6,13 +6,13 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd[1] = "./texlab"
   script_to_use = [[
-    $object = Invoke-WebRequest https://api.github.com/repos/latex-lsp/texlab/releases/latest | ConvertFrom-JSON 
+    $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/latex-lsp/texlab/releases/latest | ConvertFrom-JSON 
     $object.assets | ForEach-Object {
       if ($_.browser_download_url.Contains("windows")) {
         $url = $_.browser_download_url
       }
     }
-    Invoke-WebRequest $url -OutFile "latex.zip"
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "latex.zip"
     Expand-Archive .\latex.zip -DestinationPath .\
     Remove-Item latex.zip
   ]]

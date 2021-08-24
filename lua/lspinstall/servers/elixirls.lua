@@ -6,7 +6,7 @@ local script_to_use = nil
 if lsp_util.is_windows() then
   config.default_config.cmd = { "./elixir-ls/language_server.bat" }
   script_to_use = [[
-    Invoke-WebRequest "https://github.com/elixir-lsp/elixir-ls/releases/latest/download/elixir-ls.zip" -OutFile "elixir.zip"
+    Invoke-WebRequest -UseBasicParsing "https://github.com/elixir-lsp/elixir-ls/releases/latest/download/elixir-ls.zip" -OutFile "elixir.zip"
     Expand-Archive .\elixir.zip -DestinationPath elixir-ls
     Remove-Item elixir.zip
   ]]
