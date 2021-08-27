@@ -7,7 +7,7 @@ local M = {}
 
 -- INSTALL
 
-function M.install_server(lang)
+function M.install_server(lang, on_exit)
   if not servers[lang] then
     error("Could not find language server for " .. lang)
   end
@@ -28,6 +28,9 @@ function M.install_server(lang)
   vim.fn.mkdir(path, "p") -- fail: throws
 
   local function onExit(_, code)
+    if on_exit then
+      on_exit(code)
+    end
     if code ~= 0 then
       if vim.fn.delete(path, "rf") ~= 0 then -- here 0: success, -1: fail
         error("[nvim-lspinstall] Install failed. Could not delete directory " .. lang)
