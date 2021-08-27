@@ -1,3 +1,5 @@
+name: Run test
+on: [push]
 jobs:
   test:
     name: Test
