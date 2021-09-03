@@ -13,7 +13,9 @@ config.default_config.cmd = cmd
 
 if lsp_util.is_windows() then
   script_to_use = [[
-    Remove-Item -Force -Recursive PowerShellEditorServices
+    if (Test-Path PowerShellEditorServices) {
+      Remove-Item -Force -Recurse PowerShellEditorServices
+    }
     Invoke-WebRequest -UseBasicParsing https://github.com/PowerShell/PowerShellEditorServices/releases/latest/download/PowerShellEditorServices.zip -OutFile "pses.zip"
     Expand-Archive .\pses.zip -DestinationPath .\PowerShellEditorServices
     Remove-Item pses.zip
