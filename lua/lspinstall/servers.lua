@@ -24,6 +24,7 @@ local servers = {
   ["latex"] = require "lspinstall/servers/latex",
   ["ocamlls"] = require "lspinstall/servers/ocamlls",
   ["omnisharp"] = require "lspinstall/servers/omnisharp",
+  ["powershell_es"] = require "lspinstall/servers/powershell_es",
   ["prismals"] = require "lspinstall/servers/prismals",
   ["purescriptls"] = require "lspinstall/servers/purescriptls",
   ["pyright"] = require "lspinstall/servers/pyright",
