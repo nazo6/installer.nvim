@@ -6,8 +6,8 @@ Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96
 
 ## Setup
 
+### Notice
 
-## Notice
 - Some install scripts may not work with Powershell 7. In the case, please try running them in Powershell 5.
 
 ### Install
@@ -49,7 +49,6 @@ end
 
 - :ballot_box_with_check: : There is an LS installation script, but I have not verified that it installs and works.
 - :white_check_mark: : I have confirmed that the installation and operation are successful.
-- :checkered_flag: : Installation was successful but there was a problem with the operation
 
 | Name                   | Language Server                          | Win                     | Linux                   |
 | ---------------------- | ---------------------------------------- | ----------------------- | ----------------------- |
@@ -75,6 +74,7 @@ end
 | latex                  | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
 | ocamlls                | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | omnisharp              | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
+| powershell_es          | PowerShellEditorServices                 | :white_check_mark:      | :white_check_mark:      |
 | prismals               | prisma-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | purescriptls           | purescript-language-server               | :ballot_box_with_check: | :ballot_box_with_check: |
 | pyright                | pyright-langserver                       | :ballot_box_with_check: | :ballot_box_with_check: |
@@ -93,7 +93,7 @@ end
 | Name         | Description                                         | Win                     | Linux                   |
 | ------------ | --------------------------------------------------- | ----------------------- | ----------------------- |
 | denols       | https://deno.land/                                  |                         | :ballot_box_with_check: |
-| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :checkered_flag:        | :ballot_box_with_check: |
+| diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :ballot_box_with_check: | :ballot_box_with_check: |
 | efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: | :ballot_box_with_check: |
 | rome         | https://rome.tools/                                 | :ballot_box_with_check: | :ballot_box_with_check: |
 
@@ -141,4 +141,3 @@ Note: **don't** replace the `/` with a `.` in the `require` calls above ([see he
 - `require'lspinstall/servers'`
 
 - `require'lspinstall/util'.extract_config(<lspconfig-name>)`
-
