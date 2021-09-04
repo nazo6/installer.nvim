@@ -1,10 +1,12 @@
-local config = require("lspinstall/util").extract_config "bashls"
-local lsp_util = require "lspinstall/util"
-
-local npm = require "lspinstall/helpers".npm
-
-local package_name = "bash-language-server"
-config.default_config.cmd[1] = npm.bin_path(config.default_config.cmd[1])
-return vim.tbl_extend("error", config, {
-  install_script = npm.install_script(package_name),
-})
+return {
+  install_script = function()
+    local npm = require("lspinstall/helpers").npm
+    npm.install_script "bash-language-server"
+  end,
+  lsp_config = function()
+    local npm = require("lspinstall/helpers").npm
+    local config = require("lspinstall/util").extract_config "bashls"
+    config.default_config.cmd[1] = npm.bin_path(config.default_config.cmd[1])
+    return config
+  end,
+}

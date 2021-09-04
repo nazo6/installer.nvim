@@ -126,16 +126,12 @@ end
 function M.setup()
   for lang in pairs(servers) do
     if M.is_server_installed(lang) and not configs[lang] then -- don't overwrite existing config, leads to problems
-      local server_config = get_config(lang)
-      local config = vim.tbl_deep_extend("keep", server_config, { default_config = { cmd_cwd = install_path(lang) } })
-      if config.default_config.cmd then
-        local executable = config.default_config.cmd[1]
-        if vim.regex([[^[.]\{1,2}\/]]):match_str(executable) then -- matches ./ and ../
-          -- prepend the install path if the executable is a relative path
-          -- we need this because for the executable cmd[1] itself, cwd is not considered!
-          config.default_config.cmd[1] = install_path(lang) .. "/" .. executable
-        end
-      end
+      local server_config = get_config(lang).lsp_config()
+      local config = vim.tbl_deep_extend("keep", server_config, {
+        default_config = {
+          cmd_cwd = install_path(lang),
+        },
+      })
       configs[lang] = config
     end
   end

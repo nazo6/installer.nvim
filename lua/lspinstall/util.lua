@@ -32,6 +32,11 @@ function M.install_path(lang)
   return vim.fn.stdpath "data" .. "/lsp/" .. lang
 end
 
+--- Get absolute path of server
+function M.absolute_path(lang, path)
+  return M.install_path(lang) .. "/" .. path
+end
+
 --- Check if on Windows or not
 --@returns true if it is windows os, false otherwise
 function M.is_windows()
