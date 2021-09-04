@@ -4,11 +4,16 @@ local lsp_util = require "lspinstall/util"
 local script_to_use = nil
 
 if lsp_util.is_windows() then
-  config.default_config.cmd = { "./omnisharp/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+  config.default_config.cmd = {
+    "./omnisharp/OmniSharp.exe",
+    "--languageserver",
+    "--hostPID",
+    tostring(vim.fn.getpid()),
+  }
   script_to_use = [[
   $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/OmniSharp/omnisharp-roslyn/releases/latest | ConvertFrom-JSON 
   $object.assets | ForEach-Object {
-    if ($_.browser_download_url.Contains("win-x64")) {
+    if ($_.browser_download_url.Contains("omnisharp-win-x64")) {
       $url = $_.browser_download_url
     }
   }
@@ -39,11 +44,5 @@ else
 end
 
 return vim.tbl_extend("error", config, {
-  on_new_config = function(new_config, new_root_dir)
-    if new_root_dir ~= nil then
-      table.insert(new_config.cmd, "-s")
-      table.insert(new_config.cmd, new_root_dir)
-    end
-  end,
   install_script = script_to_use,
 })
