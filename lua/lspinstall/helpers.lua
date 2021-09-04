@@ -32,7 +32,7 @@ M.npm = {
     return path
   end,
   --- Build npm module settings
-  --- @alias option_type {install_package: string, bin_name:string, lang:string}
+  --- @alias option_type {install_package: string, bin_name:string, lang:string, inherit_lspconfig:boolean, config:table|function }
   --- @param options option_type
   builder = function(options)
     return {
@@ -40,13 +40,24 @@ M.npm = {
         return M.npm.install_script(options.install_package)
       end,
       lsp_config = function()
-        local config = util.extract_config(options.lang)
+        local config = {}
+        if type(options.config) == "table" then
+          config = options.config
+        end
+        if options.inherit_lspconfig then
+          config = util.extract_config(options.lang)
+        end
 
         if options.bin_name == nil then
           options.bin_name = config.default_config.cmd[1]
         end
         local server_path = util.install_path(options.lang)
         config.default_config.cmd[1] = server_path .. "/" .. M.npm.bin_path(options.bin_name)
+
+        if type(options.config) == "function" then
+          config = options.config(config)
+        end
+
         return config
       end,
     }
