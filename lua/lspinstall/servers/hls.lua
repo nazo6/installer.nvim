@@ -1,11 +1,7 @@
-local config = require("lspinstall/util").extract_config "hls"
-local lsp_util = require "lspinstall/util"
-config.default_config.cmd = { "./hls" }
+local cmd_win = { "./hls" }
+local cmd = { "./hls" }
 
-local install_script = nil
-
-if lsp_util.is_windows() then
-  install_script = [[
+local script_win = [[
     $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/haskell/haskell-language-server/releases/latest
     $object = ConvertFrom-JSON $json
     $object.assets | ForEach-Object {
@@ -19,8 +15,7 @@ if lsp_util.is_windows() then
     Write-Output "set PATH=%PATH%;$Pwd & $Pwd/haskell-language-server-wrapper --lsp" |
     Out-File -Encoding "Ascii" "hls.cmd"
   ]]
-else
-  install_script = [[
+local script = [[
     os=$(uname -s | tr "[:upper:]" "[:lower:]")
   
     case $os in
@@ -41,8 +36,16 @@ else
     echo "PATH=\$PATH:$(pwd) $(pwd)/haskell-language-server-wrapper --lsp" >> hls
     chmod +x hls
   ]]
-end
 
-return vim.tbl_extend("error", config, {
-  install_script = install_script,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "hls",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

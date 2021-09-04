@@ -1,11 +1,5 @@
-local config = require("lspinstall/util").extract_config "texlab"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./texlab"
-  script_to_use = [[
+local cmd_win = "./texlab"
+local script_win = [[
     $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/latex-lsp/texlab/releases/latest | ConvertFrom-JSON 
     $object.assets | ForEach-Object {
       if ($_.browser_download_url.Contains("windows")) {
@@ -16,9 +10,8 @@ if lsp_util.is_windows() then
     Expand-Archive .\latex.zip -DestinationPath .\
     Remove-Item latex.zip
   ]]
-else
-  config.default_config.cmd[1] = "./texlab"
-  script_to_use = [[
+local cmd = "./texlab"
+local script = [[
     os=$(uname -s | tr "[:upper:]" "[:lower:]")
   
     case $os in
@@ -34,8 +27,16 @@ else
     tar -xzf texlab.tar.gz
     rm texlab.tar.gz
     ]]
-end
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "texlab",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

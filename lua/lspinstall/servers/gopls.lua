@@ -1,11 +1,5 @@
-local config = require("lspinstall/util").extract_config "gopls"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./gopls"
-  script_to_use = [[
+local cmd_win = "./gopls"
+local script_win = [[
     $pwd = pwd
     $Env:GOPATH = pwd
     $Env:GOBIN = pwd
@@ -13,14 +7,21 @@ if lsp_util.is_windows() then
     go get -v golang.org/x/tools/gopls
     go clean -modcache
   ]]
-else
-  config.default_config.cmd[1] = "./gopls"
-  script_to_use = [[
+local cmd = "./gopls"
+local script = [[
   GOPATH=$(pwd) GOBIN=$(pwd) GO111MODULE=on go get -v golang.org/x/tools/gopls
   GOPATH=$(pwd) GO111MODULE=on go clean -modcache
   ]]
-end
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "gopls",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}
