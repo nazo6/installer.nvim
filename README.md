@@ -15,7 +15,10 @@ Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96
 With `packer.nvim`
 
 ```lua
-use "nazo6/lspinstall.nvim"
+-- nvim-lspconfig is required
+use { "nazo6/lspinstall.nvim",
+  requires = {"neovim/nvim-lspconfig"}
+}
 ```
 
 ### Settings
@@ -62,16 +65,16 @@ end
 | elixirls               | Elixir Language Server (elixir-ls)       | :ballot_box_with_check: | :ballot_box_with_check: |
 | elmls                  | Elm Language Server (elm-ls)             | :ballot_box_with_check: | :ballot_box_with_check: |
 | ember                  | Ember Language Server                    | :ballot_box_with_check: | :ballot_box_with_check: |
-| fortran                | Fortran Language Server (fortls)         | :ballot_box_with_check: | :ballot_box_with_check: |
+| forls                  | Fortran Language Server (fortls)         | :ballot_box_with_check: | :ballot_box_with_check: |
 | gopls                  | gopls                                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | graphql                | GraphQL language service                 | :ballot_box_with_check: | :ballot_box_with_check: |
-| haskell                | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
+| hls                    | haskell-language-server                  | :ballot_box_with_check: | :ballot_box_with_check: |
 | html                   | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
 | intelephense           | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
 | jdtls                  | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
 | jsonls                 | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
 | kotlin_language_server | kotlin-language-server                   |                         | :ballot_box_with_check: |
-| latex                  | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
+| texlab                 | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
 | ocamlls                | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | omnisharp              | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
 | powershell_es          | PowerShellEditorServices                 | :white_check_mark:      | :white_check_mark:      |
