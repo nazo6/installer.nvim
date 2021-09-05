@@ -1,9 +1,9 @@
 local cmd_win = "./gopls"
 local script_win = [[
     $pwd = pwd
-    $Env:GOPATH = pwd
-    $Env:GOBIN = pwd
-    $Env:GO111MODULE = on
+    $Env:GOPATH = $pwd
+    $Env:GOBIN = $pwd
+    $Env:GO111MODULE = "on"
     go get -v golang.org/x/tools/gopls
     go clean -modcache
   ]]
