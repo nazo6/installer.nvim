@@ -1,11 +1,5 @@
-local config = require("lspinstall/util").extract_config "solargraph"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./solargraph/solargraph"
-  script_to_use = [[
+local cmd_win = "./solargraph/solargraph"
+local script_win = [[
     $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/castwide/solargraph/tags
     $object = ConvertFrom-JSON $json
     $url = $object[1].zipball_url
@@ -19,9 +13,8 @@ if lsp_util.is_windows() then
     Write-Output "bundle exec solargprah" |
     Out-File -Encoding "Ascii" "solargraph.cmd"
   ]]
-else
-  config.default_config.cmd[1] = "./solargraph/solargraph"
-  script_to_use = [[
+local cmd = "./solargraph/solargraph"
+local script = [[
     curl -L -o solargraph.tar $(curl -s https://api.github.com/repos/castwide/solargraph/tags | grep 'tarball_url' | cut -d\" -f4 | head -n1)
     rm -rf solargraph
     mkdir solargraph
@@ -37,9 +30,16 @@ else
   
     chmod +x solargraph
   ]]
-end
 
-return vim.tbl_extend("error", config, {
-  -- adjusted from https://github.com/mattn/vim-lsp-settings/blob/master/installer/install-solargraph.sh
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "solargraph",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

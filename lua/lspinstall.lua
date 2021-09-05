@@ -3,6 +3,10 @@ local configs = require "lspconfig/configs"
 local install_path = require("lspinstall/util").install_path
 local lsp_util = require "lspinstall/util"
 
+local get_config = function(lang)
+  return require("lspinstall/servers/" .. lang)
+end
+
 local M = {}
 
 -- INSTALL
@@ -40,10 +44,11 @@ function M.install_server(lang)
     end
   end
 
-  if servers[lang].pre_install_hook then
-    servers[lang].pre_install_hook()
+  local config = get_config(lang)
+  if config.pre_install_hook then
+    config.pre_install_hook()
   end
-  local install_script = servers[lang].install_script
+  local install_script = config.install_script
   if install_script == nil then
     lsp_util.print_warning("sorry no installation for your particular OS", "WarningMsg")
     return
@@ -88,7 +93,7 @@ function M.uninstall_server(lang)
     end
   end
 
-  lsp_util.do_term_open((servers[lang].uninstall_script or ""), { cwd = path, on_exit = onExit })
+  lsp_util.do_term_open((get_config(lang).uninstall_script or ""), { cwd = path, on_exit = onExit })
 end
 
 -- UTILITY
@@ -99,16 +104,8 @@ end
 
 function M.available_servers()
   local languages = {}
-  for k, _ in pairs(servers) do
-    -- Only show completions for servers that have windows support
-    if lsp_util.is_windows() then
-      if servers[k].install_script ~= nil then
-        table.insert(languages, k)
-      end
-    else
-      -- show all when not on windows
-      table.insert(languages, k)
-    end
+  for k in pairs(servers) do
+    table.insert(languages, k)
   end
   return languages
 end
@@ -127,17 +124,14 @@ end
 
 --- Sets the configs in lspconfig for all installed servers
 function M.setup()
-  for lang, server_config in pairs(servers) do
+  for lang in pairs(servers) do
     if M.is_server_installed(lang) and not configs[lang] then -- don't overwrite existing config, leads to problems
-      local config = vim.tbl_deep_extend("keep", server_config, { default_config = { cmd_cwd = install_path(lang) } })
-      if config.default_config.cmd then
-        local executable = config.default_config.cmd[1]
-        if vim.regex([[^[.]\{1,2}\/]]):match_str(executable) then -- matches ./ and ../
-          -- prepend the install path if the executable is a relative path
-          -- we need this because for the executable cmd[1] itself, cwd is not considered!
-          config.default_config.cmd[1] = install_path(lang) .. "/" .. executable
-        end
-      end
+      local server_config = get_config(lang).lsp_config()
+      local config = vim.tbl_deep_extend("keep", server_config, {
+        default_config = {
+          cmd_cwd = install_path(lang),
+        },
+      })
       configs[lang] = config
     end
   end

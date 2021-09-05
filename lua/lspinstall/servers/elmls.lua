@@ -1,24 +1,23 @@
-local config = require("lspinstall/util").extract_config "elmls"
-local npm = require "lspinstall/helpers".npm
+return require("lspinstall/helpers").npm.builder {
+  install_package = "elm-language-server",
+  lang = "elmls",
+  inherit_lspconfig = true,
+  config = function(config)
+    -- we don't install these globally, their location will be resolved automatically form node_modules
+    config.default_config.init_options.elmPath = nil
+    config.default_config.init_options.elmFormatPath = nil
+    config.default_config.init_options.elmTestPath = nil
 
-local package_name = "elm-language-server"
+    return config
 
--- we don't install these globally, their location will be resolved automatically form node_modules
-config.default_config.init_options.elmPath = nil
-config.default_config.init_options.elmFormatPath = nil
-config.default_config.init_options.elmTestPath = nil
-
--- elm, elm-test and elm-format are also installed so they can be used instead of the local versions
--- in ./node_modules/.bin/ if needed. e.g. with
--- ```
--- init_options = {
---  elmPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm"
---  elmFormatPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm-format"
---  elmTestPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm-test"
--- }
--- ```
-
-config.default_config.cmd[1] = npm.bin_path(config.default_config.cmd[1])
-return vim.tbl_extend("error", config, {
-  install_script = npm.install_script(package_name),
-})
+    -- elm, elm-test and elm-format are also installed so they can be used instead of the local versions
+    -- in ./node_modules/.bin/ if needed. e.g. with
+    -- ```
+    -- init_options = {
+    --  elmPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm"
+    --  elmFormatPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm-format"
+    --  elmTestPath = require'lspinstall/util'.install_path('elm') .. "/node_modules/.bin/elm-test"
+    -- }
+    -- ```
+  end,
+}

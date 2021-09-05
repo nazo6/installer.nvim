@@ -1,16 +1,10 @@
-local config = require("lspinstall/util").extract_config "omnisharp"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd = {
-    "./omnisharp/OmniSharp.exe",
-    "--languageserver",
-    "--hostPID",
-    tostring(vim.fn.getpid()),
-  }
-  script_to_use = [[
+local cmd_win = {
+  "./omnisharp/OmniSharp.exe",
+  "--languageserver",
+  "--hostPID",
+  tostring(vim.fn.getpid()),
+}
+local script_win = [[
   $object = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/OmniSharp/omnisharp-roslyn/releases/latest | ConvertFrom-JSON 
   $object.assets | ForEach-Object {
     if ($_.browser_download_url.Contains("omnisharp-win-x64")) {
@@ -21,9 +15,9 @@ if lsp_util.is_windows() then
   Expand-Archive .\omnisharp.zip -DestinationPath .\omnisharp
   Remove-Item omnisharp.zip
   ]]
-else
-  config.default_config.cmd = { "./omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
-  script_to_use = [[
+
+local cmd = { "./omnisharp/run", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) }
+local script = [[
   os=$(uname -s | tr "[:upper:]" "[:lower:]")
 
   case $os in
@@ -41,8 +35,16 @@ else
   rm omnisharp.zip
   chmod +x omnisharp/run
   ]]
-end
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "omnisharp",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

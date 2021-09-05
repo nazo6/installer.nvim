@@ -1,21 +1,15 @@
-local config = require("lspinstall/util").extract_config "rust_analyzer"
-local lsp_util = require "lspinstall/util"
+local cmd_win = "./rust-analyzer"
+local arch = vim.fn.getenv "PROCESSOR_ARCHITECTURE"
+local url = nil
+if arch == "ARM64" then
+  url =
+    "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-aarch64-pc-windows-msvc.gz"
+else
+  url =
+    "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-pc-windows-msvc.gz"
+end
 
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./rust-analyzer"
-  local arch = vim.fn.getenv "PROCESSOR_ARCHITECTURE"
-  local url = nil
-  if arch == "ARM64" then
-    url =
-      "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-aarch64-pc-windows-msvc.gz"
-  else
-    url =
-      "https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-pc-windows-msvc.gz"
-  end
-
-  script_to_use = [[
+local script_win = [[
     Invoke-WebRequest -UseBasicParsing ]] .. url .. [[ -OutFile "rust-analyzer.gz"
     Function DeGZip-File{
         Param(
@@ -40,9 +34,8 @@ if lsp_util.is_windows() then
     DeGZip-File $infile $outfile
     rm rust-analyzer.gz
     ]]
-else
-  config.default_config.cmd[1] = "./rust-analyzer"
-  script_to_use = [[
+local cmd = "./rust-analyzer"
+local script = [[
   os=$(uname -s | tr "[:upper:]" "[:lower:]")
   mchn=$(uname -m | tr "[:upper:]" "[:lower:]")
 
@@ -66,9 +59,16 @@ else
 
     chmod +x rust-analyzer
     ]]
-end
 
-return vim.tbl_extend("error", config, {
-  -- adjusted from https://github.com/mattn/vim-lsp-settings/blob/master/installer/install-rust-analyzer.sh
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "rust_analyzer",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

@@ -1,11 +1,4 @@
-local config = require("lspinstall/util").extract_config "efm"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./efm-langserver.exe"
-  script_to_use = [[
+local script_win = [[
     $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/mattn/efm-langserver/releases/latest
     $object = ConvertFrom-JSON $json
     $object.assets | ForEach-Object {
@@ -19,14 +12,21 @@ if lsp_util.is_windows() then
     Remove-Item efm.zip
     Remove-Item -r -Force .\efm
   ]]
-else
-  config.default_config.cmd[1] = "./efm-langserver"
-  script_to_use = [[
+
+local script = [[
   GOPATH=$(pwd) GOBIN=$(pwd) GO111MODULE=on go get -v github.com/mattn/efm-langserver
   GOPATH=$(pwd) GO111MODULE=on go clean -modcache
   ]]
-end
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "efm",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = "./efm-langserver.exe",
+    other = "./efm-langserver",
+  },
+}

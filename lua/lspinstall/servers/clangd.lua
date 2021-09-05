@@ -1,11 +1,8 @@
-local config = require("lspinstall/util").extract_config "clangd"
-local lsp_util = require "lspinstall/util"
-
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  config.default_config.cmd[1] = "./clangd/bin/clangd.exe"
-  script_to_use = [[
+return {
+  install_script = function()
+    local lsp_util = require "lspinstall/util"
+    if lsp_util.is_windows() then
+      return [[
     $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/clangd/clangd/releases/latest
     $object = ConvertFrom-JSON $json
     $object.assets | ForEach-Object {
@@ -20,9 +17,8 @@ if lsp_util.is_windows() then
     rm -r -Force clangd
     Get-ChildItem . | Rename-Item -NewName { "clangd" }
   ]]
-else
-  config.default_config.cmd[1] = "./clangd/bin/clangd"
-  script_to_use = [[
+    else
+      return [[
   os=$(uname -s | tr "[:upper:]" "[:lower:]")
 
   case $os in
@@ -40,8 +36,18 @@ else
   rm clangd.zip
   mv clangd_* clangd
   ]]
-end
+    end
+  end,
+  lsp_config = function()
+    local config = require("lspinstall/util").extract_config "clangd"
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
-})
+    local lsp_util = require "lspinstall/util"
+    if lsp_util.is_windows() then
+      config.default_config.cmd[1] = lsp_util.absolute_path("clang", "./clangd/bin/clangd.exe")
+    else
+      config.default_config.cmd[1] = lsp_util.absolute_path("clang", "./clangd/bin/clangd")
+    end
+
+    return config
+  end,
+}
