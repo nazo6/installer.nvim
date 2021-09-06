@@ -50,8 +50,8 @@ end
 
 ## Installers
 
-- :ballot_box_with_check: : There is an LS installation script, but I have not verified that it installs and works.
-- :white_check_mark: : I have confirmed that the installation and operation are successful.
+- :ballot_box_with_check: : Not tested but there is script to install.
+- :white_check_mark: : Should work.
 
 | Name                   | Language Server                          | Win                     | Linux                   |
 | ---------------------- | ---------------------------------------- | ----------------------- | ----------------------- |
@@ -102,31 +102,67 @@ end
 
 ## Custom Installer
 
-Use `require'lspinstall/servers'.<lang> = config` to register a config with an installer.
-Here `config` is a LSP config for [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig), the only difference is that there are two additional keys `install_script` and `uninstall_script` which contain shell scripts to install/uninstall the language server.
+Use `require'lspinstall'.register_server(name, config)` to register a config with an installer.
+`name` is server name and there are helper function to create config.
 
-The following example provides an installer for `bash-language-server`.
+### If nvim-lspconfig has a setting of the server
+
+#### npm based servers
+There is helper function to register npm based servers.
+
+The following example provides an installer for bash-language-server.
 
 ```lua
--- 1. get the default config from nvim-lspconfig
-local config = require"lspinstall/util".extract_config("bashls")
--- 2. update the cmd. relative paths are allowed, lspinstall automatically adjusts the cmd and cmd_cwd for us!
-config.default_config.cmd[1] = "./node_modules/.bin/bash-language-server"
+require("lspinstall").register_server("bashls", require("lspinstall/helpers").npm.builder {
+  install_package = "bash-language-server",
+  lang = "bashls",
+})
+```
 
--- 3. extend the config with an install_script and (optionally) uninstall_script
-require'lspinstall/servers'.bash = vim.tbl_extend('error', config, {
-  -- lspinstall will automatically create/delete the install directory for every server
-  install_script = [[
-  ! test -f package.json && npm init -y --scope=lspinstall || true
-  npm install bash-language-server@latest
-  ]],
-  uninstall_script = nil -- can be omitted
+#### Others
+If server is not a npm module, you will need to write the installation script manually.
+
+On windows, the script will run in Powershell. Otherwise, it will be run in bash.
+
+```lua
+require("lspinstall").register_server("<server-name>", require("lspinstall/helpers").common.builder {
+  lang = "<server-name>",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+})
+```
+
+You can see more information in [template.lua](/lua/lspinstall/servers/template.lua). Or you can check the implementation in [helpers.lua](/lua/lspinstall/helpers.lua)
+
+### If nvim-lspconfig don't have settings of the server
+You can't use helper functions for now.
+Please create settings manually.
+
+Example:
+```lua
+require("lspinstall").register("<server-name>", {
+  install_script = function()
+    -- Function to return install script. Need to return different scripts for windows and Linux.
+  end,
+  lsp_config = function()
+    -- Function to return lsp config. This is the same thing that is passed to `nvim-lspconfig`.
+    return {
+      default_config = {
+        cmd = {}, 
+      }
+    }
+  end,
 })
 ```
 
 Make sure to do this before you call `require'lspinstall'.setup()`.
-
-Note: **don't** replace the `/` with a `.` in the `require` calls above ([see here if you're interested why](https://github.com/kabouzeid/nvim-lspinstall/issues/14)).
 
 ## Lua API
 

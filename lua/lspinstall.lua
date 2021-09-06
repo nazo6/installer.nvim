@@ -3,8 +3,18 @@ local configs = require "lspconfig/configs"
 local install_path = require("lspinstall/util").install_path
 local lsp_util = require "lspinstall/util"
 
+local user_configs = {}
+
 local get_config = function(lang)
-  return require("lspinstall/servers/" .. lang)
+  local res, config = pcall(require, "lspinstall/servers/" .. lang)
+  if res ~= true then
+    local mes = config
+    config = user_configs[lang]
+    if config == nil then
+      error(mes)
+    end
+  end
+  return config
 end
 
 local M = {}
@@ -135,6 +145,11 @@ function M.setup()
       configs[lang] = config
     end
   end
+end
+
+function M.register_server(name, config)
+  user_configs[name] = config
+  servers[name] = true
 end
 
 return M
