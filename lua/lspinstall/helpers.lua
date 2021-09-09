@@ -99,6 +99,14 @@ M.pip = {
       ./venv/bin/pip3 install -U ]]..package_to_install
     end
   end,
+  bin_path = function(bin_name)
+    local util = require "lspinstall/util"
+    if util.is_windows() then
+      return "venv/Scripts/"..bin_name
+    else
+      return "venv/bin/"..bin_name
+    end
+  end,
   builder = function(options)
     return {
       install_script = function()
@@ -118,7 +126,7 @@ M.pip = {
           options.bin_name = config.default_config.cmd[1]
         end
         local server_path = util.install_path(options.lang)
-        --config.default_config.cmd[1] = server_path .. "/" .. M.npm.bin_path(options.bin_name)
+        config.default_config.cmd[1] = server_path .. "/" .. M.pip.bin_path(options.bin_name)
 
         if type(options.config) == "function" then
           config = options.config(config)
