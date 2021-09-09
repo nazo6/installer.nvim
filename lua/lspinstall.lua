@@ -34,7 +34,6 @@ function M.install_server(lang)
     )
     if choice ~= 0 then
       M.reinstall_server(lang)
-      return
     else
       return
     end
@@ -74,7 +73,6 @@ function M.reinstall_server(lang)
   if vim.fn.delete(path, "rf") ~= 0 then
     error("[nvim-lspinstall] Couldn't delete directory. Please delete it manually. Path is: " .. path)
   end
-  M.install_server(lang)
 end
 
 -- UNINSTALL

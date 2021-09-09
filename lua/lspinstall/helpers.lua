@@ -66,6 +66,70 @@ M.npm = {
   end,
 }
 
+M.pip = {
+  install_script = function(package_to_install)
+    local util = require "lspinstall/util"
+    local python_to_use = ""
+    if vim.fn.executable("python3") == 1 then
+      python_to_use = "python3"
+    else
+      python_to_use = "python"
+    end
+    local is_python3 = false
+
+
+    local version_line =
+      io.popen(python_to_use..' -c "import sys; print(sys.version_info.major)"'):read("l")
+    if version_line == "3" then
+      is_python3 = true
+    end
+
+    if is_python3 == false then
+      util.print_warning("Sorry couldn't find valid python of version 3")
+      return 'echo "Couldn\'t find python 3"'
+    end
+
+    if util.is_windows() then
+      return python_to_use .. [[ -m venv ./venv
+      ./venv/Scripts/pip3 install -U pip
+      ./venv/Scripts/pip3 install -U ]]..package_to_install
+    else
+      return python_to_use .. [[ -m venv ./venv
+      ./venv/bin/pip3 install -U pip
+      ./venv/bin/pip3 install -U ]]..package_to_install
+    end
+  end,
+  builder = function(options)
+    return {
+      install_script = function()
+        return M.pip.install_script(options.install_package)
+      end,
+      lsp_config = function()
+        local util = require "lspinstall/util"
+        local config = {}
+        if type(options.config) == "table" then
+          config = options.config
+        end
+        if options.inherit_lspconfig ~= false then
+          config = util.extract_config(options.lang)
+        end
+
+        if options.bin_name == nil then
+          options.bin_name = config.default_config.cmd[1]
+        end
+        local server_path = util.install_path(options.lang)
+        --config.default_config.cmd[1] = server_path .. "/" .. M.npm.bin_path(options.bin_name)
+
+        if type(options.config) == "function" then
+          config = options.config(config)
+        end
+
+        return config
+      end
+    }
+  end
+}
+
 M.common = {
   --- Build config
   --- @alias script_type {win:string, other:string}
