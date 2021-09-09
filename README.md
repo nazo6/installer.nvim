@@ -58,7 +58,7 @@ end
 | angularls              | Angular Language Service                 | :ballot_box_with_check: | :ballot_box_with_check: |
 | bashls                 | bash-language-server                     | :ballot_box_with_check: | :ballot_box_with_check: |
 | clojure_lsp            | clojure-lsp                              | :ballot_box_with_check: | :ballot_box_with_check: |
-| cmake                  | cmake-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
+| cmake                  | cmake-language-server                    | :white_check_mark:      | :ballot_box_with_check: |
 | cpp                    | clangd                                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | cssls                  | vscode-langservers-extracted             | :ballot_box_with_check: | :ballot_box_with_check: |
 | dockerls               | docker-langserver                        | :ballot_box_with_check: | :ballot_box_with_check: |
