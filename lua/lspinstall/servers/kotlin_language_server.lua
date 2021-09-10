@@ -1,22 +1,32 @@
-local config = require "lspinstall/util".extract_config("kotlin_language_server")
-local lsp_util = require"lspinstall/util"
+local cmd_win = "./server/bin/kotlin-language-server"
+local script_win = [[
+  if (Test-Path PowerShellEditorServices) {
+    Remove-Item -Force -Recurse PowerShellEditorServices
+  }
+  $url = https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip
+  Invoke-WebRequest -UseBasicParsing $url -OutFile "ls.zip"
+  Expand-Archive .\ls.zip -DestinationPath .\
+  Remove-Item ls.zip
+  ]]
 
-local script_to_use = nil
-
-if lsp_util.is_windows() then
-  --TODO somebody implement this if possible for windows
-else
-  config.default_config.cmd[1] = "./server/bin/kotlin-language-server"
-  script_to_use  = [[
+local cmd = "./server/bin/kotlin-language-server"
+local script = [[
   curl -fLO https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip
   rm -rf server
   unzip server.zip
   rm server.zip
   chmod +x server/bin/kotlin-language-server
-  ]]
-end
+]]
 
-
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use
-})
+return require("lspinstall/helpers").common.builder {
+  lang = "kotlin_language_server",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = cmd_win,
+    other = cmd,
+  },
+}

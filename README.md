@@ -73,7 +73,7 @@ end
 | intelephense           | intelephense                             | :ballot_box_with_check: | :ballot_box_with_check: |
 | jdtls                  | Eclipse JDTLS with Lombok                |                         | :ballot_box_with_check: |
 | jsonls                 | vscode-langservers-extracted             | :white_check_mark:      | :white_check_mark:      |
-| kotlin_language_server | kotlin-language-server                   |                         | :ballot_box_with_check: |
+| kotlin_language_server | kotlin-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | texlab                 | texlab                                   | :white_check_mark:      | :ballot_box_with_check: |
 | ocamlls                | ocaml-language-server                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | omnisharp              | OmniSharp                                | :ballot_box_with_check: | :ballot_box_with_check: |
