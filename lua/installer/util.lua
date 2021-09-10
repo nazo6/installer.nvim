@@ -26,10 +26,10 @@ function M.print_warning(msg)
   vim.api.nvim_echo({ { msg, "WarningMsg" } }, true, {})
 end
 
---- Gets lsp server install directory
+--- Gets module install directory
 --@returns string
-function M.install_path(lang)
-  return vim.fn.stdpath "data" .. "/lsp/" .. lang
+function M.install_path(type, name)
+  return vim.fn.stdpath "data" .. "/installer.nvim/" .. type .. "/" .. name
 end
 
 --- Get absolute path of server
@@ -39,11 +39,11 @@ end
 
 --- Check if on Windows or not
 --@returns true if it is windows os, false otherwise
-function M.is_windows()
+function M.detect_os()
   if vim.fn.has "win32" == 1 then
-    return true
+    return "windows"
   end
-  return false
+  return "unix"
 end
 
 --- Combine commands to single string

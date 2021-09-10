@@ -1,8 +1,6 @@
+# installer.nvim
 ## About
 
-This is fork version of [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
-Mainly windows support is added.
-Many code is from [this PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)
 
 ## Setup
 

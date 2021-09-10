@@ -26,9 +26,10 @@ endfunction
 
 " Interface
 
-command! -nargs=1 -complete=custom,s:complete_install LspInstall :call installer#install_server('<args>')
-command! -nargs=1 -complete=custom,s:complete_uninstall LspUninstall :call installer#uninstall_server('<args>')
-command! -nargs=1 -complete=custom,s:complete_uninstall LspReinstall :call installer#reinstall_server('<args>')
+command! -nargs=1 -complete=custom,s:complete_install Install :call installer#install_server('<args>')
+command! -nargs=1 -complete=custom,s:complete_uninstall Uninstall :call installer#uninstall_server('<args>')
+command! -nargs=1 -complete=custom,s:complete_uninstall Update :call installer#uninstall_server('<args>')
+command! -nargs=1 -complete=custom,s:complete_uninstall Reinstall :call installer#reinstall_server('<args>')
 
 function! s:complete_install(arg, line, pos) abort
   return join(installer#available_servers(), "\n")
