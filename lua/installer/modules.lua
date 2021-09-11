@@ -23,7 +23,7 @@ M.get_module = function(type, name)
     data = user_modules[type][name]
   end
   if data == nil then
-    data = require("installer/builtins/" .. type .. "/" .. name)
+    data = require("installer/modules/" .. type .. "/" .. name)
   end
   return data
 end

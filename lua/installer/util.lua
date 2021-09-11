@@ -1,3 +1,5 @@
+local uv = vim.loop
+
 local M = {}
 
 --- Gets a copy of the config that would be used by lspconfig. Without side effects.
@@ -28,8 +30,8 @@ end
 
 --- Gets module install directory
 --@returns string
-function M.install_path(type, name)
-  return vim.fn.stdpath "data" .. "/installer.nvim/" .. type .. "/" .. name
+function M.install_path(category, name)
+  return vim.fn.stdpath "data" .. "/installer.nvim/" .. category .. "/" .. name
 end
 
 --- Get absolute path of server
@@ -39,6 +41,13 @@ end
 
 --- Check if on Windows or not
 --@returns true if it is windows os, false otherwise
+function M.is_windows()
+  if vim.fn.has "win32" == 1 then
+    return true
+  end
+  return false
+end
+
 function M.detect_os()
   if vim.fn.has "win32" == 1 then
     return "windows"
@@ -62,7 +71,7 @@ end
 
 --- Sets the shell to be used as bash, if not on windows
 -- or OS is linux/mac, cmd.exe if on windows while executing the command
-function M.do_term_open(terminal_task, term_options)
+M.do_term_open = function(terminal_task, term_options)
   vim.cmd "new"
   local shell = vim.o.shell
   local shellcmdflag = vim.o.shellcmdflag
