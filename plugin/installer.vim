@@ -1,41 +1,56 @@
-function! installer#install(args)
-  if empty(a:args[2])
+function! installer#install(arg1, ...)
+  let arg2 = get(a:, 1, 0)
+  let arg3 = get(a:, 2, 0)
+  if empty(arg2)
     call v:lua.require("installer").install_all()
+    return
   endif
-  call v:lua.require("installer").install(a:args[0], a:args[1])
+  if !empty(arg3)
+    echoerr "Too many args"
+    return
+  endif
+  call v:lua.require("installer").install(a:arg1, arg2)
 endfunction
 
-function! installer#uninstall(args)
-  if empty(a:args[2])
+function! installer#uninstall(arg1, ...)
+  let arg2 = get(a:, 1, 0)
+  let arg3 = get(a:, 2, 0)
+  if empty(arg2)
     call v:lua.require("installer").uninstall_all()
+    return
   endif
-  call v:lua.require("installer").uninstall(a:args[0], a:args[1])
+  if !empty(arg3)
+    echoerr "Too many args"
+    return
+  endif
+  call v:lua.require("installer").uninstall(a:arg1, arg2)
 endfunction
 
-function! installer#update(args)
-  if empty(a:args[2])
-    call v:lua.require("installer").update_all()
-  endif
-  call v:lua.require("installer").update(a:args[0], a:args[1])
-endfunction
-
-function! installer#reinstall(args)
-  if empty(a:args[2])
+function! installer#reinstall(arg1, ...)
+  let arg2 = get(a:, 1, 0)
+  let arg3 = get(a:, 2, 0)
+  if empty(arg2)
     call v:lua.require("installer").reinstall_all()
+    return
   endif
-  call v:lua.require("installer").reinstall(a:args[0], a:args[1])
+  if !empty(arg3)
+    echoerr "Too many args"
+    return
+  endif
+  call v:lua.require("installer").reinstall(a:arg1, arg2)
 endfunction
-
-" completions
-function! installer#available_servers() abort
-  return luaeval('require("installer").available_servers()')
-endfunction
-
-function! installer#installed_servers() abort
-endfunction
-
-function! installer#is_server_installed(lang) abort
-  return luaeval('require("installer").is_server_installed("'.a:lang.'")')
+function! installer#update(arg1, ...)
+  let arg2 = get(a:, 1, 0)
+  let arg3 = get(a:, 2, 0)
+  if empty(arg2)
+    call v:lua.require("installer").update_all()
+    return
+  endif
+  if !empty(arg3)
+    echoerr "Too many args"
+    return
+  endif
+  call v:lua.require("installer").update(a:arg1, arg2)
 endfunction
 
 function! s:complete_available(args, line, pos) abort
@@ -55,7 +70,7 @@ function! s:complete_installed(arg, line, pos) abort
   return join(a:res, "\n")
 endfunction
 
-command! -nargs=* -complete=custom,s:complete_available Install :call installer#install('<args>')
-command! -nargs=* -complete=custom,s:complete_installed Uninstall :call installer#uninstall('<args>')
-command! -nargs=* -complete=custom,s:complete_installed Update :call installer#update('<args>')
-command! -nargs=* -complete=custom,s:complete_installed Reinstall :call installer#reinstall('<args>')
+command! -nargs=* -complete=custom,s:complete_available Install :call installer#install(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Uninstall :call installer#uninstall(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Update :call installer#update(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Reinstall :call installer#reinstall(<f-args>)

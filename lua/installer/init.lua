@@ -4,7 +4,7 @@ local void = require("plenary.async.async").void
 local fs = require("installer/utils/fs")
 local modules = require("installer/modules")
 local jobs = require("installer/utils/jobs")
-local display = require("installer/display")
+local display = require("installer/utils/display")
 local log = require("installer/utils/log")
 
 local M = {}
@@ -17,12 +17,11 @@ local M = {}
 --- @alias module_category_content table<module_name, module>
 
 local exec_display = wrap(function(title, script, cwd, on_exit)
-  display.open()
-  local display_id = display.add(title)
+  local id = display.open(title, "installing...", 1)
   jobs.exec_script(script, cwd, function(type, data)
-    display.update(display_id, "", data)
+    display.update(id, nil, { "[" .. type .. "] " .. data })
   end, function(_, code)
-    display.update(display_id, "", tostring(code))
+    display.update(id, "Completed!", { tostring(code) })
     on_exit(_, code)
   end)
 end, 4)
