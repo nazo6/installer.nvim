@@ -1,4 +1,6 @@
+local resolve = require("installer/utils/fs").resolve
 local is_windows = require("installer/utils/os").is_windows
+
 local M = {}
 M.npm = {
   --- Install or update npm package
@@ -19,12 +21,12 @@ M.npm = {
     local path = nil
     if is_windows then
       if string.sub(bin_name, -4) == ".cmd" then
-        path = "./node_modules/.bin/" .. bin_name
+        path = resolve("./node_modules/.bin", bin_name)
       else
-        path = "./node_modules/.bin/" .. bin_name .. ".cmd"
+        path = resolve("./node_modules/.bin", bin_name .. ".cmd")
       end
     else
-      path = "./node_modules/.bin/" .. bin_name
+      path = resolve("./node_modules/.bin", bin_name)
     end
     return path
   end,
@@ -66,9 +68,9 @@ M.pip = {
   end,
   bin_path = function(bin_name)
     if is_windows then
-      return "venv/Scripts/" .. bin_name
+      return resolve("venv/Scripts", bin_name)
     else
-      return "venv/bin/" .. bin_name
+      return resolve("venv/bin", bin_name)
     end
   end,
 }

@@ -1,14 +1,41 @@
 local M = {}
 
+--- Resolve path
+--- @vararg string
+--- @return string
+M.resolve = function(...)
+  local res = ""
+  for _, value in ipairs({ ... }) do
+    if value:sub(1, 1) == "/" then
+      value = value:sub(2)
+    elseif value:sub(1, 2) == "./" or value:sub(1, 2) == ".\\" then
+      value = value:sub(3)
+    end
+    if value:sub(-1) == "/" or value:sub(-1) == "\\" then
+      value = value:sub(1, -2)
+    end
+    res = res .. "/" .. value
+  end
+  if require("installer/utils/os").is_windows then
+    res = res:gsub("/", "\\")
+  else
+    res = res:gsub("\\", "/")
+  end
+
+  res = res:sub(2)
+
+  return res
+end
+
 --- Base path for installer.nvim
 --- @type string
-M.base_path = vim.fn.stdpath("data") .. "/installer.nvim/"
+M.base_path = M.resolve(vim.fn.stdpath("data"), "installer.nvim")
 
 --- Get path of category
 --- @param category string
 --- @return string
 M.category_path = function(category)
-  return vim.fn.stdpath("data") .. "/installer.nvim/" .. category
+  return M.resolve(vim.fn.stdpath("data"), "installer.nvim", category)
 end
 
 --- Get installation path of module
@@ -16,7 +43,7 @@ end
 --- @param name string
 --- @return string
 M.module_path = function(category, name)
-  return vim.fn.stdpath("data") .. "/installer.nvim/" .. category .. "/" .. name
+  return M.resolve(vim.fn.stdpath("data"), "installer.nvim", category, name)
 end
 
 --- Get directory info
@@ -29,12 +56,6 @@ M.read_dir = function(path)
   vim.loop.fs_closedir(handle)
 
   return dirs
-end
-
-M.path_concat = function(...)
-  for i = 1, args.n do
-    -- do something with args[i], careful, it might be nil!
-  end
 end
 
 return M

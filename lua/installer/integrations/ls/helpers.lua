@@ -2,6 +2,7 @@ local helpers = require("installer/helpers")
 local is_windows = require("installer/utils/os").is_windows
 local extract_config = require("installer/integrations/ls/utils").extract_config
 local module_path = require("installer/utils/fs").module_path
+local resolve = require("installer/utils/fs").resolve
 
 local M = {}
 
@@ -27,7 +28,7 @@ M.npm = {
           options.bin_name = config.default_config.cmd[1]
         end
         local server_path = require("installer/utils/fs").module_path("ls", options.lang)
-        config.default_config.cmd[1] = server_path .. "/" .. helpers.npm.bin_path(options.bin_name)
+        config.default_config.cmd[1] = resolve(server_path, helpers.npm.bin_path(options.bin_name))
 
         if type(options.config) == "function" then
           config = options.config(config)
@@ -57,8 +58,8 @@ M.pip = {
         if options.bin_name == nil then
           options.bin_name = config.default_config.cmd[1]
         end
-        local server_path = util.install_path("ls", options.lang)
-        config.default_config.cmd[1] = server_path .. "/" .. helpers.pip.bin_path(options.bin_name)
+        local server_path = require("installer/utils/fs").module_path("ls", options.lang)
+        config.default_config.cmd[1] = resolve(server_path, helpers.pip.bin_path(options.bin_name))
 
         if type(options.config) == "function" then
           config = options.config(config)
@@ -102,13 +103,13 @@ M.common = {
             cmd = options.cmd.other
           end
           if type(cmd) == "table" then
-            cmd[1] = module_path("ls", options.lang) .. "/" .. cmd[1]
+            cmd[1] = resolve(module_path("ls", options.lang), cmd[1])
             config.default_config.cmd = cmd
           else
             if config.default_config.cmd == nil then
               config.default_config.cmd = {}
             end
-            config.default_config.cmd[1] = module_path("ls", options.lang) .. "/" .. cmd
+            config.default_config.cmd[1] = resolve(module_path("ls", options.lang), cmd)
           end
         end
 

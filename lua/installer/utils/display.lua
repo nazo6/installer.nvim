@@ -54,10 +54,13 @@ M.open = function(title, initial_message, lines)
   local new_id = #display.contents + 1
 
   local create_new_buf = true
-  if display.disp.win and display.disp.buf and display.disp.buf then
+  if display.disp.buf then
     if api.nvim_win_is_valid(display.disp.win) then
       api.nvim_set_current_buf(display.disp.buf)
       api.nvim_set_current_win(display.disp.win)
+      create_new_buf = false
+    else
+      api.nvim_open_win(display.disp.buf, true, {})
       create_new_buf = false
     end
   end

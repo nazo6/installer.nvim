@@ -50,7 +50,7 @@ M.install = function(category, name)
 
     local install_script = modules.get_module(category, name).install_script()
 
-    local _, code = exec_display(category .. "/" .. name, install_script, path)
+    local _, code = exec_display("Install: " .. category .. "/" .. name, install_script, path)
 
     if code ~= 0 then
       local mes = ""
@@ -80,6 +80,19 @@ M.uninstall = function(category, name)
     if uninstall_script ~= nil then
       uninstall_script = uninstall_script()
       local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
+    end
+  end)()
+end
+
+M.update = function(category, name)
+  ensure_setup()
+  void(function()
+    local update_script = modules.get_module(category, name).update_script
+    if update_script ~= nil then
+      update_script = update_script()
+      local _, code = exec_display(category .. "/" .. name, path, update_script)
+    else
+      M.reinstall(category, name)
     end
   end)()
 end
