@@ -5,7 +5,7 @@ local log = require("installer/utils/log")
 local M = {}
 
 --- Display
---- @alias disp_content {title:string, message:string, lines:number}
+--- @alias disp_content {title:string, lines:number}
 --- @alias content_id number
 --- @type {disp: {win:nil|number, buf:nil|number}, contents: tbl<content_id, disp_content>}
 local display = {
@@ -19,6 +19,7 @@ local display = {
 
 local update_lines = function(line_start, line_end, message)
   api.nvim_buf_set_option(display.disp.buf, "modifiable", true)
+  api.nvim_buf_set_lines(display.disp.buf, line_start, line_end, false, {})
   api.nvim_buf_call(display.disp.buf, function()
     for i = 0, line_end - line_start + 1 do
       if message[i + 1] then
@@ -83,13 +84,12 @@ M.open = function(title, initial_message, lines)
 end
 
 M.update = function(id, title, message)
-  display.contents[id].message = message
   local s, e = get_message_lines(id)
   update_lines(s, e, message)
   if title then
     display.contents[id].title = title
     local t = get_title_line(id)
-    update_lines(t, t, title)
+    update_lines(t, t, { title })
   end
 end
 

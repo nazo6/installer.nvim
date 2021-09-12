@@ -17,7 +17,7 @@ local M = {}
 --- @alias module_category_content table<module_name, module>
 
 local exec_display = wrap(function(title, script, cwd, on_exit)
-  local id = display.open(title, "installing...", 1)
+  local id = display.open(title, { "installing..." }, 1)
   jobs.exec_script(script, cwd, function(type, data)
     display.update(id, nil, { "[" .. type .. "] " .. data })
   end, function(_, code)
