@@ -1,4 +1,4 @@
-$types = Get-ChildItem -Directory -Path (Join-Path $PSScriptRoot  "../lua/installer/modules")
+$types = Get-ChildItem -Directory -Path (Join-Path $PSScriptRoot  "../lua/installer/builtins")
 foreach ($type in $types)
 {
   $modules = Get-ChildItem -Path $type

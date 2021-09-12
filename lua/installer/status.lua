@@ -2,7 +2,7 @@ local fs = require("installer/utils/fs")
 
 local M = {}
 
---- @alias category_modules tbl<string, boolean>
+--- @alias category_modules string[]
 
 --- Get all installed modules table
 --- Warn: This function access fs synchronously
@@ -22,14 +22,14 @@ end
 
 --- Get all categories
 --- Warn: This function access fs synchronously
---- @return tbl<string, boolean>
+--- @return string[]
 M.categories = function()
   local res = {}
 
   local dirs = fs.read_dir(fs.base_path)
   for _, dir in ipairs(dirs) do
     if dir.type == "directory" then
-      res[dir.name] = true
+      table.insert(res, dir.name)
     end
   end
   return res
@@ -47,7 +47,7 @@ M.category_installed = function(category)
     local dirs = fs.read_dir(path)
     for _, dir in ipairs(dirs) do
       if dir.type == "directory" then
-        res[dir.name] = true
+        table.insert(res, dir.name)
       end
     end
   end

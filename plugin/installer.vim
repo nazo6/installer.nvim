@@ -54,20 +54,30 @@ function! installer#update(arg1, ...)
 endfunction
 
 function! s:complete_available(args, line, pos) abort
-  if empty(a:args[1])
-    let a:res = luaeval('require("installer").status.categories()')
+  let args = split(a:line, " ", 1)
+  if len(args) <= 2
+    let res = luaeval('require("installer/status/available").get_categories()')
+    echomsg "a/1"
+    echomsg res
   else
-    let a:res = luaeval('require("installer").categories_installed("'.a:args[1].'")')
+    let res = luaeval('require("installer/status/available").get_category_modules("'.args[1].'")')
+    echomsg "a/2"
+    echomsg res
   endif
-  return join(a:res, "\n")
+  return join(keys(res), "\n")
 endfunction
-function! s:complete_installed(arg, line, pos) abort
-  if empty(a:args[1])
-    let a:res = luaeval('require("installer").status.categories()')
+function! s:complete_installed(args, line, pos) abort
+  let args = split(a:line, " ", 1)
+  if len(args) <= 2
+    let res = luaeval('require("installer/status/installed").get_categories()')
+    echomsg "i/1"
+    echomsg res
   else
-    let a:res = luaeval('require("installer").categories_installed("'.a:args[1].'")')
+    let res = luaeval('require("installer/status/installed").get_category_modules("'.args[1].'")')
+    echomsg "i/2"
+    echomsg res
   endif
-  return join(a:res, "\n")
+  return join(keys(res), "\n")
 endfunction
 
 command! -nargs=* -complete=custom,s:complete_available Install :call installer#install(<f-args>)

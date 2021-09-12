@@ -33,18 +33,23 @@ end
 local get_title_line = function(id)
   local start = 3
   for i = 1, id - 1 do
-    start = start + display.contents[i].lines
+    start = start + display.contents[i].lines + 1
   end
   return start
 end
 local get_message_lines = function(id)
   local start = 3
   for i = 1, id - 1 do
-    start = start + display.contents[i].lines
+    start = start + display.contents[i].lines + 1
   end
   return start + 1, (start + display.contents[id].lines - 1) + 1
 end
 
+--- Open install window and add item
+--- @param title string
+--- @param initial_message string[]
+--- @param lines number
+--- @return number Display item handle id
 M.open = function(title, initial_message, lines)
   local new_id = #display.contents + 1
 
@@ -83,6 +88,10 @@ M.open = function(title, initial_message, lines)
   return new_id
 end
 
+--- Update item.
+--- @param id number Display item handle
+--- @param title string|nil
+--- @param message string[]
 M.update = function(id, title, message)
   local s, e = get_message_lines(id)
   update_lines(s, e, message)

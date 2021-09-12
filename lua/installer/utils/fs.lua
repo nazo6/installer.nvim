@@ -24,7 +24,7 @@ end
 --- @param path string
 --- @return {type:string, name:string}[]
 M.read_dir = function(path)
-  local handle = vim.loop.fs_opendir(path)
+  local handle = vim.loop.fs_opendir(path, nil, 10000)
   local dirs = vim.loop.fs_readdir(handle)
   vim.loop.fs_closedir(handle)
 

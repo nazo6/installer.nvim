@@ -10,8 +10,13 @@ M.exec_script = function(script, cwd, pipe, on_exit)
   local os = util.detect_os()
   if os == "windows" then
     cmd = "powershell.exe"
-    args = { "-NoProfile", "-c", [[$ErrorActionPreference = "Stop"
-      ]] .. script }
+    args = {
+      "-NoProfile",
+      "-c",
+      [[$ErrorActionPreference = "Stop"
+      $ProgressPreference = 'SilentlyContinue'
+      ]] .. script,
+    }
   else
     cmd = "/bin/bash"
     args = { "-e", "-c", script }
