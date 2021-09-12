@@ -34,7 +34,7 @@ function! s:complete_installed(arg, line, pos) abort
   return join(installer#available_servers(), "\n")
 endfunction
 
-command! -nargs=+ -complete=custom,s:complete_available Install :call installer#install('<args>')
-command! -nargs=+ -complete=custom,s:complete_installed Uninstall :call installer#uninstall('<args>')
-command! -nargs=+ -complete=custom,s:complete_installed Update :call installer#uninstall_server('<args>')
-command! -nargs=+ -complete=custom,s:complete_installed Reinstall :call installer#reinstall_server('<args>')
+command! -nargs=* -complete=custom,s:complete_available Install :call installer#install(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Uninstall :call installer#uninstall(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Update :call installer#uninstall_server(<f-args>)
+command! -nargs=* -complete=custom,s:complete_installed Reinstall :call installer#reinstall_server(<f-args>)

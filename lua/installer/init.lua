@@ -51,8 +51,6 @@ M.install = function(category, name)
     local install_script = modules.get_module(category, name).install_script()
 
     local _, code = exec_display(category .. "/" .. name, install_script, path)
-
-    print(code)
   end)()
 end
 

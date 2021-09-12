@@ -14,7 +14,7 @@ M.exec_script = function(script, cwd, pipe, on_exit)
       ]] .. script }
   else
     cmd = "/bin/bash"
-    args = { "set -e \n" .. script }
+    args = { "-e", "-c", script }
   end
   Job
     :new({
