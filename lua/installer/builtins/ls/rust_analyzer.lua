@@ -60,7 +60,7 @@ local script = [[
     chmod +x rust-analyzer
     ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "rust_analyzer",
   inherit_lspconfig = true,
   install_script = {

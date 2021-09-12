@@ -37,7 +37,7 @@ local script = [[
     chmod +x hls
   ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "hls",
   inherit_lspconfig = true,
   install_script = {

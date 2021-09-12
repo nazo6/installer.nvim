@@ -28,7 +28,7 @@ rm clojure-lsp.zip
 chmod +x clojure-lsp
 ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "clojure_lsp",
   inherit_lspconfig = true,
   install_script = {

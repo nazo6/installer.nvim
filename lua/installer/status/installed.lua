@@ -52,7 +52,6 @@ M.get_category_modules = function(category)
       end
     end
   end
-  inspect(res)
   return res
 end
 

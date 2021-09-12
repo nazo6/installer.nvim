@@ -13,7 +13,7 @@ local script = [[
   chmod +x elixir-ls/language_server.sh
   ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "elixirls",
   inherit_lspconfig = true,
   install_script = {

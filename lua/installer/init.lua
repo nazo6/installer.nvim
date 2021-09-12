@@ -1,8 +1,9 @@
 local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
 
-local fs = require("installer/utils/fs")
 local modules = require("installer/modules")
+
+local fs = require("installer/utils/fs")
 local jobs = require("installer/utils/jobs")
 local display = require("installer/utils/display")
 local log = require("installer/utils/log")
@@ -80,6 +81,8 @@ M.reinstall = function(category, name)
   M.uninstall(category, name)
   M.install(category, name)
 end
+
+M.module_path = fs.module_path
 
 M.setup = function(opts)
   config = opts

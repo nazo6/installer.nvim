@@ -36,7 +36,7 @@ local script = [[
   chmod +x omnisharp/run
   ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "omnisharp",
   inherit_lspconfig = true,
   install_script = {

@@ -36,7 +36,7 @@ end
 
 --- Get absolute path of server
 function M.absolute_path(lang, path)
-  return M.install_path(lang) .. "/" .. path
+  return M.install_path("ls", lang) .. "/" .. path
 end
 
 --- Check if on Windows or not

@@ -11,7 +11,7 @@ local script = [[
   ./venv/bin/pip3 install -U fortran-language-server
   ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "fortls",
   inherit_lspconfig = true,
   install_script = {

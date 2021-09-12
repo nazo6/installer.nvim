@@ -28,7 +28,7 @@ local script = [[
     rm texlab.tar.gz
     ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "texlab",
   inherit_lspconfig = true,
   install_script = {

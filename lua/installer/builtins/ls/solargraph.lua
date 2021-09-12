@@ -31,7 +31,7 @@ local script = [[
     chmod +x solargraph
   ]]
 
-return require("installer/helpers").common.builder({
+return require("installer/integrations/ls/helpers").common.builder({
   lang = "solargraph",
   inherit_lspconfig = true,
   install_script = {

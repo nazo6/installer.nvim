@@ -57,12 +57,8 @@ function! s:complete_available(args, line, pos) abort
   let args = split(a:line, " ", 1)
   if len(args) <= 2
     let res = luaeval('require("installer/status/available").get_categories()')
-    echomsg "a/1"
-    echomsg res
   else
     let res = luaeval('require("installer/status/available").get_category_modules("'.args[1].'")')
-    echomsg "a/2"
-    echomsg res
   endif
   return join(keys(res), "\n")
 endfunction
@@ -70,12 +66,8 @@ function! s:complete_installed(args, line, pos) abort
   let args = split(a:line, " ", 1)
   if len(args) <= 2
     let res = luaeval('require("installer/status/installed").get_categories()')
-    echomsg "i/1"
-    echomsg res
   else
     let res = luaeval('require("installer/status/installed").get_category_modules("'.args[1].'")')
-    echomsg "i/2"
-    echomsg res
   endif
   return join(keys(res), "\n")
 endfunction
