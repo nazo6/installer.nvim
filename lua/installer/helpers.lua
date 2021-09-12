@@ -70,41 +70,43 @@ M.pip = {
   install_script = function(package_to_install)
     local util = require "installer/util"
     local python_to_use = ""
-    if vim.fn.executable("python3") == 1 then
+    if vim.fn.executable "python3" == 1 then
       python_to_use = "python3"
     else
       python_to_use = "python"
     end
     local is_python3 = false
 
-
-    local version_line =
-      io.popen(python_to_use..' -c "import sys; print(sys.version_info.major)"'):read("l")
+    local version_line = io.popen(python_to_use .. ' -c "import sys; print(sys.version_info.major)"'):read "l"
     if version_line == "3" then
       is_python3 = true
     end
 
     if is_python3 == false then
-      util.print_warning("Sorry couldn't find valid python of version 3")
+      util.print_warning "Sorry couldn't find valid python of version 3"
       return 'echo "Couldn\'t find python 3"'
     end
 
     if util.is_windows() then
-      return python_to_use .. [[ -m venv ./venv
+      return python_to_use
+        .. [[ -m venv ./venv
       ./venv/Scripts/pip3 install -U pip
-      ./venv/Scripts/pip3 install -U ]]..package_to_install
+      ./venv/Scripts/pip3 install -U ]]
+        .. package_to_install
     else
-      return python_to_use .. [[ -m venv ./venv
+      return python_to_use
+        .. [[ -m venv ./venv
       ./venv/bin/pip3 install -U pip
-      ./venv/bin/pip3 install -U ]]..package_to_install
+      ./venv/bin/pip3 install -U ]]
+        .. package_to_install
     end
   end,
   bin_path = function(bin_name)
     local util = require "installer/util"
     if util.is_windows() then
-      return "venv/Scripts/"..bin_name
+      return "venv/Scripts/" .. bin_name
     else
-      return "venv/bin/"..bin_name
+      return "venv/bin/" .. bin_name
     end
   end,
   builder = function(options)
@@ -133,9 +135,9 @@ M.pip = {
         end
 
         return config
-      end
+      end,
     }
-  end
+  end,
 }
 
 M.common = {

@@ -5,7 +5,7 @@ local schedule = require("plenary.async.util").schedule
 local util = require "installer/util"
 local fs = require "installer/utils/fs"
 local modules = require "installer/modules"
-local jobs = require "installer/jobs"
+local jobs = require "installer/utils/jobs"
 local display = require "installer/display"
 
 local M = {}

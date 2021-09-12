@@ -1,29 +1,29 @@
 local M = {}
 
---- @type table<module_type, module_type_content>
+--- @type table<module_category, module_category_content>
 local user_modules = {}
 
 --- Register user-defined installer.
---- @param type module_type
+--- @param category module_category
 --- @param name module_name
 --- @param module module
-M.register = function(type, name, module)
-  if user_modules[type] == nil then
-    user_modules[type] = {}
+M.register = function(category, name, module)
+  if user_modules[category] == nil then
+    user_modules[category] = {}
   end
-  user_modules[type][name] = module
+  user_modules[category][name] = module
 end
 
 --- Get module.
---- @param type module_type
+--- @param category module_category
 --- @param name module_name
-M.get_module = function(type, name)
+M.get_module = function(category, name)
   local data
-  if user_modules[type] then
-    data = user_modules[type][name]
+  if user_modules[category] then
+    data = user_modules[category][name]
   end
   if data == nil then
-    data = require("installer/modules/" .. type .. "/" .. name)
+    data = require("installer/modules/" .. category .. "/" .. name)
   end
   return data
 end
@@ -32,8 +32,8 @@ end
 --- @param category module_category
 M.get_module_list = function(category)
   local data = {}
-  if type(user_modules[category]) == "table" then
-    table.insert(data, user_modules[type])
+  if category(user_modules[category]) == "table" then
+    table.insert(data, user_modules[category])
   end
 end
 
