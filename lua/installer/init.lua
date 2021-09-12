@@ -1,9 +1,6 @@
 local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
 
-local setup = require("installer/config").setup
-local ensure_setup = require("installer/config").ensure_setup
-
 local modules = require("installer/modules")
 
 local fs = require("installer/utils/fs")
@@ -12,6 +9,8 @@ local display = require("installer/utils/display")
 local log = require("installer/utils/log")
 
 local M = {}
+
+M.config = {}
 
 --- @alias module_name string Installer module name. "installer/builtins/<category>/name" or installer registerd by user will be loaded.
 --- @alias install_script fun(os: "windows"|"mac"|"linux"):string Function to return shell script to install
@@ -22,9 +21,9 @@ local M = {}
 local exec_display = wrap(function(title, script, cwd, on_exit)
   local id = display.open(title, { "installing..." }, 1)
   jobs.exec_script(script, cwd, function(type, data)
-    display.update(id, nil, { "[" .. type .. "] " .. data })
+    display.update(id, nil, { "  [" .. type .. "] " .. data })
   end, function(_, code)
-    display.update(id, "Completed!", { tostring(code) })
+    display.update(id, title .. " - completed", { "Exit code: " .. tostring(code) })
     on_exit(_, code)
   end)
 end, 4)
@@ -33,7 +32,6 @@ end, 4)
 --- @param category module_category
 --- @param name module_name
 M.install = function(category, name)
-  ensure_setup()
   void(function()
     local path = fs.module_path(category, name)
     if vim.fn.isdirectory(path) ~= 0 then
@@ -46,6 +44,11 @@ M.install = function(category, name)
       end
       return
     end
+
+    if M.config.pre_install_hook then
+      M.config.pre_install_hook(category, name)
+    end
+
     vim.fn.mkdir(path, "p")
 
     local install_script = modules.get_module(category, name).install_script()
@@ -62,11 +65,14 @@ M.install = function(category, name)
       end
       log.error("[nvim-lspinstall] Install failed!: " .. mes)
     end
+
+    if M.config.post_install_hook then
+      M.config.post_install_hook(category, name)
+    end
   end)()
 end
 
 M.uninstall = function(category, name)
-  ensure_setup()
   void(function()
     local path = fs.module_path(category, name)
     if vim.fn.isdirectory(path) ~= 1 then
@@ -85,10 +91,10 @@ M.uninstall = function(category, name)
 end
 
 M.update = function(category, name)
-  ensure_setup()
   void(function()
     local update_script = modules.get_module(category, name).update_script
     if update_script ~= nil then
+      local path = fs.module_path(category, name)
       update_script = update_script()
       local _, code = exec_display(category .. "/" .. name, path, update_script)
     else
@@ -98,7 +104,6 @@ M.update = function(category, name)
 end
 
 M.reinstall = function(category, name)
-  ensure_setup()
   M.uninstall(category, name)
   M.install(category, name)
 end
@@ -107,6 +112,8 @@ M.module_path = fs.module_path
 
 --- Setup installer.nvim.
 --- @param opts {custom_modules: tbl<string, {install_script: function, uninstall_script:function, lsp_config:function}[]>, post_install_hook: function, pre_install_hook: function}
-M.setup = setup
+M.setup = function(opts)
+  M.config = opts or {}
+end
 
 return M
