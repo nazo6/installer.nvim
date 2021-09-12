@@ -1,7 +1,7 @@
-local servers = require "installer/servers"
-local configs = require "lspconfig/configs"
+local servers = require("installer/servers")
+local configs = require("lspconfig/configs")
 local install_path = require("installer/util").install_path
-local lsp_util = require "installer/util"
+local lsp_util = require("installer/util")
 
 local user_configs = {}
 
@@ -85,7 +85,7 @@ function M.uninstall_server(lang)
   local path = install_path(lang)
 
   if vim.fn.isdirectory(path) ~= 1 then -- 0: false, 1: true
-    error "Language server is not installed"
+    error("Language server is not installed")
   end
 
   local function onExit(_, code)

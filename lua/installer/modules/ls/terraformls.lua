@@ -1,5 +1,5 @@
-local config = require("installer/util").extract_config "terraformls"
-local lsp_util = require "installer/util"
+local config = require("installer/util").extract_config("terraformls")
+local lsp_util = require("installer/util")
 
 local script_to_use = nil
 

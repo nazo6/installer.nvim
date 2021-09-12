@@ -1,5 +1,5 @@
 local cmd_win = "./rust-analyzer"
-local arch = vim.fn.getenv "PROCESSOR_ARCHITECTURE"
+local arch = vim.fn.getenv("PROCESSOR_ARCHITECTURE")
 local url = nil
 if arch == "ARM64" then
   url =
@@ -60,7 +60,7 @@ local script = [[
     chmod +x rust-analyzer
     ]]
 
-return require("installer/helpers").common.builder {
+return require("installer/helpers").common.builder({
   lang = "rust_analyzer",
   inherit_lspconfig = true,
   install_script = {
@@ -71,4 +71,4 @@ return require("installer/helpers").common.builder {
     win = cmd_win,
     other = cmd,
   },
-}
+})

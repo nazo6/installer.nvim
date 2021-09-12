@@ -1,4 +1,4 @@
-return require("installer/helpers").npm.builder {
+return require("installer/helpers").npm.builder({
   install_package = "elm-language-server",
   lang = "elmls",
   inherit_lspconfig = true,
@@ -20,4 +20,4 @@ return require("installer/helpers").npm.builder {
     -- }
     -- ```
   end,
-}
+})

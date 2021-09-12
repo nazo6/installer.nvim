@@ -13,7 +13,7 @@ local script = [[
   GOPATH=$(pwd) GO111MODULE=on go clean -modcache
   ]]
 
-return require("installer/helpers").common.builder {
+return require("installer/helpers").common.builder({
   lang = "gopls",
   inherit_lspconfig = true,
   install_script = {
@@ -24,4 +24,4 @@ return require("installer/helpers").common.builder {
     win = cmd_win,
     other = cmd,
   },
-}
+})

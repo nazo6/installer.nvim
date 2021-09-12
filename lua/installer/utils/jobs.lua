@@ -1,5 +1,5 @@
-local Job = require "plenary.job"
-local util = require "installer/util"
+local Job = require("plenary.job")
+local util = require("installer/util")
 
 local M = {}
 

@@ -2,13 +2,13 @@ local M = {}
 
 --- Base path for installer.nvim
 --- @type string
-M.base_path = vim.fn.stdpath "data" .. "/installer.nvim/"
+M.base_path = vim.fn.stdpath("data") .. "/installer.nvim/"
 
 --- Get path of category
 --- @param category string
 --- @return string
 M.category_path = function(category)
-  return vim.fn.stdpath "data" .. "/installer.nvim/" .. category
+  return vim.fn.stdpath("data") .. "/installer.nvim/" .. category
 end
 
 --- Get installation path of module
@@ -16,7 +16,7 @@ end
 --- @param name string
 --- @return string
 M.module_path = function(category, name)
-  return vim.fn.stdpath "data" .. "/installer.nvim/" .. category .. "/" .. name
+  return vim.fn.stdpath("data") .. "/installer.nvim/" .. category .. "/" .. name
 end
 
 --- Get directory info

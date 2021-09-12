@@ -1,16 +1,12 @@
 local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
-local schedule = require("plenary.async.util").schedule
 
-local util = require "installer/util"
-local fs = require "installer/utils/fs"
-local modules = require "installer/modules"
-local jobs = require "installer/utils/jobs"
-local display = require "installer/display"
+local fs = require("installer/utils/fs")
+local modules = require("installer/modules")
+local jobs = require("installer/utils/jobs")
+local display = require("installer/display")
 
 local M = {}
-
-local config = {}
 
 --- @alias module_category "ls"|"da"|"other"|string Installer module type.
 --- @alias module_name string Installer module name. "installer/builtins/<category>/name" or installer registerd by user will be loaded.
@@ -51,13 +47,16 @@ M.install = function(category, name)
     local install_script = modules.get_module(category, name).install_script()
 
     local _, code = exec_display(category .. "/" .. name, install_script, path)
+
+    if code ~= 0 then
+    end
   end)()
 end
 
 M.uninstall = function(category, name)
   local path = fs.module_path(category, name)
   if vim.fn.isdirectory(path) ~= 1 then
-    error "[installer.nvim] Specified module is not installed"
+    error("[installer.nvim] Specified module is not installed")
   end
   if vim.fn.delete(path, "rf") ~= 0 then
     error("[nvim-lspinstall] Couldn't delete directory. Please delete it manually. Path is: " .. path)

@@ -1,8 +1,8 @@
 -- NOTE: this file is adjusted from nvim-lspconfig and nvim-jdtls
 
-local util = require "lspconfig/util"
+local util = require("lspconfig/util")
 local path = util.path
-local lsp_util = require "installer/util"
+local lsp_util = require("installer/util")
 
 local script_to_use = nil
 
@@ -25,9 +25,9 @@ local root_files = {
 -- starting up.
 local function on_language_status(_, _, result)
   local command = vim.api.nvim_command
-  command "echohl ModeMsg"
+  command("echohl ModeMsg")
   command(string.format('echo "%s"', result.message))
-  command "echohl None"
+  command("echohl None")
 end
 
 --- The default config to be used
@@ -39,11 +39,11 @@ local default_config = {
         return root
       end
     end
-    return util.root_pattern ".git"(...)
+    return util.root_pattern(".git")(...)
   end,
   filetypes = { "java" },
   init_options = {
-    workspace = path.join { vim.loop.os_homedir(), "workspace" },
+    workspace = path.join({ vim.loop.os_homedir(), "workspace" }),
     jvm_args = {},
     os_config = nil,
   },
@@ -91,7 +91,7 @@ if lsp_util.is_windows() then
       end
       return plugins_dir
     end
-    new_config.cmd = lsp_util.concat {
+    new_config.cmd = lsp_util.concat({
       "java",
       "-Declipse.application=org.eclipse.jdt.ls.core.id1",
       "-Dosgi.bundles.defaultStartLevel=4",
@@ -105,11 +105,11 @@ if lsp_util.is_windows() then
       "-configuration",
       install_path .. "/config_win",
       "-data",
-      path.join { install_path, "workspace", workspace_name },
+      path.join({ install_path, "workspace", workspace_name }),
       "--add-modules=ALL-SYSTEM",
       "--add-opens java.base/java.util=ALL-UNNAMED",
       "--add-opens java.base/java.lang=ALL-UNNAMED",
-    }
+    })
   end
   script_to_use = [[
     curl.exe -L -o jdt-language-server-latest.tar.gz http://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz
@@ -119,11 +119,11 @@ if lsp_util.is_windows() then
 else
   default_config.on_new_config = function(new_config, new_root_dir)
     -- we're making an exception for this config by allowing to use `install_path("java")`
-    local install_path = require("installer/util").install_path "java"
+    local install_path = require("installer/util").install_path("java")
     local workspace_name, _ = string.gsub(vim.fn.fnamemodify(new_root_dir, ":p"), "/", "-")
     new_config.cmd = {
-      path.join { install_path, "jdtls.sh" },
-      path.join { install_path, "workspace", workspace_name },
+      path.join({ install_path, "jdtls.sh" }),
+      path.join({ install_path, "workspace", workspace_name }),
     }
   end
   script_to_use = [[

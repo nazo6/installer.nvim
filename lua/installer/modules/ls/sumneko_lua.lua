@@ -34,7 +34,7 @@ local script = [[
   chmod +x sumneko-lua-language-server
 ]]
 
-return require("installer/helpers").common.builder {
+return require("installer/helpers").common.builder({
   lang = "sumneko_lua",
   inherit_lspconfig = true,
   install_script = {
@@ -45,4 +45,4 @@ return require("installer/helpers").common.builder {
     win = "./sumneko-lua-language-server.cmd",
     other = "./sumneko-lua-language-server",
   },
-}
+})

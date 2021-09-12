@@ -2,7 +2,7 @@ local M = {}
 M.npm = {
   --- Install or update npm package
   install_script = function(package_name)
-    local util = require "installer/util"
+    local util = require("installer/util")
     if util.is_windows() then
       return [[
         if (-not (Test-Path package.json)) {
@@ -11,15 +11,15 @@ M.npm = {
         npm install ]] .. package_name .. [[@latest
       ]]
     else
-      return util.concat {
+      return util.concat({
         [[npm init -y --scope=installer]],
         ";npm install " .. package_name .. "@latest",
-      }
+      })
     end
   end,
   --- Add ".cmd" on windows
   bin_path = function(bin_name)
-    local util = require "installer/util"
+    local util = require("installer/util")
     local path = nil
     if util.is_windows() then
       if string.sub(bin_name, -4) == ".cmd" then
@@ -41,7 +41,7 @@ M.npm = {
         return M.npm.install_script(options.install_package)
       end,
       lsp_config = function()
-        local util = require "installer/util"
+        local util = require("installer/util")
         local config = {}
         if type(options.config) == "table" then
           config = options.config
@@ -68,22 +68,22 @@ M.npm = {
 
 M.pip = {
   install_script = function(package_to_install)
-    local util = require "installer/util"
+    local util = require("installer/util")
     local python_to_use = ""
-    if vim.fn.executable "python3" == 1 then
+    if vim.fn.executable("python3") == 1 then
       python_to_use = "python3"
     else
       python_to_use = "python"
     end
     local is_python3 = false
 
-    local version_line = io.popen(python_to_use .. ' -c "import sys; print(sys.version_info.major)"'):read "l"
+    local version_line = io.popen(python_to_use .. ' -c "import sys; print(sys.version_info.major)"'):read("l")
     if version_line == "3" then
       is_python3 = true
     end
 
     if is_python3 == false then
-      util.print_warning "Sorry couldn't find valid python of version 3"
+      util.print_warning("Sorry couldn't find valid python of version 3")
       return 'echo "Couldn\'t find python 3"'
     end
 
@@ -102,7 +102,7 @@ M.pip = {
     end
   end,
   bin_path = function(bin_name)
-    local util = require "installer/util"
+    local util = require("installer/util")
     if util.is_windows() then
       return "venv/Scripts/" .. bin_name
     else
@@ -115,7 +115,7 @@ M.pip = {
         return M.pip.install_script(options.install_package)
       end,
       lsp_config = function()
-        local util = require "installer/util"
+        local util = require("installer/util")
         local config = {}
         if type(options.config) == "table" then
           config = options.config
@@ -148,7 +148,7 @@ M.common = {
   builder = function(options)
     return {
       install_script = function()
-        local util = require "installer/util"
+        local util = require("installer/util")
         if util.is_windows() then
           return options.install_script.win
         else
@@ -156,7 +156,7 @@ M.common = {
         end
       end,
       lsp_config = function()
-        local util = require "installer/util"
+        local util = require("installer/util")
         local config = {}
 
         if type(options.config) == "table" then

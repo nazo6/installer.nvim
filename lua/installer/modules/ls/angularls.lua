@@ -1,16 +1,18 @@
 return {
   install_script = function()
     local npm = require("installer/helpers").npm
-    return npm.install_script "@angular/language-server" .. [[
-    ]] .. npm.install_script "@angular/language-service"
+    return npm.install_script("@angular/language-server")
+      .. [[
+    ]]
+      .. npm.install_script("@angular/language-service")
   end,
   lsp_config = function()
     local npm = require("installer/helpers").npm
-    local util = require "installer/util"
-    local config = require("installer/util").extract_config "angularls"
+    local util = require("installer/util")
+    local config = require("installer/util").extract_config("angularls")
 
     local cmd_name = config.default_config.cmd[1]
-    local node_module_path = util.install_path "angularls" .. "/node_modules/"
+    local node_module_path = util.install_path("angularls") .. "/node_modules/"
 
     local prefix = ""
     if util.is_windows() then

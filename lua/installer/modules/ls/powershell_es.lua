@@ -1,6 +1,6 @@
 return {
   install_script = function()
-    local lsp_util = require "installer/util"
+    local lsp_util = require("installer/util")
     if lsp_util.is_windows() then
       return [[
         if (Test-Path PowerShellEditorServices) {
@@ -20,11 +20,11 @@ return {
     end
   end,
   lsp_config = function()
-    local lsp_util = require "installer/util"
-    local config = require("installer/util").extract_config "powershell_es"
+    local lsp_util = require("installer/util")
+    local config = require("installer/util").extract_config("powershell_es")
 
-    local temp_path = vim.fn.stdpath "cache"
-    local bundle_path = lsp_util.install_path "powershell_es" .. "/PowerShellEditorServices"
+    local temp_path = vim.fn.stdpath("cache")
+    local bundle_path = lsp_util.install_path("powershell_es") .. "/PowerShellEditorServices"
     local command_fmt =
       [[%s/PowerShellEditorServices/Start-EditorServices.ps1 -BundledModulesPath %s -LogPath %s/powershell_es.log -SessionDetailsPath %s/powershell_es.session.json -FeatureFlags @() -AdditionalModules @() -HostName nvim -HostProfileId 0 -HostVersion 1.0.0 -Stdio -LogLevel Normal]]
     local command = command_fmt:format(bundle_path, bundle_path, temp_path, temp_path)

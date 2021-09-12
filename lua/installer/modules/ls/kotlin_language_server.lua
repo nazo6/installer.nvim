@@ -18,7 +18,7 @@ local script = [[
   chmod +x server/bin/kotlin-language-server
 ]]
 
-return require("installer/helpers").common.builder {
+return require("installer/helpers").common.builder({
   lang = "kotlin_language_server",
   inherit_lspconfig = true,
   install_script = {
@@ -29,4 +29,4 @@ return require("installer/helpers").common.builder {
     win = cmd_win,
     other = cmd,
   },
-}
+})

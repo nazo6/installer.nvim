@@ -1,4 +1,4 @@
-local fs = require "installer/utils/fs"
+local fs = require("installer/utils/fs")
 
 local M = {}
 
