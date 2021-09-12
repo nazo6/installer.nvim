@@ -5,6 +5,7 @@ local fs = require("installer/utils/fs")
 local modules = require("installer/modules")
 local jobs = require("installer/utils/jobs")
 local display = require("installer/display")
+local log = require("installer/utils/log")
 
 local M = {}
 
@@ -49,6 +50,14 @@ M.install = function(category, name)
     local _, code = exec_display(category .. "/" .. name, install_script, path)
 
     if code ~= 0 then
+      local mes = ""
+      if vim.fn.isdirectory(path) ~= 1 then
+        mes = "Something is wrong."
+      end
+      if vim.fn.delete(path, "rf") ~= 0 then
+        mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
+      end
+      log.error("[nvim-lspinstall] Install failed!: " .. mes)
     end
   end)()
 end

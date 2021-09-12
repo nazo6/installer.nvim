@@ -1,58 +1,51 @@
--- Display utils
-
 local api = vim.api
+
+local log = require("installer/utils/log")
 
 local M = {}
 
 local display = {
-  buf = nil,
-  contents = {},
+  status = {},
 }
 
-local set_line = function(line, content)
-  api.nvim_buf_set_option(display.buf, "modifiable", true)
-  api.nvim_buf_set_lines(display.buf, line, line, true, { content })
-  api.nvim_buf_set_option(display.buf, "modifiable", false)
+local display_mt = {}
+
+local function make_header(disp)
+  local width = api.nvim_win_get_width(0)
+  local pad_width = math.floor((width - string.len(config.title)) / 2.0)
+  api.nvim_buf_set_lines(disp.buf, 0, 1, true, {
+    string.rep(" ", pad_width) .. config.title,
+    " " .. string.rep("━", width - 2),
+  })
 end
 
-local update_display = function(id)
-  local line = #display.contents * 2 + 1
-  set_line(line, display.contents[id].title)
-  set_line(line + 1, display.contents[id].content)
+--- Initialize options, settings, and keymaps for display windows
+local function setup_window(disp)
+  api.nvim_buf_set_option(disp.buf, "filetype", "installer")
+  api.nvim_buf_set_name(disp.buf, "[installer.nvim]")
 end
 
 M.open = function()
-  if display.buf == nil then
-    display.buf = api.nvim_create_buf(false, true)
+  if display.status.disp then
+    if api.nvim_win_is_valid(display.status.disp.win) then
+      api.nvim_win_close(display.status.disp.win, true)
+    end
 
-    set_line(0, "installer.nvim installer")
-    set_line(1, "----")
+    display.status.disp = nil
   end
-  api.nvim_buf_set_option(display.buf, "modifiable", false)
-  api.nvim_buf_set_name(display.buf, "installer.nvim dashboard")
 
-  api.nvim_set_current_buf(display.buf)
-end
+  local disp = setmetatable({}, display_mt)
 
-M.add = function(title, content)
-  if display[content] then
-    return false
-  end
-  local id = #display.contents + 1
-  display.contents[id] = {
-    title = title,
-    content = content,
-  }
-  update_display(id)
-  return id
-end
+  vim.cmd([[65vnew]])
+  disp.win = api.nvim_get_current_win()
+  disp.buf = api.nvim_get_current_buf()
 
-M.update = function(id, status, content)
-  display.contents[id] = {
-    status = status,
-    content = content,
-  }
-  update_display(id)
+  disp.ns = api.nvim_create_namespace("")
+  make_header(disp)
+  setup_window(disp)
+  display.status.disp = disp
+
+  return disp
 end
 
 return M
