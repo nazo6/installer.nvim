@@ -1,5 +1,5 @@
 local Job = require("plenary.job")
-local util = require("installer/util")
+local is_windows = require("installer/utils/os").is_windows
 
 local M = {}
 
@@ -7,8 +7,7 @@ M.exec_script = function(script, cwd, pipe, on_exit)
   local cmd = ""
   local args = ""
 
-  local os = util.detect_os()
-  if os == "windows" then
+  if is_windows then
     cmd = "powershell.exe"
     args = {
       "-NoProfile",

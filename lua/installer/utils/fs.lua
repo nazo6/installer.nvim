@@ -31,4 +31,10 @@ M.read_dir = function(path)
   return dirs
 end
 
+M.path_concat = function(...)
+  for i = 1, args.n do
+    -- do something with args[i], careful, it might be nil!
+  end
+end
+
 return M

@@ -8,14 +8,13 @@ return {
   end,
   lsp_config = function()
     local npm = require("installer/integrations/ls/helpers").npm
-    local util = require("installer/util")
-    local config = require("installer/util").extract_config("angularls")
+    local config = require("installer/integrations/ls/utils").extract_config("angularls")
 
     local cmd_name = config.default_config.cmd[1]
     local node_module_path = util.install_path("ls", "angularls") .. "/node_modules/"
 
     local prefix = ""
-    if util.is_windows() then
+    if require("installer/utils/os").is_windows then
       prefix = ".cmd"
     end
 

@@ -1,9 +1,9 @@
-local config = require("installer/util").extract_config("terraformls")
-local lsp_util = require("installer/util")
+local config = require("installer/integrations/ls/utils").extract_config("terraformls")
+local is_windows = require("installer/utils/os").is_windows
 
 local script_to_use = nil
 
-if lsp_util.is_windows() then
+if is_windows then
   --TODO somebody implement this if possible for windows
 else
   config.default_config.cmd[1] = "./terraform-ls"

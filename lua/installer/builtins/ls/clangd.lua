@@ -1,7 +1,6 @@
 return {
   install_script = function()
-    local lsp_util = require("installer/util")
-    if lsp_util.is_windows() then
+    if require("installer/utils/os").is_windows then
       return [[
     $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/clangd/clangd/releases/latest
     $object = ConvertFrom-JSON $json
@@ -39,13 +38,13 @@ return {
     end
   end,
   lsp_config = function()
-    local config = require("installer/util").extract_config("clangd")
+    local config = require("installer/integrations/ls/utils").extract_config("clangd")
+    local module_path = require("installer/utils/fs").module_path
 
-    local lsp_util = require("installer/util")
-    if lsp_util.is_windows() then
-      config.default_config.cmd[1] = lsp_util.absolute_path("clang", "./clangd/bin/clangd.exe")
+    if require("installer/utils/os").is_windows then
+      config.default_config.cmd[1] = module_path(clang) .. "./clangd/bin/clangd.exe"
     else
-      config.default_config.cmd[1] = lsp_util.absolute_path("clang", "./clangd/bin/clangd")
+      config.default_config.cmd[1] = module_path(clang) .. "./clangd/bin/clangd"
     end
 
     return config

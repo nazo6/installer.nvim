@@ -1,9 +1,9 @@
+local is_windows = require("installer/utils/os").is_windows
 local M = {}
 M.npm = {
   --- Install or update npm package
   install_script = function(package_name)
-    local util = require("installer/util")
-    if util.is_windows() then
+    if is_windows then
       return [[
         if (-not (Test-Path package.json)) {
           npm init -y --scope=installer
@@ -11,17 +11,13 @@ M.npm = {
         npm install ]] .. package_name .. [[@latest
       ]]
     else
-      return util.concat({
-        [[npm init -y --scope=installer]],
-        ";npm install " .. package_name .. "@latest",
-      })
+      return [[npm init -y --scope=installer; npm install ]] .. package_name .. "@latest"
     end
   end,
   --- Add ".cmd" on windows
   bin_path = function(bin_name)
-    local util = require("installer/util")
     local path = nil
-    if util.is_windows() then
+    if is_windows then
       if string.sub(bin_name, -4) == ".cmd" then
         path = "./node_modules/.bin/" .. bin_name
       else
@@ -36,7 +32,6 @@ M.npm = {
 
 M.pip = {
   install_script = function(package_to_install)
-    local util = require("installer/util")
     local python_to_use = ""
     if vim.fn.executable("python3") == 1 then
       python_to_use = "python3"
@@ -51,11 +46,11 @@ M.pip = {
     end
 
     if is_python3 == false then
-      util.print_warning("Sorry couldn't find valid python of version 3")
+      -- "util.print_warning("Sorry couldn't find valid python of version 3")
       return 'echo "Couldn\'t find python 3"'
     end
 
-    if util.is_windows() then
+    if is_windows then
       return python_to_use
         .. [[ -m venv ./venv
       ./venv/Scripts/pip3 install -U pip
@@ -70,8 +65,7 @@ M.pip = {
     end
   end,
   bin_path = function(bin_name)
-    local util = require("installer/util")
-    if util.is_windows() then
+    if is_windows then
       return "venv/Scripts/" .. bin_name
     else
       return "venv/bin/" .. bin_name
