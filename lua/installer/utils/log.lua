@@ -1,4 +1,3 @@
-local Path = require("plenary/path")
 local M = {}
 
 local log = true
@@ -13,11 +12,10 @@ M.print = function(message)
   print("[installer.nvim]  " .. message)
 end
 
+local logger = require("plenary.log").new({ plugin = "installer.nvim", use_console = false, level = "debug" })
 M.log = function(message, type)
   if log then
-    local log_path = Path.joinpath(vim.fn.stdpath("cache"), "installer.log")
-    local datetime = vim.fn.strftime("%F %T")
-    log_path:write("[" .. datetime .. "][" .. type or "log" .. "] " .. message)
+    require("null-ls.logger").debug("[" .. type .. "] " .. message)
   end
 end
 
