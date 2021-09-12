@@ -28,13 +28,16 @@ M.get_module = function(type, name)
   return data
 end
 
---- Get module list of specified type.
---- @param type module_type
-M.get_module_list = function(type)
+--- Get module list of specified category.
+--- @param category module_category
+M.get_module_list = function(category)
   local data = {}
-  if type(user_modules[type]) == "table" then
+  if type(user_modules[category]) == "table" then
     table.insert(data, user_modules[type])
   end
 end
+
+--- Get list of category
+M.get_category_list = function() end
 
 return M

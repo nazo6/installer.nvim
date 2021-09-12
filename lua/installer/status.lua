@@ -20,6 +20,21 @@ M.installed = function()
   return res
 end
 
+--- Get all categories
+--- Warn: This function access fs synchronously
+--- @return tbl<string, boolean>
+M.categories = function()
+  local res = {}
+
+  local dirs = fs.read_dir(fs.base_path)
+  for _, dir in ipairs(dirs) do
+    if dir.type == "directory" then
+      res[dir.name] = true
+    end
+  end
+  return res
+end
+
 --- Get all installed modules table
 --- Warn: This function access fs synchronously
 --- @param category string
