@@ -5,7 +5,7 @@ local M = {}
 --
 --- @alias module {install_script: install_script}
 --- @alias module_name string Installer module name.
---- @alias module_category "ls"|"null-ls"|"da"|string Category of module
+--- @alias module_category "ls"|"null_ls"|"da"|string Category of module
 --- @alias module_category_content table<module_name, module>
 --- @alias categories table<module_category, module_category_content>
 

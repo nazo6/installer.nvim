@@ -102,9 +102,12 @@ M.register = function(category, name, module)
   user_modules[category][name] = module
 end
 
---- Setup installer.nvim with options. You don't need to call this.
+--- Setup installer.nvim with options.
 --- @param opts config|fun(old_config:config):config
 M.setup = function(opts)
+  if vim.fn.isdirectory(fs.base_path) ~= 1 then
+    vim.fn.mkdir(fs.base_path, "p")
+  end
   if opts then
     config.set(opts)
   end

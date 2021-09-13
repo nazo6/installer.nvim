@@ -11,10 +11,12 @@ M.get_modules = function()
   local res = {}
 
   local dirs = fs.read_dir(fs.base_path)
-  for _, dir in ipairs(dirs) do
-    if dir.type == "directory" then
-      local category = M.get_category_modules(dir.name)
-      res[dir.name] = category
+  if dirs then
+    for _, dir in ipairs(dirs) do
+      if dir.type == "directory" then
+        local category = M.get_category_modules(dir.name)
+        res[dir.name] = category
+      end
     end
   end
   return res
@@ -27,9 +29,11 @@ M.get_categories = function()
   local res = {}
 
   local dirs = fs.read_dir(fs.base_path)
-  for _, dir in ipairs(dirs) do
-    if dir.type == "directory" then
-      res[dir.name] = true
+  if dirs then
+    for _, dir in ipairs(dirs) do
+      if dir.type == "directory" then
+        res[dir.name] = true
+      end
     end
   end
   return res
@@ -46,9 +50,11 @@ M.get_category_modules = function(category)
 
   if vim.fn.isdirectory(path) == 1 then
     local dirs = fs.read_dir(path)
-    for _, dir in ipairs(dirs) do
-      if dir.type == "directory" then
-        res[dir.name] = true
+    if dirs then
+      for _, dir in ipairs(dirs) do
+        if dir.type == "directory" then
+          res[dir.name] = true
+        end
       end
     end
   end

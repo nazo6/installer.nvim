@@ -18,7 +18,6 @@ local modules = {
   hls = true,
   html = true,
   intelephense = true,
-  jdtls = true,
   jsonls = true,
   kotlin_language_server = true,
   ocamlls = true,
@@ -44,3 +43,4 @@ local modules = {
 }
 
 return modules
+

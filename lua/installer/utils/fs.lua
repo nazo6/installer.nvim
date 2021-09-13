@@ -52,6 +52,9 @@ end
 --- @return {type:string, name:string}[]
 M.read_dir = function(path)
   local handle = vim.loop.fs_opendir(path, nil, 10000)
+  if handle == nil then
+    error(path)
+  end
   local dirs = vim.loop.fs_readdir(handle)
   vim.loop.fs_closedir(handle)
 
