@@ -19,6 +19,10 @@ local display = {
 
 local update_lines = function(line_start, line_end, message)
   api.nvim_buf_set_option(display.disp.buf, "modifiable", true)
+  local lines = api.nvim_buf_line_count(display.disp.buf)
+  if lines < line_end then
+    vim.fn.append(lines, string.rep("\n", line_end - lines))
+  end
   api.nvim_buf_set_lines(display.disp.buf, line_start, line_end, false, {})
   api.nvim_buf_call(display.disp.buf, function()
     for i = 0, line_end - line_start + 1 do
