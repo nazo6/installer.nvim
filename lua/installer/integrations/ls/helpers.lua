@@ -1,4 +1,5 @@
-local helpers = require("installer/helpers")
+local npm = require("installer/helpers/npm")
+local pip = require("installer/helpers/pip")
 local is_windows = require("installer/utils/os").is_windows
 local extract_config = require("installer/integrations/ls/utils").extract_config
 local module_path = require("installer/utils/fs").module_path
@@ -13,7 +14,7 @@ M.npm = {
   builder = function(options)
     return {
       install_script = function()
-        return helpers.npm.install_script(options.install_package)
+        return npm.install_script(options.install_package)
       end,
       lsp_config = function()
         local config = {}
@@ -28,7 +29,7 @@ M.npm = {
           options.bin_name = config.default_config.cmd[1]
         end
         local server_path = require("installer/utils/fs").module_path("ls", options.lang)
-        config.default_config.cmd[1] = resolve(server_path, helpers.npm.bin_path(options.bin_name))
+        config.default_config.cmd[1] = resolve(server_path, npm.bin_path(options.bin_name))
 
         if type(options.config) == "function" then
           config = options.config(config)
@@ -44,7 +45,7 @@ M.pip = {
   builder = function(options)
     return {
       install_script = function()
-        return helpers.pip.install_script(options.install_package)
+        return pip.install_script(options.install_package)
       end,
       lsp_config = function()
         local config = {}
@@ -59,7 +60,7 @@ M.pip = {
           options.bin_name = config.default_config.cmd[1]
         end
         local server_path = require("installer/utils/fs").module_path("ls", options.lang)
-        config.default_config.cmd[1] = resolve(server_path, helpers.pip.bin_path(options.bin_name))
+        config.default_config.cmd[1] = resolve(server_path, pip.bin_path(options.bin_name))
 
         if type(options.config) == "function" then
           config = options.config(config)

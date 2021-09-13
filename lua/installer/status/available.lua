@@ -1,4 +1,4 @@
-local user_modules = require("installer/config").get_config().custom_modules
+local user_modules = require("installer/config").get().custom_modules
 
 local builtins = {
   ls = require("installer/builtins/ls"),

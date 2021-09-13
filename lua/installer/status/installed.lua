@@ -13,7 +13,7 @@ M.get_modules = function()
   local dirs = fs.read_dir(fs.base_path)
   for _, dir in ipairs(dirs) do
     if dir.type == "directory" then
-      local category = M.category_installed(dir.name)
+      local category = M.get_category_modules(dir.name)
       res[dir.name] = category
     end
   end

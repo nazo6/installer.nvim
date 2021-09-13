@@ -2,7 +2,7 @@ local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
 
 local config = require("installer/config")
-local modules = require("installer/modules")
+local status = require("installer/status")
 
 local fs = require("installer/utils/fs")
 local jobs = require("installer/utils/jobs")
@@ -12,7 +12,7 @@ local log = require("installer/utils/log")
 local M = {}
 
 local exec_display = wrap(function(title, script, cwd, on_exit)
-  local id = display.open(title, { "installing..." }, 1)
+  local id = display.open(title .. " - installing", { "Installing..." }, 1)
   jobs.exec_script(script, cwd, function(type, data)
     display.update(id, nil, { "  [" .. type .. "] " .. data })
   end, function(_, code)
@@ -38,13 +38,13 @@ M.install = function(category, name)
       return
     end
 
-    if M.config.pre_install_hook then
-      M.config.pre_install_hook(category, name)
+    if config.get().pre_install_hook then
+      config.get().pre_install_hook(category, name)
     end
 
     vim.fn.mkdir(path, "p")
 
-    local install_script = modules.get_module(category, name).install_script()
+    local install_script = status.get_module(category, name).install_script()
 
     local _, code = exec_display("Install: " .. category .. "/" .. name, install_script, path)
 
@@ -59,8 +59,8 @@ M.install = function(category, name)
       log.error("Install failed!: " .. mes)
     end
 
-    if M.config.post_install_hook then
-      M.config.post_install_hook(category, name)
+    if config.get().post_install_hook then
+      config.get().post_install_hook(category, name)
     end
   end)()
 end
@@ -75,7 +75,7 @@ M.uninstall = function(category, name)
       error("Couldn't delete directory. Please delete it manually. Path is: " .. path)
     end
 
-    local uninstall_script = modules.get_module(category, name).uninstall_script
+    local uninstall_script = status.get_module(category, name).uninstall_script
     if uninstall_script ~= nil then
       uninstall_script = uninstall_script()
       local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
@@ -90,11 +90,37 @@ end
 
 M.module_path = fs.module_path
 
---- Configure installer.nvim. You don't need to call this, but if you do, call this first.
+--- Register user-defined module.
+--- @param category module_category
+--- @param name module_name
+--- @param module module
+M.register = function(category, name, module)
+  local user_modules = require("installer/config").get().custom_modules
+  if user_modules[category] == nil then
+    user_modules[category] = {}
+  end
+  user_modules[category][name] = module
+end
+
+--- Setup installer.nvim with options. You don't need to call this.
 --- @param opts config|fun(old_config:config):config
-M.config = function(opts)
+M.setup = function(opts)
   if opts then
-    config.set_config(opts)
+    config.set(opts)
+  end
+
+  local ensure_install = config.get().ensure_install
+  if ensure_install then
+    local installed = require("installer/status/installed").get_modules()
+    for category, modules_name in pairs(ensure_install) do
+      for _, module_name in ipairs(modules_name) do
+        if installed[category] == nil then
+          M.install(category, module_name)
+        elseif installed[category][module_name] == nil then
+          M.install(category, module_name)
+        end
+      end
+    end
   end
 end
 
