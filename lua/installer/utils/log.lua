@@ -4,7 +4,7 @@ local log = true
 
 M.error = function(message, level)
   M.log(message, "error")
-  error("[installer.nvim] " .. message, level)
+  error("[installer.nvim] " .. message .. "\n" .. debug.traceback(), level)
 end
 
 M.print = function(message)
@@ -15,7 +15,7 @@ end
 local logger = require("plenary.log").new({ plugin = "installer.nvim", use_console = false, level = "debug" })
 M.log = function(message, type)
   if log then
-    require("null-ls.logger").debug("[" .. type .. "] " .. message)
+    logger[type](message)
   end
 end
 

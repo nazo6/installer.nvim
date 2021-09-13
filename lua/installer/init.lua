@@ -1,6 +1,7 @@
 local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
 
+local config = require("installer/config")
 local modules = require("installer/modules")
 
 local fs = require("installer/utils/fs")
@@ -9,14 +10,6 @@ local display = require("installer/utils/display")
 local log = require("installer/utils/log")
 
 local M = {}
-
-M.config = {}
-
---- @alias module_name string Installer module name. "installer/builtins/<category>/name" or installer registerd by user will be loaded.
---- @alias install_script fun(os: "windows"|"mac"|"linux"):string Function to return shell script to install
---- @alias module {install_script: install_script}
-
---- @alias module_category_content table<module_name, module>
 
 local exec_display = wrap(function(title, script, cwd, on_exit)
   local id = display.open(title, { "installing..." }, 1)
@@ -63,7 +56,7 @@ M.install = function(category, name)
       if vim.fn.delete(path, "rf") ~= 0 then
         mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
       end
-      log.error("[nvim-lspinstall] Install failed!: " .. mes)
+      log.error("Install failed!: " .. mes)
     end
 
     if M.config.post_install_hook then
@@ -79,26 +72,13 @@ M.uninstall = function(category, name)
       error("[installer.nvim] Specified module is not installed")
     end
     if vim.fn.delete(path, "rf") ~= 0 then
-      error("[nvim-lspinstall] Couldn't delete directory. Please delete it manually. Path is: " .. path)
+      error("Couldn't delete directory. Please delete it manually. Path is: " .. path)
     end
 
     local uninstall_script = modules.get_module(category, name).uninstall_script
     if uninstall_script ~= nil then
       uninstall_script = uninstall_script()
       local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
-    end
-  end)()
-end
-
-M.update = function(category, name)
-  void(function()
-    local update_script = modules.get_module(category, name).update_script
-    if update_script ~= nil then
-      local path = fs.module_path(category, name)
-      update_script = update_script()
-      local _, code = exec_display(category .. "/" .. name, path, update_script)
-    else
-      M.reinstall(category, name)
     end
   end)()
 end
@@ -110,10 +90,12 @@ end
 
 M.module_path = fs.module_path
 
---- Setup installer.nvim.
---- @param opts {custom_modules: tbl<string, {install_script: function, uninstall_script:function, lsp_config:function}[]>, post_install_hook: function, pre_install_hook: function}
-M.setup = function(opts)
-  M.config = opts or {}
+--- Configure installer.nvim. You don't need to call this, but if you do, call this first.
+--- @param opts config|fun(old_config:config):config
+M.config = function(opts)
+  if opts then
+    config.set_config(opts)
+  end
 end
 
 return M

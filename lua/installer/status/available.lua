@@ -1,4 +1,4 @@
-local modules = require("installer/modules")
+local user_modules = require("installer/config").get_config().custom_modules
 
 local builtins = {
   ls = require("installer/builtins/ls"),
@@ -12,11 +12,11 @@ local M = {}
 M.get_modules = function()
   local m = builtins
 
-  for category, user_modules in pairs(modules._user_modules) do
+  for category, _ in pairs(user_modules) do
     if not m[category] then
       m[category] = {}
     end
-    for module_name, _ in pairs(modules._user_modules[category]) do
+    for module_name, _ in pairs(user_modules[category]) do
       m[category][module_name] = true
     end
   end

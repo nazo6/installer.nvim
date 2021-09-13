@@ -5,8 +5,8 @@ local M = {}
 --- @return string
 M.resolve = function(...)
   local res = ""
-  for _, value in ipairs({ ... }) do
-    if value:sub(1, 1) == "/" then
+  for index, value in ipairs({ ... }) do
+    if index >= 2 and value:sub(1, 1) == "/" then
       value = value:sub(2)
     elseif value:sub(1, 2) == "./" or value:sub(1, 2) == ".\\" then
       value = value:sub(3)

@@ -21,7 +21,6 @@ use { "nazo6/installer.nvim",
 ```
 
 ## Config
-The only core function of this plugin is to run the installation script and return the path of the installed items. LS integration, etc. are separated from the core.
 
 ### Language Server (LSP)
 
@@ -52,7 +51,6 @@ The only core function of this plugin is to run the installation script and retu
 - `:Install <category> <name>`: Install module. For example: `:Install ls bashls`
 - `:Reinstall <category> <name>`: Reinstall module.
 - `:Uninstall <category> <name>`: Uninstall module.
-- `:Update <category> <name>`: Update module.
 
 ## Credits
 - [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall/) and [This PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)  - Base of this plugin.
