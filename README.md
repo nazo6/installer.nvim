@@ -53,7 +53,7 @@ require("installer").setup({
 ### Language Server (LSP)
 There are integration for installing and configurating language server.
 
-You have to setup it.
+You have to call `setup` function.
 ```lua
 require("installer.integrations.ls").setup {
   configs = server_configs, -- Table<server_name, config> of lsp config. This will be passed to lspconfig.
@@ -69,16 +69,24 @@ require("installer.integrations.ls").setup {
 - `:Uninstall <category> <name>`: Uninstall module.
 
 ### APIs
-#### `installer/`
-- `setup()`
-- `install()`
-- `uninstall()`
-- `status()`
+#### `installer`
+- `setup(config)` Set config and install specified by `ensure_install`
+- `register(category, name, module)`
+- `install(category, name)`
+- `uninstall(category, name)`
+- `reinstall(category, name)`
+- `module_path(category, name)` Get installation path of module.
+
+#### `installer/status`
+- `get_module(category, name)` Get module content
+#### `installer/status/{available, installed}`
+- `get_modules()` Get all module name table
+- `get_categories()` Get all categories name
+- `get_category_modules(category)` Get all modules of category
 
 #### `installer/integrations/ls`
-- `setup()`
-#### `installer/integrations/ls/helper`
-- `build()`
+- `setup(opts)` Setup ls.
+- `setup_server(name, lsp_settings)` Setup ls.
 
 #### `installer/integrations/null-ls`
 - `get()`
@@ -86,8 +94,8 @@ require("installer.integrations.ls").setup {
 - `build()`
 
 #### `installer/helpers/npm`
+
 #### `installer/helpers/pip`
-#### `installer/helpers/common`
 
 ## Credits
 - [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall/) and [This PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)  - Base of this plugin.
