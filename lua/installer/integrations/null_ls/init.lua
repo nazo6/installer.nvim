@@ -1,6 +1,28 @@
+local config = require("installer/config")
 local get_module = require("installer/status").get_module
 
 local M = {}
+
+M.setup = function(opts)
+  local nullls = require("null-ls")
+
+  local sources = require("installer/integrations/null_ls").get_all()
+  local nullls_opts = opts.configs
+
+  nullls.config(opts.configs)
+
+  if opts.enable_install_hook then
+    local user_hook = config.get().post_install_hook
+    config.set_key("post_install_hook", function(category, name)
+      if category == "null_ls" then
+        nullls.config(opts.configs)
+      end
+      if user_hook then
+        user_hook(category, name)
+      end
+    end)
+  end
+end
 
 M.get_all = function()
   local res = {}

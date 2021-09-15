@@ -79,6 +79,14 @@ M.uninstall = function(category, name)
     if uninstall_script ~= nil then
       uninstall_script = uninstall_script()
       local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
+
+      if code ~= 0 then
+        log.error("Uninstall failed!")
+      end
+
+      if config.get().post_install_hook then
+        config.get().post_install_hook(category, name)
+      end
     end
   end)()
 end

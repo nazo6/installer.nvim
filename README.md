@@ -2,15 +2,18 @@
   installer.nvim
 </h1>
 
-`installer.nvim` is a plugin that allows external dependencies (Language Server, Debug Adapter) to be installed in neovim, making the configuration fully reproducible.
+`installer.nvim` is a plugin that allows you to install external dependencies from neovim and reproduce their configuration.
+
+## Status
+Unstable. Core function and LS integration is almost stable, but others will change.
 
 ## Features
 - Many builtin installers.
 - Most of builtin installers support windows.
 - Able to create custom installers.
-- Configurable by lua.
+- Configurable.
 
-You can find the built-in installer [here](./BUILTINS.md)
+You can find the built-in modules [here](./BUILTINS.md)
 
 ## Install
 This plugin requires `plenary.nvim`.
@@ -24,6 +27,7 @@ use { "nazo6/installer.nvim",
 
 ## Config
 There is `setup` function, but you don't have to call it.
+
 Please don't copy and paste below config. It is just example.
 ```lua
 require("installer").setup({
@@ -70,7 +74,7 @@ require("installer.integrations.ls").setup {
 
 ### APIs
 #### `installer`
-- `setup(config)` Set config and install specified by `ensure_install`
+- `setup(config)` Set config and install modules specified by `ensure_install`
 - `register(category, name, module)`
 - `install(category, name)`
 - `uninstall(category, name)`
@@ -88,14 +92,29 @@ require("installer.integrations.ls").setup {
 - `setup(opts)` Setup ls.
 - `setup_server(name, lsp_settings)` Setup ls.
 
-#### `installer/integrations/null-ls`
-- `get()`
-#### `installer/integrations/null-ls/helper`
-- `build()`
+### Custom modules
+You can create custom modules and register it by `setup` or `register` function.
+All modules must have `install_script` field, which is function that return install script. You should determine the os in your function and return the appropriate script for it.
+On Windows, the script will run on powershell (`powershell.exe`), otherwise it will run in bash (`/bin/bash`).
 
-#### `installer/helpers/npm`
+#### About category
+`require"installer/integrations/ls".setup()` loads modules which belong to `ls` category. In this way, we can set up the categories properly and make the integration function work well.
 
-#### `installer/helpers/pip`
+And for some categories, additional fields may be required in the module, which is used in integration.
+
+For example. `ls` category requires `lsp_config()` field, which provides function to return table passed for `nvim-lspconfig`.
+There are also helper functon which is useful to create custom modules. For more details, please check [here](./lua/installer/builtins/ls/template.lua)
+
+```lua
+local some_language_server = {
+  install_script = function()
+  end,
+  lsp_config = function()
+  end
+}
+
+require"installer".register("ls", "somels", some_language_server)
+```
 
 ## Credits
 - [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall/) and [This PR](https://github.com/kabouzeid/nvim-lspinstall/pull/96)  - Base of this plugin.
