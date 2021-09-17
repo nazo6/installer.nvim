@@ -64,7 +64,7 @@ M.open = function(title, initial_message, lines)
       api.nvim_set_current_win(display.disp.win)
       create_new_buf = false
     else
-      api.nvim_open_win(display.disp.buf, true, {})
+      api.nvim_open_win(display.disp.buf, true, { relative = "win", width = 65 })
       create_new_buf = false
     end
   end

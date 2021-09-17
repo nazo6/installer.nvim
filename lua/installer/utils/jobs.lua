@@ -1,9 +1,11 @@
+local log = require("installer/utils/log")
 local Job = require("plenary.job")
 local is_windows = require("installer/utils/os").is_windows
 
 local M = {}
 
 M.exec_script = function(script, cwd, pipe, on_exit)
+  log.debug_log("[jobs/exec_script] Starting job. Script:\n", script)
   local cmd = ""
   local args = ""
 

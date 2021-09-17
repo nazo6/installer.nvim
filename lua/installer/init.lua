@@ -21,11 +21,23 @@ local exec_display = wrap(function(title, script, cwd, on_exit)
   end)
 end, 4)
 
+local exec_hooks = function(type, timing, category, name)
+  local hooks = config.get().hooks[type][timing]
+  if hooks then
+    for _, hook in ipairs(hooks) do
+      hook(category, name)
+    end
+  end
+end
+
 --- Install module
 --- @param category module_category
 --- @param name module_name
 M.install = function(category, name)
   void(function()
+    if not status.get_module(category, name) then
+      error("[installer.nvim] Such module is not available")
+    end
     local path = fs.module_path(category, name)
     if vim.fn.isdirectory(path) ~= 0 then
       local choice = vim.fn.confirm(
@@ -38,9 +50,7 @@ M.install = function(category, name)
       return
     end
 
-    if config.get().pre_install_hook then
-      config.get().pre_install_hook(category, name)
-    end
+    exec_hooks("install", "pre", category, name)
 
     vim.fn.mkdir(path, "p")
 
@@ -59,9 +69,8 @@ M.install = function(category, name)
       log.error("Install failed!: " .. mes)
     end
 
-    if config.get().post_install_hook then
-      config.get().post_install_hook(category, name)
-    end
+    log.debug_log("[install]", "Successfully installed ", category, "/", name)
+    exec_hooks("install", "post", category, name)
   end)()
 end
 
@@ -71,6 +80,9 @@ M.uninstall = function(category, name)
     if vim.fn.isdirectory(path) ~= 1 then
       error("[installer.nvim] Specified module is not installed")
     end
+
+    exec_hooks("uninstall", "pre", category, name)
+
     if vim.fn.delete(path, "rf") ~= 0 then
       error("Couldn't delete directory. Please delete it manually. Path is: " .. path)
     end
@@ -81,13 +93,11 @@ M.uninstall = function(category, name)
       local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
 
       if code ~= 0 then
-        log.error("Uninstall failed!")
-      end
-
-      if config.get().post_install_hook then
-        config.get().post_install_hook(category, name)
+        log.error("Failed to uninstall", category, name)
       end
     end
+
+    exec_hooks("uninstall", "post", category, name)
   end)()
 end
 

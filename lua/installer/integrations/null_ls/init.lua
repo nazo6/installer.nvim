@@ -1,4 +1,4 @@
-local config = require("installer/config")
+local log = require("installer/utils/log")
 local get_module = require("installer/status").get_module
 
 local M = {}
@@ -7,18 +7,31 @@ M.setup = function(opts)
   local nullls = require("null-ls")
 
   local sources = require("installer/integrations/null_ls").get_all()
-  local nullls_opts = opts.configs
+  local nullls_opts = opts.configs or {}
+  if not nullls_opts.sources then
+    nullls_opts.sources = {}
+  end
 
-  nullls.config(opts.configs)
+  for _, source in ipairs(sources) do
+    table.insert(nullls_opts.sources, source)
+  end
 
-  if opts.enable_install_hook then
-    local user_hook = config.get().post_install_hook
-    config.set_key("post_install_hook", function(category, name)
+  nullls.config(nullls_opts)
+
+  if opts.enable_hook then
+    table.insert(require("installer/config").get().hooks.install.post, function(category, name)
       if category == "null_ls" then
-        nullls.config(opts.configs)
-      end
-      if user_hook then
-        user_hook(category, name)
+        local a = M.get(name)
+        for _, value in ipairs(a) do
+          if nullls.is_registered(name) then
+            log.debug_log("[integ/null_ls/hook]", name .. " is already registered.")
+            return
+          end
+          nullls.register(value)
+
+          log.debug_log("[integ/null_ls/hook]", "Registerd " .. name, "\n")
+        end
+        pcall(vim.cmd, "bufdo e")
       end
     end)
   end

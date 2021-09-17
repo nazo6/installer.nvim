@@ -1,22 +1,30 @@
 local M = {}
 
-local log = true
+local logger = require("plenary.log").new({
+  plugin = "installer",
+  level = "debug",
+  use_console = false,
+})
 
-M.error = function(message, level)
-  M.log(message, "error")
-  error("[installer.nvim] " .. message .. "\n" .. debug.traceback(), level)
+M.error = function(...)
+  logger.error(...)
+  error("[installer.nvim] ", ...)
 end
 
-M.print = function(message)
-  M.log(message, "print")
-  print("[installer.nvim]  " .. message)
+M.print = function(...)
+  logger.info(...)
+  print("[installer.nvim]", ...)
 end
 
-local logger = require("plenary.log").new({ plugin = "installer.nvim", use_console = false, level = "debug" })
-M.log = function(message, type)
-  if log then
-    logger[type](message)
+M.debug_log = function(...)
+  if not require("installer/config").get().debug then
+    return
   end
+
+  logger.debug(...)
+end
+M.log = function(message, type)
+  logger[type](message)
 end
 
 return M

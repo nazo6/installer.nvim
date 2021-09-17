@@ -1,4 +1,4 @@
-local log = require("installer.utils.log")
+local log = require("installer/utils/log")
 local M = {}
 
 --- @alias install_script fun(os: "windows"|"mac"|"linux"):string Function to return shell script to install
@@ -9,15 +9,28 @@ local M = {}
 --- @alias module_category_content table<module_name, module>
 --- @alias categories table<module_category, module_category_content>
 
+--- @alias hook fun(category:string, name:string):nil[]
+--- @alias hooks {install: {pre: hook, post:hook}, uninstall: {pre: hook, post:hook}}
+
 --- @alias post_install_hook fun(category:module_category, name:string):nil
 --- @alias pre_install_hook fun(category:module_category, name:string):nil
 --- @alias ensure_install tbl<module_category, module_name[]>
 
---- @alias config {ensure_install: ensure_install, custom_modules: categories[], post_install_hook: post_install_hook, pre_install_hook: pre_install_hook, debug: boolean}
+--- @alias config {ensure_install: ensure_install, custom_modules: categories[], hooks: hooks, debug: boolean}
 
 local default_config = {
   debug = false,
   custom_modules = {},
+  hooks = {
+    install = {
+      pre = {},
+      post = {},
+    },
+    uninstall = {
+      pre = {},
+      post = {},
+    },
+  },
 }
 
 --- @type config
@@ -35,11 +48,20 @@ M.set = function(opts)
 end
 
 --- Set config of specified key of config table
-M.set_key = function(key, opts)
-  if type(opts) == "function" then
-    config[key] = opts(config[key])
-  elseif type(opts) == "table" then
-    config[key] = opts
+--- @param keys string[]
+--- @param value table|fun(old_config:any):any
+M.set_key = function(keys, value)
+  local c = config
+  for _, key in ipairs(keys) do
+    if not c[key] then
+      c[key] = {}
+    end
+    c = c[key]
+  end
+  if type(value) == "function" then
+    c = value(config[c])
+  elseif type(value) == "table" then
+    c = value
   else
     log.error("Invalid config!")
   end
