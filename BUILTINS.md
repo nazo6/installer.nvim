@@ -1,5 +1,5 @@
 # Builtin modules
-## Language Server.
+## Language Server
 
 - :ballot_box_with_check: : Not tested but there is script to install.
 - :white_check_mark: : Should work.
@@ -37,7 +37,7 @@
 | sumneko_lua            | (sumneko) lua-language-server            | :white_check_mark:      | :ballot_box_with_check: |
 | svelte                 | svelte-language-server                   | :ballot_box_with_check: | :ballot_box_with_check: |
 | tailwindcss            | tailwindcss-intellisense                 | :white_check_mark:      | :ballot_box_with_check: |
-| terraform              | Terraform Language Server (terraform-ls) |                         | :ballot_box_with_check: |
+| terraform              | Terraform Language Server (terraform-ls) |                         |                         |
 | tsserver               | typescript-language-server               | :white_check_mark:      | :white_check_mark:      |
 | vimls                  | vim-language-server                      | :ballot_box_with_check: | :ballot_box_with_check: |
 | vls                    | Vue vls (vetur)                          | :ballot_box_with_check: | :ballot_box_with_check: |
@@ -49,3 +49,6 @@
 | diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :ballot_box_with_check: | :ballot_box_with_check: |
 | efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: | :ballot_box_with_check: |
 | rome         | https://rome.tools/                                 | :ballot_box_with_check: | :ballot_box_with_check: |
+
+## null-ls (formatter/linter)
+wip

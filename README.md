@@ -2,10 +2,10 @@
   installer.nvim
 </h1>
 
-`installer.nvim` is a plugin that allows you to install external dependencies from neovim and reproduce their configuration.
+`installer.nvim` is a plugin that allows you to install external dependencies from neovim.
 
 ## Status
-Unstable. Core function and LS integration is almost stable, but others will change.
+Beta. API is almost stable but operation is often unstable.
 
 ## Features
 - Many builtin installers.
@@ -26,7 +26,7 @@ use { "nazo6/installer.nvim",
 ```
 
 ## Config
-There is `setup` function, but you don't have to call it.
+There is a `setup` function. This plugin works even if you don't call it, but if you do, call it before any other integration.
 
 Please don't copy and paste below config. It is just example.
 ```lua
@@ -46,10 +46,15 @@ require("installer").setup({
       }
     }
   }, 
-  -- Called before installation
-  pre_install_hook = function(category, name) end
-  -- Called after successful installation
-  post_install_hook = function(category, name) end
+  -- Hooks
+  hooks = {
+    install = {
+      pre = {
+        function (category, name)
+        end
+      }
+    }
+  }
   debug = false,
 })
 ```
@@ -61,7 +66,7 @@ You have to call `setup` function.
 ```lua
 require("installer.integrations.ls").setup {
   configs = server_configs, -- Table<server_name, config> of lsp config. This will be passed to lspconfig.
-  enable_install_hook = true, -- Auto setup server after installed.
+  enable_hook = true, -- Auto setup server after installed.
 }
 ```
 
