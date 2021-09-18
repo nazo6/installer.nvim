@@ -101,10 +101,10 @@ Modules belonging to the `tools` category have information about the binary path
 require("installer.integrations.tools").get "ripgrep",
 ```
 
+⚠️Note that it will return the path whether it is actually installed or not. Use `ensure_install` if you want to be sure that it is installed.
+
 This will make any external dependencies of the plugin portable.
 This is an example of the configuration in `telescope.nvim`.
-
-⚠️Note that it will return the path whether it is actually installed or not. Use `ensure_install` if you want to be sure that it is installed.
 
 ```lua
 require("telescope").setup {
@@ -157,11 +157,22 @@ require("telescope").setup {
 - `setup(opts)` Setup ls.
 - `setup_server(name, lsp_settings)` Setup ls.
 
+#### `installer/integrations/null_ls`
+
+- `setup(opts)`
+- `get(module_name)`
+- `get_all()`
+
+#### `installer/integrations/tools`
+
+- `get(module_name)`
+- `get_all()`
+
 ### Custom modules
 
 You can create custom modules and register it by `setup` or `register` function.
 All modules must have `install_script` field, which is function that return install script. You should determine the os in your function and return the appropriate script for it.
-On Windows, the script will run on powershell (`powershell.exe`), otherwise it will run in bash (`/bin/bash`).
+On Windows, the script will run in `powershell.exe`, otherwise it will run in `/bin/bash`.
 
 #### About category
 
