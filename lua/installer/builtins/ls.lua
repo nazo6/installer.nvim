@@ -8,6 +8,7 @@ local modules = {
   denols = true,
   diagnosticls = true,
   dockerls = true,
+  dotls = true,
   efm = true,
   elixirls = true,
   elmls = true,
@@ -20,6 +21,7 @@ local modules = {
   intelephense = true,
   jsonls = true,
   kotlin_language_server = true,
+  lean3ls = true,
   ocamlls = true,
   omnisharp = true,
   powershell_es = true,
@@ -30,6 +32,7 @@ local modules = {
   rust_analyzer = true,
   solargraph = true,
   sqlls = true,
+  stylelint_lsp = true,
   sumneko_lua = true,
   svelte = true,
   tailwindcss = true,
@@ -39,8 +42,8 @@ local modules = {
   tsserver = true,
   vimls = true,
   vls = true,
+  volar = true,
   yamlls = true,
 }
 
 return modules
-
