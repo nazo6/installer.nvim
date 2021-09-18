@@ -98,10 +98,12 @@ end
 --- Update item.
 --- @param id number Display item handle
 --- @param title string|nil
---- @param message string[]
+--- @param message string
 M.update = function(id, title, message)
-  local s, e = get_message_lines(id)
-  update_lines(s, e, message)
+  if message then
+    local s, e = get_message_lines(id)
+    update_lines(s, e, message)
+  end
   if title then
     display.contents[id].title = title
     local t = get_title_line(id)

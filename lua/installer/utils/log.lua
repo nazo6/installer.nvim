@@ -8,7 +8,7 @@ local logger = require("plenary.log").new({
 
 M.error = function(...)
   logger.error(...)
-  error("[installer.nvim] ", ...)
+  error("[installer.nvim] ".. table.concat({...}, " "))
 end
 
 M.print = function(...)

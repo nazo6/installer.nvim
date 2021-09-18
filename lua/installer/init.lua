@@ -1,5 +1,6 @@
 local wrap = require("plenary.async.async").wrap
 local void = require("plenary.async.async").void
+local scheduler = require("plenary.async.util").scheduler
 
 local config = require("installer/config")
 local status = require("installer/status")
@@ -10,7 +11,7 @@ local display = require("installer/utils/display")
 local log = require("installer/utils/log")
 
 local check = "✓"
-local error = "✗"
+local error_char = "✗"
 
 local M = {}
 
@@ -45,13 +46,7 @@ local install = function(category, name)
   end
   local path = fs.module_path(category, name)
   if vim.fn.isdirectory(path) ~= 0 then
-    local choice = vim.fn.confirm(
-      "[installer.nvim] It seems like module '" .. category .. "/" .. name .. "' already exists. Do you reinstall it? ",
-      "Yes\nNo"
-    )
-    if choice ~= 0 then
-      M.reinstall(category, name)
-    end
+    error("[installer.nvim] It seems like module '" .. category .. "/" .. name .. "' already exists.")
     return
   end
 
@@ -67,6 +62,7 @@ local install = function(category, name)
     install_script,
     path,
     function(_, data, update)
+      log.debug_log("[install]", data)
       update(nil, data)
     end
   )
@@ -79,7 +75,7 @@ local install = function(category, name)
     if vim.fn.delete(path, "rf") ~= 0 then
       mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
     end
-    update(error .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code .. " mes:" .. mes)
+    update(error_char .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code .. " mes:" .. mes)
     return
   end
 
@@ -89,6 +85,7 @@ local install = function(category, name)
 end
 M.install = void(install)
 
+local rmdir = wrap(vim.loop.fs_rmdir, 2)
 local uninstall = function(category, name)
   local path = fs.module_path(category, name)
   if vim.fn.isdirectory(path) ~= 1 then
@@ -101,12 +98,7 @@ local uninstall = function(category, name)
   if uninstall_script ~= nil then
     uninstall_script = uninstall_script()
   else
-    local is_win = require("installer/utils/os").is_windows
-    if is_win then
-      uninstall_script = "cd ../ && rm -Force " .. name
-    else
-      uninstall_script = "cd ../ && rm -rf " .. name
-    end
+    uninstall_script = ""
   end
 
   local _, code, update = exec(
@@ -115,17 +107,18 @@ local uninstall = function(category, name)
     uninstall_script,
     path,
     function(_, data, update)
+      log.debug_log("[uninstall]", data)
       update(nil, data)
     end
   )
 
-  if code ~= 0 then
-    return
+  if vim.fn.delete(path, "rf") ~= 0 then
+    update(error_char .. "Failed to uninstall " .. category .. "/" .. name, "Could not delete directory.")
   end
 
   if code ~= 0 then
-    update(error .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code)
-    log.error("Failed to uninstall", category, name)
+    update(error_char .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code)
+    log.debug_log("Failed to uninstall", category, name)
     return
   end
 
@@ -158,12 +151,16 @@ local update = function(category, name)
       update_script,
       path,
       function(_, data, update)
+        log.debug_log("[update]", data)
         update(nil, data)
       end
     )
     if code ~= 0 then
-      update(error .. "Failed to update " .. category .. "/" .. name, "code: " .. code .. " Falling back to reinstall.")
-      log.error("Failed to update", category, name)
+      update(
+        error_char .. "Failed to update " .. category .. "/" .. name,
+        "code: " .. code .. " Falling back to reinstall."
+      )
+      log.debug_log("Failed to update", category, name)
       M.reinstall(category, name)
       return
     end
