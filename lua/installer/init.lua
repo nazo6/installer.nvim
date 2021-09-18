@@ -9,18 +9,23 @@ local jobs = require("installer/utils/jobs")
 local display = require("installer/utils/display")
 local log = require("installer/utils/log")
 
+local check = "✓"
+local error = "✗"
+
 local M = {}
 
-local exec_display = wrap(function(title, script, cwd, on_exit)
-  local id = display.open(title .. " - installing", { "Installing..." }, 1)
+local exec = wrap(function(title, content, script, cwd, on_update, on_exit)
+  local id = display.open(title, { content }, 1)
+  local updater = function(new_title, new_message)
+    display.update(id, new_title, { new_message })
+  end
   jobs.exec_script(script, cwd, function(type, data)
-    log.debug_log("[exec_display]", id, type, data)
-    display.update(id, nil, { "  [" .. type .. "] " .. data })
-  end, function(_, code)
-    display.update(id, title .. " - completed", { "Exit code: " .. tostring(code) })
-    on_exit(_, code)
+    on_update(type, data, updater)
+  end, function(a, b)
+    on_exit(a, b, updater)
   end)
-end, 4)
+  return updater
+end, 6)
 
 local exec_hooks = function(type, timing, category, name)
   local hooks = config.get().hooks[type][timing]
@@ -56,7 +61,15 @@ local install = function(category, name)
 
   local install_script = status.get_module(category, name).install_script()
 
-  local _, code = exec_display("Install: " .. category .. "/" .. name, install_script, path)
+  local _, code, update = exec(
+    "Installing " .. category .. "/" .. name,
+    "",
+    install_script,
+    path,
+    function(_, data, update)
+      update(nil, data)
+    end
+  )
 
   if code ~= 0 then
     local mes = ""
@@ -66,9 +79,11 @@ local install = function(category, name)
     if vim.fn.delete(path, "rf") ~= 0 then
       mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
     end
-    log.error("Install failed!: " .. mes)
+    update(error .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code .. " mes:" .. mes)
+    return
   end
 
+  update(check .. "Installed " .. category .. "/" .. name, "")
   log.debug_log("[install]", "Successfully installed ", category, "/", name)
   exec_hooks("install", "post", category, name)
 end
@@ -94,12 +109,27 @@ local uninstall = function(category, name)
     end
   end
 
-  local _, code = exec_display(category .. "/" .. name, uninstall_script, path)
+  local _, code, update = exec(
+    "Uninstalling " .. category .. "/" .. name,
+    "",
+    uninstall_script,
+    path,
+    function(_, data, update)
+      update(nil, data)
+    end
+  )
 
   if code ~= 0 then
-    log.error("Failed to uninstall", category, name)
+    return
   end
 
+  if code ~= 0 then
+    update(error .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code)
+    log.error("Failed to uninstall", category, name)
+    return
+  end
+
+  update(check .. "Uninstalled " .. category .. "/" .. name, "")
   exec_hooks("uninstall", "post", category, name)
 end
 M.uninstall = void(uninstall)
@@ -121,11 +151,24 @@ local update = function(category, name)
   local update_script = status.get_module(category, name).update_script
   if update_script ~= nil then
     update_script = update_script()
-    local _, code = exec_display(category .. "/" .. name, path, update_script)
 
+    local _, code, update = exec(
+      "Updating " .. category .. "/" .. name,
+      "",
+      update_script,
+      path,
+      function(_, data, update)
+        update(nil, data)
+      end
+    )
     if code ~= 0 then
+      update(error .. "Failed to update " .. category .. "/" .. name, "code: " .. code .. " Falling back to reinstall.")
       log.error("Failed to update", category, name)
+      M.reinstall(category, name)
+      return
     end
+
+    update(check .. "Updated " .. category .. "/" .. name, "")
   else
     M.reinstall(category, name)
   end

@@ -29,17 +29,13 @@ function! installer#reinstall(arg1, ...)
 endfunction
 
 function! installer#update(...)
-  let arg2 = get(a:, 1, 0)
-  let arg3 = get(a:, 2, 0)
+  let arg1 = get(a:, 1, 0)
+  let arg2 = get(a:, 2, 0)
   if empty(arg2)
     call v:lua.require("installer").update_all()
     return
   endif
-  if !empty(arg3)
-    echoerr "Too many args"
-    return
-  endif
-  call v:lua.require("installer").update(a:arg1, arg2)
+  call v:lua.require("installer").update(arg1, arg2)
 endfunction
 
 function! s:complete_available(args, line, pos) abort

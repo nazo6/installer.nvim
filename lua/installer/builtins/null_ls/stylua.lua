@@ -1,5 +1,4 @@
-local is_windows = require("installer/utils/os").is_windows
-local resolve = require("installer/utils/fs").resolve
+local builder = require("installer/integrations/null_ls/helpers").common.builder
 
 local script_win = [[
   $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/JohnnyMorganz/StyLua/releases/latest
@@ -33,25 +32,14 @@ local script = [[
   rm stylua.zip
 ]]
 
-return {
-  install_script = function()
-    if is_windows then
-      return script_win
-    else
-      return script
-    end
-  end,
-  cmd = function()
-    local server_path = require("installer/utils/fs").module_path("null_ls", "stylua")
-    if is_windows then
-      return resolve(server_path, "stylua/stylua.exe")
-    else
-      return resolve(server_path, "stylua/stylua")
-    end
-  end,
-  null_ls_config = function()
-    return {
-      type = { "formatting" },
-    }
-  end,
-}
+return builder({
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = "stylua/stylua.exe",
+    other = "stylua/stylua",
+  },
+  null_ls_type = { "formatting" },
+})
