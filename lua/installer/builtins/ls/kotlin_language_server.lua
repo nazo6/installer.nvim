@@ -3,7 +3,7 @@ local script_win = [[
   if (Test-Path PowerShellEditorServices) {
     Remove-Item -Force -Recurse PowerShellEditorServices
   }
-  $url = https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip
+  $url = "https://github.com/fwcd/kotlin-language-server/releases/latest/download/server.zip"
   Invoke-WebRequest -UseBasicParsing $url -OutFile "ls.zip"
   Expand-Archive .\ls.zip -DestinationPath .\
   Remove-Item ls.zip

@@ -1,5 +1,7 @@
 local M = {}
 
+local npm = require("installer/helpers/npm")
+
 local is_windows = require("installer/utils/os").is_windows
 local resolve = require("installer/utils/fs").resolve
 
@@ -28,6 +30,26 @@ M.common = {
       null_ls_config = function()
         return {
           type = opts.null_ls_type,
+        }
+      end,
+    }
+  end,
+}
+
+M.npm = {
+  --- Build npm module settings for null_ls
+  --- @param options {install_package:string, bin_name:string|nil, type:string[]}
+  builder = function(options)
+    return {
+      install_script = function()
+        return npm.install_script(options.install_package)
+      end,
+      cmd = function()
+        return npm.bin_path(options.bin_name or options.install_package)
+      end,
+      null_ls_config = function()
+        return {
+          type = options.type,
         }
       end,
     }

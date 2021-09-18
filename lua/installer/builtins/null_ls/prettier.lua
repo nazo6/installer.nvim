@@ -1,15 +1,6 @@
-local npm = require("installer/helpers/npm")
+local builder = require("installer/integrations/null_ls/helpers").npm.builder
 
-return {
-  install_script = function()
-    return npm.install_script("prettier")
-  end,
-  cmd = function()
-    return npm.bin_path("prettier")
-  end,
-  null_ls_config = function()
-    return {
-      type = { "formatting" },
-    }
-  end,
-}
+return builder({
+  install_package = "prettier",
+  type = { "formatting" },
+})

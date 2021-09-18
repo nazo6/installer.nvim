@@ -1,13 +1,10 @@
-local config = require("installer/integrations/ls/utils").extract_config("denols")
-local is_windows = require("installer/utils/os").is_windows
-
-local script_to_use = nil
-
-if is_windows then
-  --TODO somebody implement this if possible for windows
-else
-  config.default_config.cmd[1] = "./bin/deno"
-  script_to_use = [=[
+local script_win = [[
+  $url = "https://github.com/denoland/deno/releases/latest/download/deno-x86_64-pc-windows-msvc.zip"
+  Invoke-WebRequest -UseBasicParsing $url -OutFile "deno.zip"
+  Expand-Archive .\deno.zip -DestinationPath .\
+  Remove-Item deno.zip
+]]
+local script = [[
   case $(uname -sm) in
   "Darwin x86_64") target="x86_64-apple-darwin" ;;
   "Darwin arm64") target="aarch64-apple-darwin" ;;
@@ -15,12 +12,19 @@ else
   esac
 
   curl --fail --location --progress-bar --output "deno.zip" "https://github.com/denoland/deno/releases/latest/download/deno-${target}.zip"
-  rm -rf "bin"
-  mkdir "bin"
-  unzip -d "bin" "deno.zip"
+  unzip deno.zip
   rm "deno.zip"
-  ]=]
-end
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
+]]
+
+return require("installer/integrations/ls/helpers").common.builder({
+  lang = "denols",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = "deno.exe",
+    other = "deno",
+  },
 })
