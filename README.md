@@ -25,10 +25,10 @@ use { "nazo6/installer.nvim",
 }
 ```
 
-## Config
+## Configs
 There is a `setup` function. This plugin works even if you don't call it, but if you do, call it before any other integration.
 
-Please don't copy and paste below config. It is just example.
+This is example of complete config.
 ```lua
 require("installer").setup({
   -- Automatically installs modules that are not installed at startup
@@ -76,6 +76,7 @@ require("installer.integrations.ls").setup {
 - `:Install <category> <name>`: Install module. For example: `:Install ls bashls`
 - `:Reinstall <category> <name>`: Reinstall module.
 - `:Uninstall <category> <name>`: Uninstall module.
+- `:Update [<category> <name>]`: Update module. If args are omitted, all plugins will be updated.
 
 ### APIs
 #### `installer`
@@ -84,7 +85,7 @@ require("installer.integrations.ls").setup {
 - `install(category, name)`
 - `uninstall(category, name)`
 - `reinstall(category, name)`
-- `module_path(category, name)` Get installation path of module.
+- `module_path(category, name)` Get installation path of module. This function returns the path regardless of whether the module is actually installed or not.
 
 #### `installer/status`
 - `get_module(category, name)` Get module content

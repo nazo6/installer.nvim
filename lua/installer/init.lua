@@ -76,7 +76,6 @@ M.install = void(install)
 
 local uninstall = function(category, name)
   local path = fs.module_path(category, name)
-  print(path)
   if vim.fn.isdirectory(path) ~= 1 then
     error("[installer.nvim] Specified module is not installed")
   end
@@ -102,7 +101,6 @@ local uninstall = function(category, name)
   end
 
   exec_hooks("uninstall", "post", category, name)
-  print("uninstalled", code)
 end
 M.uninstall = void(uninstall)
 
