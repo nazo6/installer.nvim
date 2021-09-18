@@ -30,6 +30,10 @@ local default_config = {
       pre = {},
       post = {},
     },
+    update = {
+      pre = {},
+      post = {},
+    },
   },
 }
 

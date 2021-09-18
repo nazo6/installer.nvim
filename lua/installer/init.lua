@@ -14,6 +14,7 @@ local M = {}
 local exec_display = wrap(function(title, script, cwd, on_exit)
   local id = display.open(title .. " - installing", { "Installing..." }, 1)
   jobs.exec_script(script, cwd, function(type, data)
+    log.debug_log("[exec_display]", id, type, data)
     display.update(id, nil, { "  [" .. type .. "] " .. data })
   end, function(_, code)
     display.update(id, title .. " - completed", { "Exit code: " .. tostring(code) })
@@ -33,77 +34,115 @@ end
 --- Install module
 --- @param category module_category
 --- @param name module_name
-M.install = function(category, name)
-  void(function()
-    if not status.get_module(category, name) then
-      error("[installer.nvim] Such module is not available")
+local install = function(category, name)
+  if not status.get_module(category, name) then
+    error("[installer.nvim] Such module is not available")
+  end
+  local path = fs.module_path(category, name)
+  if vim.fn.isdirectory(path) ~= 0 then
+    local choice = vim.fn.confirm(
+      "[installer.nvim] It seems like module '" .. category .. "/" .. name .. "' already exists. Do you reinstall it? ",
+      "Yes\nNo"
+    )
+    if choice ~= 0 then
+      M.reinstall(category, name)
     end
-    local path = fs.module_path(category, name)
-    if vim.fn.isdirectory(path) ~= 0 then
-      local choice = vim.fn.confirm(
-        "[installer.nvim] It seems like specified module already exists. Do you reinstall it? ",
-        "Yes\nNo"
-      )
-      if choice ~= 0 then
-        M.reinstall(category, name)
-      end
-      return
+    return
+  end
+
+  exec_hooks("install", "pre", category, name)
+
+  vim.fn.mkdir(path, "p")
+
+  local install_script = status.get_module(category, name).install_script()
+
+  local _, code = exec_display("Install: " .. category .. "/" .. name, install_script, path)
+
+  if code ~= 0 then
+    local mes = ""
+    if vim.fn.isdirectory(path) ~= 1 then
+      mes = "Something is wrong."
     end
+    if vim.fn.delete(path, "rf") ~= 0 then
+      mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
+    end
+    log.error("Install failed!: " .. mes)
+  end
 
-    exec_hooks("install", "pre", category, name)
+  log.debug_log("[install]", "Successfully installed ", category, "/", name)
+  exec_hooks("install", "post", category, name)
+end
+M.install = void(install)
 
-    vim.fn.mkdir(path, "p")
+local uninstall = function(category, name)
+  local path = fs.module_path(category, name)
+  print(path)
+  if vim.fn.isdirectory(path) ~= 1 then
+    error("[installer.nvim] Specified module is not installed")
+  end
 
-    local install_script = status.get_module(category, name).install_script()
+  exec_hooks("uninstall", "pre", category, name)
 
-    local _, code = exec_display("Install: " .. category .. "/" .. name, install_script, path)
+  local uninstall_script = status.get_module(category, name).uninstall_script
+  if uninstall_script ~= nil then
+    uninstall_script = uninstall_script()
+  else
+    local is_win = require("installer/utils/os").is_windows
+    if is_win then
+      uninstall_script = "cd ../ && rm -Force " .. name
+    else
+      uninstall_script = "cd ../ && rm -rf " .. name
+    end
+  end
+
+  local _, code = exec_display(category .. "/" .. name, uninstall_script, path)
+
+  if code ~= 0 then
+    log.error("Failed to uninstall", category, name)
+  end
+
+  exec_hooks("uninstall", "post", category, name)
+  print("uninstalled", code)
+end
+M.uninstall = void(uninstall)
+
+local reinstall = function(category, name)
+  uninstall(category, name)
+  install(category, name)
+end
+M.reinstall = void(reinstall)
+
+local update = function(category, name)
+  local path = fs.module_path(category, name)
+  if vim.fn.isdirectory(path) ~= 1 then
+    error("[installer.nvim] Specified module is not installed")
+  end
+
+  exec_hooks("update", "pre", category, name)
+
+  local update_script = status.get_module(category, name).update_script
+  if update_script ~= nil then
+    update_script = update_script()
+    local _, code = exec_display(category .. "/" .. name, path, update_script)
 
     if code ~= 0 then
-      local mes = ""
-      if vim.fn.isdirectory(path) ~= 1 then
-        mes = "Something is wrong."
-      end
-      if vim.fn.delete(path, "rf") ~= 0 then
-        mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
-      end
-      log.error("Install failed!: " .. mes)
+      log.error("Failed to update", category, name)
     end
+  else
+    M.reinstall(category, name)
+  end
 
-    log.debug_log("[install]", "Successfully installed ", category, "/", name)
-    exec_hooks("install", "post", category, name)
-  end)()
+  exec_hooks("update", "post", category, name)
 end
+M.update = void(update)
 
-M.uninstall = function(category, name)
-  void(function()
-    local path = fs.module_path(category, name)
-    if vim.fn.isdirectory(path) ~= 1 then
-      error("[installer.nvim] Specified module is not installed")
+M.update_all = function()
+  local installed = require("installer/status/installed").get_modules()
+  for category, modules in pairs(installed) do
+    for module, _ in pairs(modules) do
+      M.update(category, module)
     end
-
-    exec_hooks("uninstall", "pre", category, name)
-
-    if vim.fn.delete(path, "rf") ~= 0 then
-      error("Couldn't delete directory. Please delete it manually. Path is: " .. path)
-    end
-
-    local uninstall_script = status.get_module(category, name).uninstall_script
-    if uninstall_script ~= nil then
-      uninstall_script = uninstall_script()
-      local _, code = exec_display(category .. "/" .. name, path, uninstall_script)
-
-      if code ~= 0 then
-        log.error("Failed to uninstall", category, name)
-      end
-    end
-
-    exec_hooks("uninstall", "post", category, name)
-  end)()
-end
-
-M.reinstall = function(category, name)
-  M.uninstall(category, name)
-  M.install(category, name)
+  end
 end
 
 M.module_path = fs.module_path

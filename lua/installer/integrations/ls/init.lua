@@ -38,7 +38,7 @@ M.setup = function(opts)
     table.insert(config.get().hooks.install.post, function(category, name)
       if category == "ls" then
         M.setup_server(name, lsp_user_configs[name])
-        pcall(vim.cmd, "bufdo e")
+        -- pcall(vim.cmd, "bufdo e")
       end
     end)
   end

@@ -31,7 +31,7 @@ M.setup = function(opts)
 
           log.debug_log("[integ/null_ls/hook]", "Registerd " .. name, "\n")
         end
-        pcall(vim.cmd, "bufdo e")
+        -- pcall(vim.cmd, "bufdo e")
       end
     end)
   end
