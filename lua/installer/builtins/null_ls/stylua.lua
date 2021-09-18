@@ -42,4 +42,5 @@ return builder({
     other = "stylua/stylua",
   },
   null_ls_type = { "formatting" },
+  name = "stylua",
 })

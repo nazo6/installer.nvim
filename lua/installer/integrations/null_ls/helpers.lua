@@ -8,7 +8,7 @@ local resolve = require("installer/utils/fs").resolve
 M.common = {
   --- Build config
   --- @alias os_type {win:string, other:string}
-  --- @alias nullls_builder_option_type {install_script: os_type,cmd: os_type, null_ls_type: string[] }
+  --- @alias nullls_builder_option_type {name:string, install_script: os_type,cmd: os_type, null_ls_type: string[] }
   --- @param opts nullls_builder_option_type
   builder = function(opts)
     return {
@@ -20,7 +20,7 @@ M.common = {
         end
       end,
       cmd = function()
-        local server_path = require("installer/utils/fs").module_path("null_ls", "stylua")
+        local server_path = require("installer/utils/fs").module_path("null_ls", opts.name)
         if is_windows then
           return resolve(server_path, opts.cmd.win)
         else
@@ -38,14 +38,15 @@ M.common = {
 
 M.npm = {
   --- Build npm module settings for null_ls
-  --- @param options {install_package:string, bin_name:string|nil, type:string[]}
+  --- @param options {install_package:string, bin_name:string|nil, type:string[], name:string}
   builder = function(options)
     return {
       install_script = function()
         return npm.install_script(options.install_package)
       end,
       cmd = function()
-        return npm.bin_path(options.bin_name or options.install_package)
+        local server_path = require("installer/utils/fs").module_path("null_ls", options.name)
+        return resolve(server_path, npm.bin_path(options.bin_name or options.install_package))
       end,
       null_ls_config = function()
         return {
