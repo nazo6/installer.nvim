@@ -6,7 +6,7 @@ local resolve = require("installer/utils/fs").resolve
 M.common = {
   --- Build config
   --- @alias os_type {win:string, other:string}
-  --- @alias nullls_builder_option_type {install_script: os_type,cmd: os_type, null_ls_type: string[] }
+  --- @alias nullls_builder_option_type {name:string, install_script: os_type,cmd: os_type, null_ls_type: string[] }
   --- @param opts nullls_builder_option_type
   builder = function(opts)
     return {
@@ -18,7 +18,7 @@ M.common = {
         end
       end,
       cmd = function()
-        local server_path = require("installer/utils/fs").module_path("null_ls", "stylua")
+        local server_path = require("installer/utils/fs").module_path("tools", opts.name)
         if is_windows then
           return resolve(server_path, opts.cmd.win)
         else

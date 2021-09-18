@@ -1,8 +1,9 @@
 # Builtin modules
-## Language Server
 
 - :ballot_box_with_check: : Not tested but there is script to install.
 - :white_check_mark: : Should work.
+
+## Language Server
 
 | Name                   | Language Server                          | Win                     | Linux                   |
 | ---------------------- | ---------------------------------------- | ----------------------- | ----------------------- |
@@ -45,10 +46,21 @@
 
 | Name         | Description                                         | Win                     | Linux                   |
 | ------------ | --------------------------------------------------- | ----------------------- | ----------------------- |
-| denols       | https://deno.land/                                  |                         | :ballot_box_with_check: |
+| denols       | https://deno.land/                                  | :ballot_box_with_check: | :ballot_box_with_check: |
 | diagnosticls | https://github.com/iamcco/diagnostic-languageserver | :ballot_box_with_check: | :ballot_box_with_check: |
 | efm          | https://github.com/mattn/efm-langserver             | :ballot_box_with_check: | :ballot_box_with_check: |
 | rome         | https://rome.tools/                                 | :ballot_box_with_check: | :ballot_box_with_check: |
 
 ## null-ls (formatter/linter)
-wip
+
+| name     | win                     | linux                   |
+| -------- | ----------------------- | ----------------------- |
+| eslint   | :ballot_box_with_check: | :ballot_box_with_check: |
+| prettier | :ballot_box_with_check: | :ballot_box_with_check: |
+| stylua   | :white_check_mark:      | :white_check_mark:      |
+
+## tools
+
+| name    | win                     | linux                   |
+| ------- | ----------------------- | ----------------------- |
+| ripgrep | :ballot_box_with_check: | :ballot_box_with_check: |

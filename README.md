@@ -6,12 +6,11 @@
 
 ## Status
 
-Beta. API is almost stable but operation is often unstable.
+Beta. Operation is often unstable. APIs is subject to change without notice.
 
 ## Features
 
-        - Many builtin installers.
-
+- Many builtin installers.
 - Most of builtin installers support windows.
 - Able to create custom installers.
 - Configurable.
@@ -34,7 +33,7 @@ use { "nazo6/installer.nvim",
 
 There is a `setup` function. This plugin works even if you don't call it, but if you do, call it before any other integration.
 
-This is example of complete config.
+This is example of config.
 
 ```lua
 require("installer").setup({
@@ -70,12 +69,56 @@ require("installer").setup({
 
 There are integration for installing and configurating language server.
 
-You have to call `setup` function.
+Calling the `setup` function will set up all the servers belonging to the installed `ls` category.
 
 ```lua
 require("installer.integrations.ls").setup {
   configs = server_configs, -- Table<server_name, config> of lsp config. This will be passed to lspconfig.
   enable_hook = true, -- Auto setup server after installed.
+}
+```
+
+### null-ls
+
+```lua
+require("installer.integrations.null_ls").setup {
+  configs = {
+    debug = true,
+  },
+  enable_hook = true,
+}
+require("lspconfig")["null-ls"].setup {
+  capabilities = common_config.capabilities,
+  on_attach = common_config.on_attach,
+}
+```
+
+### tools
+
+Modules belonging to the `tools` category have information about the binary path, which can be retrieved with the following code.
+
+```lua
+require("installer.integrations.tools").get "ripgrep",
+```
+
+This will make any external dependencies of the plugin portable.
+This is an example of the configuration in `telescope.nvim`.
+
+⚠️Note that it will return the path whether it is actually installed or not. Use `ensure_install` if you want to be sure that it is installed.
+
+```lua
+require("telescope").setup {
+  defaults = {
+    vimgrep_arguments = {
+      require("installer.integrations.tools").get "ripgrep",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+    },
+  },
 }
 ```
 

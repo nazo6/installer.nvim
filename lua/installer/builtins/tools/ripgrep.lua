@@ -12,7 +12,7 @@ local script_win = [[
   Expand-Archive .\rg.zip -DestinationPath  ./
   Move-Item rip*/rg.exe rg.exe
   Remove-Item rg.zip
-  Remove-Item -r -Force ./rg*
+  Remove-Item -r -Force ./ripgrep*
 ]]
 
 local script = [[
@@ -33,6 +33,7 @@ local script = [[
 ]]
 
 return builder({
+  name = "ripgrep",
   install_script = {
     win = script_win,
     other = script,
