@@ -1,13 +1,17 @@
-local config = require("installer/integrations/ls/utils").extract_config("terraformls")
-local is_windows = require("installer/utils/os").is_windows
+local script_win = [[
+    $json = Invoke-WebRequest -UseBasicParsing https://api.github.com/repos/hashicorp/terraform-ls/releases/latest
+    $object = ConvertFrom-JSON $json
+    $object.assets | ForEach-Object {
+      if ($_.browser_download_url.Contains("windows_amd64")) {
+        $url = $_.browser_download_url
+      }
+    }
+    Invoke-WebRequest -UseBasicParsing $url -OutFile "ls.zip"
+    Expand-Archive .\ls.zip -DestinationPath ./
+    Remove-Item ls.zip
+]]
 
-local script_to_use = nil
-
-if is_windows then
-  --TODO somebody implement this if possible for windows
-else
-  config.default_config.cmd[1] = "./terraform-ls"
-  script_to_use = [[
+local script = [[
   os=$(uname -s | tr "[:upper:]" "[:lower:]")
   arch=$(uname -m | tr "[:upper:]" "[:lower:]")
 
@@ -46,9 +50,17 @@ else
   rm -f terraform-ls
   unzip terraform.zip
   rm terraform.zip
-  ]]
-end
+]]
 
-return vim.tbl_extend("error", config, {
-  install_script = script_to_use,
+return require("installer/integrations/ls/helpers").common.builder({
+  lang = "terraformls",
+  inherit_lspconfig = true,
+  install_script = {
+    win = script_win,
+    other = script,
+  },
+  cmd = {
+    win = "./terraform-ls.exe",
+    other = "./terraform-ls",
+  },
 })
