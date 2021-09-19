@@ -29,6 +29,13 @@ use { "nazo6/installer.nvim",
 }
 ```
 
+## Usage
+
+You can install module using `:Install <category> <name>` and uninstall `:Uninstall <category> <name>`.
+You can also use `:Update` to update modules at once.
+
+This plugin does not make much sense on its own. It is more powerful when used in combination with various plugins using the integrations.
+
 ## Configs
 
 There is a `setup` function. This plugin works even if you don't call it, but if you do, call it before any other integration.
@@ -40,6 +47,7 @@ require("installer").setup({
   -- Automatically installs modules that are not installed at startup
   ensure_installed = {
     ls = {"bashls", "tsserver"}
+    tools = {"ripgrep"}
   }
    -- User defined modules(installers). See the "Custom module" section below for more information.
   custom_modules = {
@@ -69,7 +77,7 @@ require("installer").setup({
 
 There are integration for installing and configurating language server.
 
-Calling the `setup` function will set up all the servers belonging to the installed `ls` category.
+Calling the `setup` function will set up all the installed servers belonging to the `ls` category.
 
 ```lua
 require("installer.integrations.ls").setup {
@@ -95,7 +103,7 @@ require("lspconfig")["null-ls"].setup {
 
 ### tools
 
-Modules belonging to the `tools` category have information about the binary path, which can be retrieved with the following code.
+Modules belonging to the `tools` category have information about the own path, which can be retrieved with the following code.
 
 ```lua
 require("installer.integrations.tools").get "ripgrep",
