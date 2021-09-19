@@ -1,5 +1,7 @@
 local M = {}
 
+local npm = require("installer/helpers/npm")
+
 local is_windows = require("installer/utils/os").is_windows
 local resolve = require("installer/utils/fs").resolve
 
@@ -24,6 +26,22 @@ M.common = {
         else
           return resolve(server_path, opts.cmd.other)
         end
+      end,
+    }
+  end,
+}
+
+M.npm = {
+  --- Build npm module settings for tools
+  --- @param options {install_package:string, bin_name:string|nil, name:string, bin_name:string}
+  builder = function(options)
+    return {
+      install_script = function()
+        return npm.install_script(options.install_package)
+      end,
+      cmd = function()
+        local server_path = require("installer/utils/fs").module_path("tools", options.name)
+        return resolve(server_path, npm.bin_path(options.bin_name or options.install_package))
       end,
     }
   end,
