@@ -13,6 +13,7 @@ local modules = {
   elixirls = true,
   elmls = true,
   ember = true,
+  emmet_ls = true,
   fortls = true,
   gopls = true,
   graphql = true,
