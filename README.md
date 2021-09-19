@@ -31,7 +31,7 @@ use { "nazo6/installer.nvim",
 
 ## Usage
 
-You can install module using `:Install <category> <name>` and uninstall `:Uninstall <category> <name>`.
+You can install module using `:Install <category> <name>` and uninstall using `:Uninstall <category> <name>`.
 You can also use `:Update` to update modules at once.
 
 This plugin does not make much sense on its own. It is more powerful when used in combination with various plugins using the integrations.
