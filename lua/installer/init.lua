@@ -75,7 +75,7 @@ local install = function(category, name)
     if vim.fn.delete(path, "rf") ~= 0 then
       mes = "Couldn't delete directory. Please delete it manually. Path is: " .. path
     end
-    update(error_char .. "Failed to uninstall " .. category .. "/" .. name, "code: " .. code .. " mes:" .. mes)
+    update(error_char .. "Failed to install " .. category .. "/" .. name, "code: " .. code .. " mes:" .. mes)
     return
   end
 
@@ -207,10 +207,10 @@ M.setup = function(opts)
     config.set(opts)
   end
 
-  local ensure_install = config.get().ensure_install
-  if ensure_install then
+  local ensure_installed = config.get().ensure_installed
+  if ensure_installed then
     local installed = require("installer/status/installed").get_modules()
-    for category, modules_name in pairs(ensure_install) do
+    for category, modules_name in pairs(ensure_installed) do
       for _, module_name in ipairs(modules_name) do
         if installed[category] == nil then
           M.install(category, module_name)

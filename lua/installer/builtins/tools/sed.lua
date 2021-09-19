@@ -1,9 +1,9 @@
 local script_win = [[
-  Invoke-WebRequest -o a.zip https://sourceforge.net/projects/gnuwin32/files/sed/4.2.1/sed-4.2.1-bin.zip/download -UserAgent "NativeHost"
-  Expand-Archive a.zip -DestinationPath ./sed
-  Move-Item ./sed/bin/sed.exe ./sed.exe
-  Remove-Item -r -Force ./sed
-  Remove-Item a.zip
+  Invoke-WebRequest -o sed.exe https://github.com/mbuilov/sed-windows/raw/master/sed-4.8-x64.exe -UserAgent "NativeHost"
+  Invoke-WebRequest -o dep.zip https://sourceforge.net/projects/gnuwin32/files/sed/4.2.1/sed-4.2.1-dep.zip/download -UserAgent "NativeHost"
+  Expand-Archive dep.zip -DestinationPath ./sed
+  Move-Item sed.exe ./sed/bin/
+  Remove-Item dep.zip
 ]]
 return {
   install_script = function()
@@ -20,7 +20,7 @@ return {
     local server_path = require("installer/utils/fs").module_path("tools", "sed")
 
     if is_windows then
-      return resolve(server_path, "sed.exe")
+      return resolve(server_path, "sed/bin/sed.exe")
     else
       return "sed"
     end

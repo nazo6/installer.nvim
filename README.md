@@ -38,7 +38,7 @@ This is example of config.
 ```lua
 require("installer").setup({
   -- Automatically installs modules that are not installed at startup
-  ensure_install = {
+  ensure_installed = {
     ls = {"bashls", "tsserver"}
   }
    -- User defined modules(installers). See the "Custom module" section below for more information.
@@ -101,7 +101,7 @@ Modules belonging to the `tools` category have information about the binary path
 require("installer.integrations.tools").get "ripgrep",
 ```
 
-⚠️Note that it will return the path whether it is actually installed or not. Use `ensure_install` if you want to be sure that it is installed.
+⚠️Note that it will return the path whether it is actually installed or not. Use `ensure_installed` if you want to be sure that it is installed.
 
 This will make any external dependencies of the plugin portable.
 This is an example of the configuration in `telescope.nvim`.
@@ -135,7 +135,7 @@ require("telescope").setup {
 
 #### `installer`
 
-- `setup(config)` Set config and install modules specified by `ensure_install`
+- `setup(config)` Set config and install modules specified by `ensure_installed`
 - `register(category, name, module)`
 - `install(category, name)`
 - `uninstall(category, name)`

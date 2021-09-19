@@ -14,9 +14,9 @@ local M = {}
 
 --- @alias post_install_hook fun(category:module_category, name:string):nil
 --- @alias pre_install_hook fun(category:module_category, name:string):nil
---- @alias ensure_install tbl<module_category, module_name[]>
+--- @alias ensure_installed tbl<module_category, module_name[]>
 
---- @alias config {ensure_install: ensure_install, custom_modules: categories[], hooks: hooks, debug: boolean}
+--- @alias config {ensure_installed: ensure_installed, custom_modules: categories[], hooks: hooks, debug: boolean}
 
 local default_config = {
   debug = false,
