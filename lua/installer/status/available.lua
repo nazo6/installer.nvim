@@ -4,6 +4,7 @@ local builtins = {
   ls = require("installer/builtins/ls"),
   null_ls = require("installer/builtins/null_ls"),
   tools = require("installer/builtins/tools"),
+  da = require("installer/builtins/da"),
 }
 
 local M = {}

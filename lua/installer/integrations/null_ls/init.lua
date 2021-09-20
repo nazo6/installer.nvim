@@ -6,7 +6,7 @@ local M = {}
 M.setup = function(opts)
   local nullls = require("null-ls")
 
-  local sources = require("installer/integrations/null_ls").get_all()
+  local sources = require("installer/integrations/null_ls").get_all(opts.with or {})
   local nullls_opts = opts.configs or {}
   if not nullls_opts.sources then
     nullls_opts.sources = {}
@@ -37,11 +37,11 @@ M.setup = function(opts)
   end
 end
 
-M.get_all = function()
+M.get_all = function(opts)
   local res = {}
   local modules = require("installer/status/installed").get_modules()
   for module, _ in pairs(modules["null_ls"]) do
-    local a = M.get(module)
+    local a = M.get(module, opts[module] or {})
     for _, value in ipairs(a) do
       table.insert(res, value)
     end
