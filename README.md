@@ -8,6 +8,8 @@
 
 Beta. Operation is often unstable. APIs is subject to change without notice.
 
+** If you wre using `nazo6/lspinstall.nvim`(`main` branch), this plugin is incompatible with it. You can cotinue to use it by specifying `main` branch. **
+
 ## Features
 
 - Many builtin installers.
@@ -76,6 +78,8 @@ require("installer").setup({
 ### Language Server (LSP)
 
 There are integration for installing and configurating language server.
+
+⚠️ You have to install `nvim-lspconfig` to use this.
 
 Calling the `setup` function will set up all the installed servers belonging to the `ls` category.
 
