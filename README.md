@@ -8,7 +8,7 @@
 
 Beta. Operation is often unstable. APIs is subject to change without notice.
 
-**If you wre using `nazo6/lspinstall.nvim`(`main` branch), this plugin is incompatible with it. You can cotinue to use it by specifying `main` branch.**
+**If you were using `nazo6/lspinstall.nvim`(`main` branch), this plugin is incompatible with it. You can cotinue to use it by specifying `main` branch.**
 
 ## Features
 
