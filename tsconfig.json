@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "types": ["lua-types/jit", "nvim-types/0.6.0-nightly"],
+    "strict": true,
+    "rootDir": "./ts",
+    "outDir": "_lua",
+    "useDefineForClassFields": true,
+    "jsx": "react",
+    "jsxFactory": "jsx.create",
+    "jsxFragmentFactory": "MyNamespace.MyFragment"
+  },
+  "include": ["ts/**/*"],
+  "tstl": {
+    "luaTarget": "JIT"
+  }
+}

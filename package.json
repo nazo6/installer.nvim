@@ -1,0 +1,28 @@
+{
+  "name": "installer.nvim",
+  "version": "1.0.0",
+  "description": "installer.nvim",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tstl --watch",
+    "build": "tstl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nazo6/installer.nvim.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nazo6/installer.nvim/issues"
+  },
+  "homepage": "https://github.com/nazo6/installer.nvim#readme",
+  "devDependencies": {
+    "lua-types": "^2.11.0",
+    "nvim-types": "^0.1.3",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3",
+    "typescript-to-lua": "^1.0.1"
+  }
+}
