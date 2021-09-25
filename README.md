@@ -1,3 +1,6 @@
+## [deprecated]
+`lspinstall.nvim`(`main` branch) is now deprecated. Please use `nazo6/installer.nvim` (`v2` branch).
+
 ## About
 
 This is fork version of [nvim-lspinstall](https://github.com/kabouzeid/nvim-lspinstall).
