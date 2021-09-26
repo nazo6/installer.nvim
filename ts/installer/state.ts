@@ -3,9 +3,9 @@ import { modules as da } from "./builtins/da";
 import { modules as nullls } from "./builtins/null-ls";
 import { modules as tools } from "./builtins/tools";
 
-export class ModulesState {
+export class modules_state {
   static init(user_modules?: Modules | undefined) {
-    ModulesState.user_modules = user_modules ?? {};
+    this.user_modules = user_modules ?? {};
   }
   private static builtin_modules: Readonly<ModuleNames> = {
     ls,
@@ -15,7 +15,7 @@ export class ModulesState {
   };
   private static user_modules: Modules = {};
   private static modules_cache: ModuleNames | null = null;
-  static get modules() {
+  static get_modules() {
     if (this.modules_cache) {
       return this.modules_cache;
     }
@@ -26,8 +26,22 @@ export class ModulesState {
         m[category_name].add(module_name);
       });
     });
-    ModulesState.modules_cache = m;
+    this.modules_cache = m;
     return m;
+  }
+  static get_module(category: string, name: string) {
+    if (this.builtin_modules[category]) {
+      if (this.builtin_modules[category].has(name)) {
+        return require(`installer.builtins.${category}.${name}`) as Module;
+      }
+    } else {
+      if (this.user_modules[category]) {
+        if (this.user_modules[category][name]) {
+          return this.user_modules[category][name];
+        }
+      }
+    }
+    return null;
   }
   static set_user_module(category: string, name: string, mod: Module) {
     if (!this.user_modules[category]) {
@@ -38,9 +52,9 @@ export class ModulesState {
   }
 }
 
-export class HooksState {
+export class hooks_state {
   static init(hooks?: Hooks | undefined) {
-    HooksState.hooks = hooks ?? {};
+    this.hooks = hooks ?? {};
   }
   private static hooks: Hooks;
   static get_hook(type: string, timing: "pre" | "post") {

@@ -1,5 +1,5 @@
-import { ModulesState, HooksState } from "./state";
-import * as display from "./display";
+import * as state from "./state";
+import { display } from "./display";
 
 type Config = {
   ensure_installed?: ModuleNames;
@@ -15,8 +15,8 @@ export function setup(user_config: Config) {
       });
     }
   }
-  HooksState.init(hooks);
-  ModulesState.init(custom_modules);
+  state.hooks_state.init(hooks);
+  state.modules_state.init(custom_modules);
 }
 
 export async function install(category: string, name: string) {
