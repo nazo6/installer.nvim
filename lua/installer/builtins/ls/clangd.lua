@@ -42,9 +42,9 @@ return {
     local module_path = require("installer/utils/fs").module_path
 
     if require("installer/utils/os").is_windows then
-      config.default_config.cmd[1] = module_path(clang) .. "./clangd/bin/clangd.exe"
+      config.default_config.cmd[1] = module_path("ls","clangd") .. "./clangd/bin/clangd.exe"
     else
-      config.default_config.cmd[1] = module_path(clang) .. "./clangd/bin/clangd"
+      config.default_config.cmd[1] = module_path("ls","clangd") .. "./clangd/bin/clangd"
     end
 
     return config
