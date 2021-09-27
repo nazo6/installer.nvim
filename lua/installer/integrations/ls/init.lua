@@ -29,15 +29,17 @@ end
 --- @param opts {global_config: table, configs: tbl<string, any>, enable_hook: boolean}
 M.setup = function(opts)
   local lsp_user_configs = opts.configs or {}
+  local global_config = opts.global_config or {}
   servers = installed.get_category_modules("ls")
   for name in pairs(servers) do
-    M.setup_server(name, lsp_user_configs[name])
+    local lsp_user_config = vim.tbl_deep_extend("keep", lsp_user_configs[name] or {}, global_config)
+    M.setup_server(name, lsp_user_config)
   end
 
   if opts.enable_hook then
     table.insert(config.get().hooks.install.post, function(category, name)
       if category == "ls" then
-        local lsp_user_config = vim.tbl_deep_extend("keep", lsp_user_configs[name], opts.globall_config)
+        local lsp_user_config = vim.tbl_deep_extend("keep", lsp_user_configs[name] or {}, global_config)
         M.setup_server(name, lsp_user_config)
         -- pcall(vim.cmd, "bufdo e")
       end
