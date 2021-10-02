@@ -39,8 +39,8 @@ end
 
 M.get_all = function(opts)
   local res = {}
-  local modules = require("installer/status/installed").get_modules()
-  for module, _ in pairs(modules["null_ls"]) do
+  local modules = require("installer/status/installed").get_modules() or {}
+  for module, _ in pairs(modules["null_ls"] or {}) do
     local a = M.get(module, opts[module] or {})
     for _, value in ipairs(a) do
       table.insert(res, value)
