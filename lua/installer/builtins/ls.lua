@@ -37,6 +37,7 @@ local modules = {
   sumneko_lua = true,
   svelte = true,
   tailwindcss = true,
+  taplo = true,
   template = true,
   terraformls = true,
   texlab = true,
