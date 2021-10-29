@@ -22,6 +22,7 @@
 | elmls                  | Elm Language Server (elm-ls)                        | :ballot_box_with_check: | :ballot_box_with_check: |
 | ember                  | Ember Language Server                               | :ballot_box_with_check: | :ballot_box_with_check: |
 | emmet_ls               | emmet-ls                                            | :ballot_box_with_check: | :ballot_box_with_check: |
+| eslint                 | vscode-langservers-extracted                        | :ballot_box_with_check: | :ballot_box_with_check: |
 | forls                  | Fortran Language Server (fortls)                    | :ballot_box_with_check: | :ballot_box_with_check: |
 | gopls                  | gopls                                               | :ballot_box_with_check: | :ballot_box_with_check: |
 | graphql                | GraphQL language service                            | :ballot_box_with_check: | :ballot_box_with_check: |

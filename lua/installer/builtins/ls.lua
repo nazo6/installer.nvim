@@ -14,6 +14,7 @@ local modules = {
   elmls = true,
   ember = true,
   emmet_ls = true,
+  eslint = true,
   fortls = true,
   gopls = true,
   graphql = true,
