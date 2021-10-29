@@ -66,4 +66,9 @@ M.get = function(name, opts)
   return res
 end
 
+M.get_path = function(name)
+  local config = get_module("null_ls", name)
+  return config.cmd()
+end
+
 return M
