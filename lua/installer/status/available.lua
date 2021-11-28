@@ -1,7 +1,6 @@
 local user_modules = require("installer/config").get().custom_modules
 
 local builtins = {
-  ls = require("installer/builtins/ls"),
   null_ls = require("installer/builtins/null_ls"),
   tools = require("installer/builtins/tools"),
   da = require("installer/builtins/da"),
