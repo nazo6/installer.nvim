@@ -16,7 +16,7 @@ M.setup = function(opts)
     table.insert(nullls_opts.sources, source)
   end
 
-  nullls.config(nullls_opts)
+  nullls.setup(nullls_opts)
 
   if opts.enable_hook then
     table.insert(require("installer/config").get().hooks.install.post, function(category, name)
