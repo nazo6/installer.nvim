@@ -3,20 +3,14 @@ local get_module = require("installer/status").get_module
 
 local M = {}
 
-M.setup = function(opts)
+M.register = function(opts)
   local nullls = require("null-ls")
 
   local sources = require("installer/integrations/null_ls").get_all(opts.with or {})
-  local nullls_opts = opts.configs or {}
-  if not nullls_opts.sources then
-    nullls_opts.sources = {}
-  end
 
   for _, source in ipairs(sources) do
-    table.insert(nullls_opts.sources, source)
+    nullls.register(source)
   end
-
-  nullls.setup(nullls_opts)
 
   if opts.enable_hook then
     table.insert(require("installer/config").get().hooks.install.post, function(category, name)
